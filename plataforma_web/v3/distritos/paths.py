@@ -1,11 +1,10 @@
 """
 Distritos v3, rutas (paths)
 """
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi_pagination.ext.sqlalchemy import paginate
-from sqlalchemy.orm import Session
 
-from lib.database import get_db
+from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 
@@ -17,7 +16,7 @@ distritos = APIRouter(prefix="/v3/distritos", tags=["categoria"])
 
 @distritos.get("", response_model=CustomPage[DistritoOut])
 async def listado_distritos(
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
     es_distrito_judicial: bool = None,
     es_distrito: bool = None,
     es_jurisdiccional: bool = None,
@@ -38,7 +37,7 @@ async def listado_distritos(
 @distritos.get("/{clave}", response_model=OneDistritoOut)
 async def detalle_distrito(
     clave: str,
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
 ):
     """Detalle de un distrito a partir de su clave"""
     try:

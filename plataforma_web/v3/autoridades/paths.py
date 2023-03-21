@@ -1,11 +1,10 @@
 """
 Autoridades v3, rutas (paths)
 """
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi_pagination.ext.sqlalchemy import paginate
-from sqlalchemy.orm import Session
 
-from lib.database import get_db
+from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 
@@ -17,7 +16,7 @@ autoridades = APIRouter(prefix="/v3/autoridades", tags=["categoria"])
 
 @autoridades.get("", response_model=CustomPage[AutoridadOut])
 async def listado_autoridades(
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
     es_cemasc: bool = None,
     es_defensoria: bool = None,
     es_jurisdiccional: bool = None,
@@ -40,7 +39,7 @@ async def listado_autoridades(
 @autoridades.get("/{clave}", response_model=OneAutoridadOut)
 async def detalle_autoridad(
     clave: str,
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
 ):
     """Detalle de una autoridad a partir de su clave"""
     try:
