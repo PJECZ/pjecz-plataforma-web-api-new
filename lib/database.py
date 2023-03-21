@@ -38,4 +38,4 @@ def get_db(settings: CurrentSettings) -> Session:
         db.close()
 
 
-CurrentDatabase = Annotated[Session, Depends(get_db)]
+DatabaseSession = Annotated[Session, Depends(get_db)]

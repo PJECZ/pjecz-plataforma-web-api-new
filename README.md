@@ -165,10 +165,10 @@ Ejecute `arrancar` que contiene el comando y parametros para arrancar el servici
 
 Relice estos pasos para subir a Google Cloud App Engine
 
-1. Crear el archivo `requirements.txt`
+Crear el archivo `requirements.txt`
 
-   poetry export -f requirements.txt --output requirements.txt --without-hashes
+    poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-2. Y subir a Google Cloud
+Y subir a Google Cloud
 
-   gcloud app deploy
+    gcloud app deploy
