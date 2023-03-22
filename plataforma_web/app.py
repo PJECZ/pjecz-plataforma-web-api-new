@@ -7,8 +7,11 @@ from fastapi_pagination import add_pagination
 
 from .v3.autoridades.paths import autoridades
 from .v3.distritos.paths import distritos
+from .v3.edictos.paths import edictos
+from .v3.listas_de_acuerdos.paths import listas_de_acuerdos
 from .v3.materias.paths import materias
 from .v3.materias_tipos_juicios.paths import materias_tipos_juicios
+from .v3.sentencias.paths import sentencias
 
 ORIGINS = [
     "http://localhost:5000",
@@ -35,8 +38,11 @@ app.add_middleware(
 # Rutas
 app.include_router(autoridades)
 app.include_router(distritos)
+app.include_router(edictos)
+app.include_router(listas_de_acuerdos)
 app.include_router(materias)
 app.include_router(materias_tipos_juicios)
+app.include_router(sentencias)
 
 # Paginación
 add_pagination(app)

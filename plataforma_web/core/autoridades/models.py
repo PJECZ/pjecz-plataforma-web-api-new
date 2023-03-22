@@ -63,6 +63,11 @@ class Autoridad(Base, UniversalMixin):
         nullable=False,
     )
 
+    # Hijos
+    edictos = relationship("Edicto", back_populates="autoridad")
+    listas_de_acuerdos = relationship("ListaDeAcuerdo", back_populates="autoridad")
+    sentencias = relationship("Sentencia", back_populates="autoridad")
+
     @property
     def distrito_clave(self):
         """Clave del distrito"""

@@ -19,7 +19,7 @@ class ListaDeAcuerdo(Base, UniversalMixin):
 
     # Claves foráneas
     autoridad_id = Column(Integer, ForeignKey("autoridades.id"), index=True, nullable=False)
-    autoridad = relationship("Autoridad", back_populates="edictos")
+    autoridad = relationship("Autoridad", back_populates="listas_de_acuerdos")
 
     # Columnas
     fecha = Column(Date, index=True, nullable=False)

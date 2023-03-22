@@ -23,6 +23,7 @@ async def listado_sentencias(
     autoridad_clave: str = None,
     anio: int = None,
     fecha: date = None,
+    materia_tipo_juicio_id: int = None,
 ):
     """Listado de sentencias"""
     try:
@@ -32,6 +33,7 @@ async def listado_sentencias(
             autoridad_clave=autoridad_clave,
             anio=anio,
             fecha=fecha,
+            materia_tipo_juicio_id=materia_tipo_juicio_id,
         )
     except MyAnyError as error:
         return custom_page_success_false(error)

@@ -19,7 +19,9 @@ class Sentencia(Base, UniversalMixin):
 
     # Claves foráneas
     autoridad_id = Column(Integer, ForeignKey("autoridades.id"), index=True, nullable=False)
-    autoridad = relationship("Autoridad", back_populates="edictos")
+    autoridad = relationship("Autoridad", back_populates="sentencias")
+    materia_tipo_juicio_id = Column(Integer, ForeignKey("materias_tipos_juicios.id"), index=True, nullable=False)
+    materia_tipo_juicio = relationship("MateriaTipoJuicio", back_populates="sentencias")
 
     # Columnas
     sentencia = Column(String(16), nullable=False)

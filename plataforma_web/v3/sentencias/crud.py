@@ -9,6 +9,7 @@ from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamEr
 
 from ...core.sentencias.models import Sentencia
 from ..autoridades.crud import get_autoridad, get_autoridad_with_clave
+from ..materias_tipos_juicios.crud import get_materia_tipo_juicio
 
 
 def get_sentencias(
@@ -17,6 +18,7 @@ def get_sentencias(
     autoridad_clave: str = None,
     anio: int = None,
     fecha: date = None,
+    materia_tipo_juicio_id: int = None,
 ) -> Any:
     """Consultar los sentencias activos"""
     consulta = db.query(Sentencia)
@@ -33,6 +35,9 @@ def get_sentencias(
             consulta = consulta.filter(Sentencia.fecha >= date(anio, 1, 1)).filter(Sentencia.fecha <= date(anio, 12, 31))
         else:
             raise MyNotValidParamError("El año no es válido")
+    if materia_tipo_juicio_id is not None:
+        materia_tipo_juicio = get_materia_tipo_juicio(db, materia_tipo_juicio_id)
+        consulta = consulta.filter_by(materia_tipo_juicio_id=materia_tipo_juicio.id)
     return consulta.filter_by(estatus="A").order_by(Sentencia.id)
 
 
