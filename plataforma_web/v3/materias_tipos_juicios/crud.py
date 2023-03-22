@@ -16,7 +16,7 @@ def get_materias_tipos_juicios(db: Session, materia_id: int = False) -> Any:
     if materia_id is not None:
         materia = get_materia(db, materia_id)
         consulta = consulta.filter(materia == materia)
-    return consulta.filter_by(estatus="A").order_by(MateriaTipoJuicio.id)
+    return consulta.filter_by(estatus="A").order_by(MateriaTipoJuicio.descripcion)
 
 
 def get_materia_tipo_juicio(db: Session, materia_tipo_juicio_id: int) -> MateriaTipoJuicio:
