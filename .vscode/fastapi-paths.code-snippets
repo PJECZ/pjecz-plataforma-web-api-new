@@ -60,7 +60,7 @@
       "from lib.exceptions import MyAnyError",
       "from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false",
       "",
-      "from .crud import get_${2:plural}, get_${3:singular}_with_clave",
+      "from .crud import get_${2:plural}, get_${3:singular}",
       "from .schemas import ${4:EsquemaOut}, One${4:EsquemaOut}",
       "",
       "${2:plural} = APIRouter(prefix=\"/v3/${2:plural}\", tags=[\"categoria\"])",
