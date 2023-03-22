@@ -11,7 +11,7 @@ from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_f
 from .crud import get_autoridades, get_autoridad_with_clave
 from .schemas import AutoridadOut, OneAutoridadOut
 
-autoridades = APIRouter(prefix="/v3/autoridades", tags=["categoria"])
+autoridades = APIRouter(prefix="/v3/autoridades", tags=["autoridades"])
 
 
 @autoridades.get("", response_model=CustomPage[AutoridadOut])

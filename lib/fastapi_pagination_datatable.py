@@ -50,8 +50,8 @@ class Params(BaseLimitOffsetParams, AbstractParams):
         )
 
 
-class LimitOffsetPage(BaseLimitOffsetPage[T], Generic[T]):
-    """LimitOffsetPage"""
+class DataTablePage(BaseLimitOffsetPage[T], Generic[T]):
+    """DataTablePage"""
 
     __params_type__ = Params
     data: Sequence[T]
@@ -62,6 +62,8 @@ class LimitOffsetPage(BaseLimitOffsetPage[T], Generic[T]):
     length: int
     limit: int
     offset: int
+    success: bool = True
+    error: str = ""
 
     class Config:
         """Config"""
@@ -90,3 +92,17 @@ class LimitOffsetPage(BaseLimitOffsetPage[T], Generic[T]):
             recordsTotal=total,
             recordsFiltered=total,
         )
+
+
+def datatable_page_success_false(error: Exception) -> dict:
+    """datatable_page_success_false"""
+    return {
+        "data": [],
+        "draw": 1,
+        "recordsTotal": 0,
+        "start": 0,
+        "length": 10,
+        "recordsFiltered": 0,
+        "success": False,
+        "error": str(error),
+    }

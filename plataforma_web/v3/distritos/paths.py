@@ -11,7 +11,7 @@ from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_f
 from .crud import get_distritos, get_distrito_with_clave
 from .schemas import DistritoOut, OneDistritoOut
 
-distritos = APIRouter(prefix="/v3/distritos", tags=["categoria"])
+distritos = APIRouter(prefix="/v3/distritos", tags=["autoridades"])
 
 
 @distritos.get("", response_model=CustomPage[DistritoOut])
