@@ -1,5 +1,34 @@
 """
 Settings
+
+Para que la configuración no sea estática en el código,
+se utiliza la librería pydantic para cargar la configuración desde
+Google Secret Manager como primer opción, luego de un archivo .env
+que se usa en local y por último de variables de entorno.
+
+Para desarrollo debe crear un archivo .env en la raíz del proyecto
+con las siguientes variables:
+
+- DB_HOST
+- DB_PORT
+- DB_NAME
+- DB_USER
+- DB_PASS
+
+Para producción vaya a Google Secret Manager en
+https://console.cloud.google.com/security/secret-manager
+y cree como secretos las siguientes variable de entorno
+
+- pjecz_plataforma_web_api_db_host
+- pjecz_plataforma_web_api_db_port
+- pjecz_plataforma_web_api_db_name
+- pjecz_plataforma_web_api_db_pass
+- pjecz_plataforma_web_api_db_user
+
+Y en el archivo app.yaml agregue las siguientes variables de entorno
+
+- PROJECT_ID: justicia-digital-gob-mx
+- SERVICE_PREFIX: pjecz_plataforma_web_api
 """
 from functools import lru_cache
 import os
@@ -9,7 +38,7 @@ from fastapi import Depends
 from google.cloud import secretmanager
 from pydantic import BaseSettings
 
-PROJECT_ID = os.getenv("PROJECT_ID", "")
+PROJECT_ID = os.getenv("PROJECT_ID", "")  # Por defecto esta vacio, esto significa que no estamos en google cloud
 SERVICE_PREFIX = os.getenv("SERVICE_PREFIX", "pjecz_plataforma_web_api")
 
 
