@@ -9,6 +9,7 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
+from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
 from .crud import get_listas_de_acuerdos, get_lista_de_acuerdo
 from .schemas import ListaDeAcuerdoOut, OneListaDeAcuerdoOut
@@ -35,6 +36,28 @@ async def listado_listas_de_acuerdos(
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
+    return paginate(resultados)
+
+
+@listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
+async def listado_listas_de_acuerdos_datatable(
+    db: DatabaseSession,
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    anio: int = None,
+    fecha: date = None,
+):
+    """Listado de listas de acuerdos para DataTable"""
+    try:
+        resultados = get_listas_de_acuerdos(
+            db=db,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            anio=anio,
+            fecha=fecha,
+        )
+    except MyAnyError as error:
+        return datatable_page_success_false(error)
     return paginate(resultados)
 
 

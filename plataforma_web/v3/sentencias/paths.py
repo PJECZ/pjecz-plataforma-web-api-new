@@ -9,6 +9,7 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
+from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
 from .crud import get_sentencias, get_sentencia
 from .schemas import SentenciaOut, OneSentenciaOut
@@ -37,6 +38,30 @@ async def listado_sentencias(
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
+    return paginate(resultados)
+
+
+@sentencias.get("/datatable", response_model=DataTablePage[SentenciaOut])
+async def listado_sentencias_datatable(
+    db: DatabaseSession,
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    anio: int = None,
+    fecha: date = None,
+    materia_tipo_juicio_id: int = None,
+):
+    """Listado de sentencias para DataTable"""
+    try:
+        resultados = get_sentencias(
+            db=db,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            anio=anio,
+            fecha=fecha,
+            materia_tipo_juicio_id=materia_tipo_juicio_id,
+        )
+    except MyAnyError as error:
+        return datatable_page_success_false(error)
     return paginate(resultados)
 
 
