@@ -1,0 +1,21 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Materias
+GET {{baseUrl}}/materias
+
+### Materia Familiar
+GET {{baseUrl}}/materias/3
+
+### Materias-Tipos de Juicios
+GET {{baseUrl}}/materias_tipos_juicios
+
+### Materias-Tipos de Juicios de la materia Familiar
+GET {{baseUrl}}/materias_tipos_juicios
+    ?materia_id=3
+
+### Materias-Tipos de Juicios Civil Hipotecario
+GET {{baseUrl}}/materias_tipos_juicios/60
