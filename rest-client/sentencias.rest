@@ -1,0 +1,26 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Sentencias
+GET {{baseUrl}}/sentencias
+
+### Sentencias de la autoridad 37
+GET {{baseUrl}}/sentencias
+    ?autoridad_id=37
+
+### Sentencias del SLT-J2-CIV
+GET {{baseUrl}}/sentencias
+    ?autoridad_clave=SLT-J2-CIV
+
+### Sentencias del SLT-J2-CIV del 2021
+GET {{baseUrl}}/sentencias
+    ?autoridad_clave=SLT-J2-CIV
+    &anio=2021
+
+### Sentencias del SLT-J2-CIV del 2021-05-31
+GET {{baseUrl}}/sentencias
+    ?autoridad_clave=SLT-J2-CIV
+    &fecha=2021-05-31

@@ -37,6 +37,11 @@ GET {{baseUrl}}/autoridades
 GET {{baseUrl}}/autoridades
     ?es_jurisdiccional=true
 
+### Autoridades Jurisdiccionales sin Notarias
+GET {{baseUrl}}/autoridades
+    ?es_jurisdiccional=true
+    &es_notaria=false
+
 ### Autoridades Notarias
 GET {{baseUrl}}/autoridades
     ?es_notaria=true

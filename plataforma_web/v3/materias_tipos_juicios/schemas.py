@@ -7,7 +7,7 @@ from lib.schemas_base import OneBaseOut
 
 
 class MateriaTipoJuicioOut(BaseModel):
-    """ Esquema para entregar materias-tipos de juicios """
+    """Esquema para entregar materias-tipos de juicios"""
 
     id: int | None
     materia_id: int | None
@@ -15,10 +15,10 @@ class MateriaTipoJuicioOut(BaseModel):
     descripcion: str | None
 
     class Config:
-        """ SQLAlchemy config """
+        """SQLAlchemy config"""
 
         orm_mode = True
 
 
 class OneMateriaTipoJuicioOut(MateriaTipoJuicioOut, OneBaseOut):
-    """ Esquema para entregar un materia-tipo de juicio """
+    """Esquema para entregar un materia-tipo de juicio"""

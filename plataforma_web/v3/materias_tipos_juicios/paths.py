@@ -11,7 +11,7 @@ from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_f
 from .crud import get_materias_tipos_juicios, get_materia_tipo_juicio
 from .schemas import MateriaTipoJuicioOut, OneMateriaTipoJuicioOut
 
-materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["categoria"])
+materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["sentencias"])
 
 
 @materias_tipos_juicios.get("", response_model=CustomPage[MateriaTipoJuicioOut])
