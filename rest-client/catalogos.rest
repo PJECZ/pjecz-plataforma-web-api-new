@@ -1,0 +1,42 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Distritos
+GET {{baseUrl}}/distritos
+
+### Distritos es_distrito_judicial
+GET {{baseUrl}}/distritos
+    ?es_distrito_judicial=true
+
+### Distritos es_distrito
+GET {{baseUrl}}/distritos
+    ?es_distrito=true
+
+### Distritos es_jurisdiccional
+GET {{baseUrl}}/distritos
+    ?es_jurisdiccional=true
+
+### Distrito Torreon
+GET {{baseUrl}}/distritos/dtrc
+
+### Autoridades
+GET {{baseUrl}}/autoridades
+
+### Autoridades CEMASC
+GET {{baseUrl}}/autoridades
+    ?es_cemasc=true
+
+### Autoridades Defensorias
+GET {{baseUrl}}/autoridades
+    ?es_defensoria=true
+
+### Autoridades Jurisdiccionales
+GET {{baseUrl}}/autoridades
+    ?es_jurisdiccional=true
+
+### Autoridades Notarias
+GET {{baseUrl}}/autoridades
+    ?es_notaria=true
