@@ -4,8 +4,7 @@ Materias v3, CRUD (create, read, update, and delete)
 from typing import Any
 from sqlalchemy.orm import Session
 
-from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
-from lib.safe_string import safe_clave
+from lib.exceptions import MyIsDeletedError, MyNotExistsError
 
 from ...core.materias.models import Materia
 

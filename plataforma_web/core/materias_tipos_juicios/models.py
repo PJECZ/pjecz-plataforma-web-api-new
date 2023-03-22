@@ -1,7 +1,7 @@
 """
 Materias-Tipos de Juicios, modelos
 """
-from sqlalchemy import Column, Date, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from lib.database import Base
