@@ -13,5 +13,9 @@ GET {{baseUrl}}/materias/3
 ### Materias-Tipos de Juicios
 GET {{baseUrl}}/materias_tipos_juicios
 
+### Materias-Tipos de Juicios de la materia Familiar
+GET {{baseUrl}}/materias_tipos_juicios
+    ?materia_id=3
+
 ### Materias-Tipos de Juicios Civil Hipotecario
 GET {{baseUrl}}/materias_tipos_juicios/60
