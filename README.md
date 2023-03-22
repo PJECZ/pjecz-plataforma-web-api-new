@@ -117,6 +117,7 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
         export PYTHONPATH=$(pwd)
         echo "   PYTHONPATH: ${PYTHONPATH}"
         echo
+        alias black="black --config pyproject.toml"
         alias arrancar="uvicorn --host=127.0.0.1 --port 8001 --reload plataforma_web.app:app"
         echo "-- Ejecutar FastAPI 127.0.0.1:8001"
         echo "   arrancar"

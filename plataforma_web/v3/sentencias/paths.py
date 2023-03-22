@@ -13,7 +13,7 @@ from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_f
 from .crud import get_sentencias, get_sentencia
 from .schemas import SentenciaOut, OneSentenciaOut
 
-sentencias = APIRouter(prefix="/v3/sentencias", tags=["categoria"])
+sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
 
 @sentencias.get("", response_model=CustomPage[SentenciaOut])
