@@ -14,10 +14,12 @@ from .v3.materias_tipos_juicios.paths import materias_tipos_juicios
 from .v3.sentencias.paths import sentencias
 
 ORIGINS = [
+    "http://localhost:3000",
     "http://localhost:5000",
-    "http://localhost:8001",
+    "http://127.0.0.1:3000",
     "http://127.0.0.1:5000",
-    "http://127.0.0.1:8001",
+    "https://justiciadigital.gob.mx",
+    "https://pjecz.gob.mx",
 ]
 
 # FastAPI
