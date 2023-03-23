@@ -22,7 +22,7 @@ def create_app() -> FastAPI:
     # FastAPI
     app = FastAPI(
         title="PJECZ Plataforma Web API",
-        description="API que proporciona datos para el sitio web pjecz.gob.mx.",
+        description="Bienvenido a PJECZ Plataforma Web API. Esta API proporciona información pública para consulta en el sitio web.",
     )
 
     # CORSMiddleware
@@ -51,7 +51,7 @@ def create_app() -> FastAPI:
     @app.get("/")
     async def root():
         """Mensaje de Bienvenida"""
-        return {"message": "Bienvenido a PJECZ Plataforma Web API."}
+        return {"message": "Bienvenido a PJECZ Plataforma Web API. Esta API proporciona información pública para consulta en el sitio web."}
 
     # Entregar
     return app
