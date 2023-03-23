@@ -73,6 +73,9 @@ Verifique que este en True
     DB_USER=
     DB_PASS=
 
+    # CORS origins
+    ORIGINS=http://localhost:3000,http://localhost:5000,http://127.0.0.1:3000,http://127.0.0.1:5000
+
     # Huso horario
     TZ=America/Mexico_City
 
@@ -100,6 +103,7 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
         echo "   DB_NAME: ${DB_NAME}"
         echo "   DB_USER: ${DB_USER}"
         echo "   DB_PASS: ${DB_PASS}"
+        echo "   ORIGINS: ${ORIGINS}"
         echo "   TZ: ${TZ}"
         echo
         export PGHOST=$DB_HOST
@@ -118,7 +122,7 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
         echo "   PYTHONPATH: ${PYTHONPATH}"
         echo
         alias black="black --config pyproject.toml"
-        alias arrancar="uvicorn --host=127.0.0.1 --port 8001 --reload plataforma_web.app:app"
+        alias arrancar="uvicorn --host=127.0.0.1 --port 8001 --reload plataforma_web.app:create_app"
         echo "-- Ejecutar FastAPI 127.0.0.1:8001"
         echo "   arrancar"
         echo
