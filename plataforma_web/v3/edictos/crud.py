@@ -33,7 +33,7 @@ def get_edictos(
             consulta = consulta.filter(Edicto.fecha >= date(anio, 1, 1)).filter(Edicto.fecha <= date(anio, 12, 31))
         else:
             raise MyNotValidParamError("El año no es válido")
-    return consulta.filter_by(estatus="A").order_by(Edicto.id)
+    return consulta.filter_by(estatus="A").order_by(Edicto.id.desc())
 
 
 def get_edicto(db: Session, edicto_id: int) -> Edicto:
