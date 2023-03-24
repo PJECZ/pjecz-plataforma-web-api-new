@@ -38,7 +38,7 @@ def get_sentencias(
     if materia_tipo_juicio_id is not None:
         materia_tipo_juicio = get_materia_tipo_juicio(db, materia_tipo_juicio_id)
         consulta = consulta.filter_by(materia_tipo_juicio_id=materia_tipo_juicio.id)
-    return consulta.filter_by(estatus="A").order_by(Sentencia.id)
+    return consulta.filter_by(estatus="A").order_by(Sentencia.id.desc())
 
 
 def get_sentencia(db: Session, sentencia_id: int) -> Sentencia:

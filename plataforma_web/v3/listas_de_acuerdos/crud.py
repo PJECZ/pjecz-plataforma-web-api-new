@@ -33,7 +33,7 @@ def get_listas_de_acuerdos(
             consulta = consulta.filter(ListaDeAcuerdo.fecha >= date(anio, 1, 1)).filter(ListaDeAcuerdo.fecha <= date(anio, 12, 31))
         else:
             raise MyNotValidParamError("El año no es válido")
-    return consulta.filter_by(estatus="A").order_by(ListaDeAcuerdo.id)
+    return consulta.filter_by(estatus="A").order_by(ListaDeAcuerdo.id.desc())
 
 
 def get_lista_de_acuerdo(db: Session, lista_de_acuerdo_id: int) -> ListaDeAcuerdo:
