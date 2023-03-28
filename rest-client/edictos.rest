@@ -9,7 +9,7 @@ GET {{baseUrl}}/edictos
 
 ### Edictos de la autoridad 37
 GET {{baseUrl}}/edictos
-    ?autoridad_id=-234
+    ?autoridad_id=37
 
 ### Edictos del SLT-J2-CIV
 GET {{baseUrl}}/edictos
