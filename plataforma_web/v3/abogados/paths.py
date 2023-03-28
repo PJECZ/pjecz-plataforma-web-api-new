@@ -7,6 +7,7 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
+from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
 from .crud import get_abogados, get_abogado
 from .schemas import AbogadoOut, OneAbogadoOut
@@ -31,6 +32,26 @@ async def listado_abogados(
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
+    return paginate(resultados)
+
+
+@abogados.get("/datatable", response_model=DataTablePage[AbogadoOut])
+async def listado_abogados_datatable(
+    db: DatabaseSession,
+    nombre: str = None,
+    anio_desde: int = None,
+    anio_hasta: int = None,
+):
+    """Listado de abogados para DataTable"""
+    try:
+        resultados = get_abogados(
+            db=db,
+            nombre=nombre,
+            anio_desde=anio_desde,
+            anio_hasta=anio_hasta,
+        )
+    except MyAnyError as error:
+        return datatable_page_success_false(error)
     return paginate(resultados)
 
 

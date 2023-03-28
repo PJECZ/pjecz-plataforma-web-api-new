@@ -24,3 +24,7 @@ GET {{baseUrl}}/listas_de_acuerdos
 GET {{baseUrl}}/listas_de_acuerdos
     ?autoridad_clave=SLT-J2-CIV
     &fecha=2021-04-26
+
+### Listas de Acuerdos del distrito DMON
+GET {{baseUrl}}/listas_de_acuerdos
+    ?distrito_clave=DZZZ

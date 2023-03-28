@@ -19,6 +19,6 @@ GET {{baseUrl}}/redams
 GET {{baseUrl}}/redams
     ?autoridad_clave=TRC-J1-FAM
 
-### Redams del distrito DTRC
+### Redams del distrito DRGR
 GET {{baseUrl}}/redams
-    ?distrito_clave=DTRZ
+    ?distrito_clave=DRGR
