@@ -1,7 +1,9 @@
 """
 Safe string
 """
+from datetime import date
 import re
+
 from unidecode import unidecode
 
 

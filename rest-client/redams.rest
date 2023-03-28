@@ -21,4 +21,4 @@ GET {{baseUrl}}/redams
 
 ### Redams del distrito DTRC
 GET {{baseUrl}}/redams
-    ?distrito_clave=DTRC
+    ?distrito_clave=DTRZ

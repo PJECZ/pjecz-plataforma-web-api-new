@@ -7,3 +7,16 @@ GET {{root}}
 ### Abogados
 GET {{baseUrl}}/abogados
 
+### Abogados con nombre Garza
+GET {{baseUrl}}/abogados
+    ?nombre=Garza
+
+### Abogados con nombre Garza registrados desde 2020
+GET {{baseUrl}}/abogados
+    ?nombre=Garza
+    &anio_desde=2020
+
+### Abogados registrados entre 2020 y 2021
+GET {{baseUrl}}/abogados
+    ?anio_desde=2020
+    &anio_hasta=2021
