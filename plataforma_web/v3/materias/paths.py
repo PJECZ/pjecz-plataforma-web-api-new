@@ -6,7 +6,7 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
-from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
+from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
 from .crud import get_materias, get_materia
 from .schemas import MateriaOut, OneMateriaOut
@@ -14,7 +14,7 @@ from .schemas import MateriaOut, OneMateriaOut
 materias = APIRouter(prefix="/v3/materias", tags=["autoridades"])
 
 
-@materias.get("", response_model=CustomPage[MateriaOut])
+@materias.get("", response_model=CustomList[MateriaOut])
 async def listado_materias(
     db: DatabaseSession,
 ):
@@ -22,7 +22,7 @@ async def listado_materias(
     try:
         resultados = get_materias(db=db)
     except MyAnyError as error:
-        return custom_page_success_false(error)
+        return custom_list_success_false(error)
     return paginate(resultados)
 
 

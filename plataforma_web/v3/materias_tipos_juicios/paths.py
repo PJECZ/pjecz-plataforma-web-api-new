@@ -6,15 +6,15 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
-from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
+from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
 from .crud import get_materias_tipos_juicios, get_materia_tipo_juicio
 from .schemas import MateriaTipoJuicioOut, OneMateriaTipoJuicioOut
 
-materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["sentencias"])
+materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["autoridades"])
 
 
-@materias_tipos_juicios.get("", response_model=CustomPage[MateriaTipoJuicioOut])
+@materias_tipos_juicios.get("", response_model=CustomList[MateriaTipoJuicioOut])
 async def listado_materias_tipos_juicios(
     db: DatabaseSession,
     materia_id: int = None,
@@ -23,7 +23,7 @@ async def listado_materias_tipos_juicios(
     try:
         resultados = get_materias_tipos_juicios(db=db, materia_id=materia_id)
     except MyAnyError as error:
-        return custom_page_success_false(error)
+        return custom_list_success_false(error)
     return paginate(resultados)
 
 
