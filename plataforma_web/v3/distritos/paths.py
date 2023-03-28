@@ -36,8 +36,8 @@ async def listado_distritos(
 
 @distritos.get("/{clave}", response_model=OneDistritoOut)
 async def detalle_distrito(
-    clave: str,
     db: DatabaseSession,
+    clave: str,
 ):
     """Detalle de un distrito a partir de su clave"""
     try:

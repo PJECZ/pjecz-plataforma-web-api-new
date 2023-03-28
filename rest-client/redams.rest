@@ -1,0 +1,24 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Redams
+GET {{baseUrl}}/redams
+
+### Redams con nombre Luis
+GET {{baseUrl}}/redams
+    ?nombre=Luis
+
+### Redams con expediente 1195/2018
+GET {{baseUrl}}/redams
+    ?expediente=1195/2018
+
+### Redams del TRC-J1-FAM
+GET {{baseUrl}}/redams
+    ?autoridad_clave=TRC-J1-FAM
+
+### Redams del distrito DTRC
+GET {{baseUrl}}/redams
+    ?distrito_clave=DTRC

@@ -36,8 +36,8 @@ async def listado_abogados(
 
 @abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
 async def detalle_abogado(
-    abogado_id: int,
     db: DatabaseSession,
+    abogado_id: int,
 ):
     """Detalle de un abogado a partir de su id"""
     try:

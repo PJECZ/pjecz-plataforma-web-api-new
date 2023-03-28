@@ -63,8 +63,8 @@ async def listado_edictos_datatable(
 
 @edictos.get("/{edicto_id}", response_model=OneEdictoOut)
 async def detalle_edicto(
-    edicto_id: int,
     db: DatabaseSession,
+    edicto_id: int,
 ):
     """Detalle de un edicto a partir de su id"""
     try:

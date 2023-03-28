@@ -1,0 +1,9 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Abogados
+GET {{baseUrl}}/abogados
+

@@ -67,8 +67,8 @@ async def listado_sentencias_datatable(
 
 @sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
 async def detalle_sentencia(
-    sentencia_id: int,
     db: DatabaseSession,
+    sentencia_id: int,
 ):
     """Detalle de una sentencia a partir de su id"""
     try:

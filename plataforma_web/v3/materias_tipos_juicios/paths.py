@@ -29,8 +29,8 @@ async def listado_materias_tipos_juicios(
 
 @materias_tipos_juicios.get("/{materia_tipo_juicio_id}", response_model=OneMateriaTipoJuicioOut)
 async def detalle_materia_tipo_juicio(
-    materia_tipo_juicio_id: int,
     db: DatabaseSession,
+    materia_tipo_juicio_id: int,
 ):
     """Detalle de una materia-tipo de juicio a partir de su id"""
     try:

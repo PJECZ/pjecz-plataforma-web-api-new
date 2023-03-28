@@ -28,8 +28,8 @@ async def listado_materias(
 
 @materias.get("/{materia_id}", response_model=OneMateriaOut)
 async def detalle_materia(
-    materia_id: int,
     db: DatabaseSession,
+    materia_id: int,
 ):
     """Detalle de una materia a partir de su id"""
     try:

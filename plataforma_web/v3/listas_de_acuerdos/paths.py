@@ -63,8 +63,8 @@ async def listado_listas_de_acuerdos_datatable(
 
 @listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
 async def detalle_lista_de_acuerdo(
-    lista_de_acuerdo_id: int,
     db: DatabaseSession,
+    lista_de_acuerdo_id: int,
 ):
     """Detalle de una lista de acuerdo a partir de su id"""
     try:
