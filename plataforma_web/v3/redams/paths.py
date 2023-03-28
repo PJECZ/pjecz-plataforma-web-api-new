@@ -1,8 +1,6 @@
 """
-Listas de Acuerdos v3, rutas (paths)
+REDAMs v3, rutas (paths)
 """
-from datetime import date
-
 from fastapi import APIRouter
 from fastapi_pagination.ext.sqlalchemy import paginate
 
@@ -11,72 +9,72 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_listas_de_acuerdos, get_lista_de_acuerdo
-from .schemas import ListaDeAcuerdoOut, OneListaDeAcuerdoOut
+from .crud import get_redams, get_redam
+from .schemas import RedamOut, OneRedamOut
 
-listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de acuerdos"])
+redams = APIRouter(prefix="/v3/redams", tags=["redams"])
 
 
-@listas_de_acuerdos.get("", response_model=CustomPage[ListaDeAcuerdoOut])
-async def listado_listas_de_acuerdos(
+@redams.get("", response_model=CustomPage[RedamOut])
+async def listado_redams(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
     distrito_clave: str = None,
-    anio: int = None,
-    fecha: date = None,
+    nombre: str = None,
+    expediente: str = None,
 ):
-    """Listado de listas de acuerdos"""
+    """Listado de deudores alimentarios morosos"""
     try:
-        resultados = get_listas_de_acuerdos(
+        resultados = get_redams(
             db=db,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
-            anio=anio,
-            fecha=fecha,
+            nombre=nombre,
+            expediente=expediente,
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
 
 
-@listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
-async def listado_listas_de_acuerdos_datatable(
+@redams.get("/datatable", response_model=DataTablePage[RedamOut])
+async def listado_redams_datatable(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
     distrito_clave: str = None,
-    anio: int = None,
-    fecha: date = None,
+    nombre: str = None,
+    expediente: str = None,
 ):
-    """Listado de listas de acuerdos para DataTable"""
+    """Listado de deudores alimentarios morosos para DataTable"""
     try:
-        resultados = get_listas_de_acuerdos(
+        resultados = get_redams(
             db=db,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
-            anio=anio,
-            fecha=fecha,
+            nombre=nombre,
+            expediente=expediente,
         )
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
 
 
-@listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
-async def detalle_lista_de_acuerdo(
+@redams.get("/{redam_id}", response_model=OneRedamOut)
+async def detalle_redam(
     db: DatabaseSession,
-    lista_de_acuerdo_id: int,
+    redam_id: int,
 ):
-    """Detalle de una lista de acuerdo a partir de su id"""
+    """Detalle de una deudor alimentario moroso a partir de su id"""
     try:
-        lista_de_acuerdo = get_lista_de_acuerdo(db=db, lista_de_acuerdo_id=lista_de_acuerdo_id)
+        redam = get_redam(db=db, redam_id=redam_id)
     except MyAnyError as error:
-        return OneListaDeAcuerdoOut(success=False, message=str(error))
-    return OneListaDeAcuerdoOut.from_orm(lista_de_acuerdo)
+        return OneRedamOut(success=False, message=str(error))
+    return OneRedamOut.from_orm(redam)

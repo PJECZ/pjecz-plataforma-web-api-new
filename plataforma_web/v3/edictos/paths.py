@@ -22,6 +22,8 @@ async def listado_edictos(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     anio: int = None,
     fecha: date = None,
 ):
@@ -31,6 +33,8 @@ async def listado_edictos(
             db=db,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
             anio=anio,
             fecha=fecha,
         )
@@ -44,6 +48,8 @@ async def listado_edictos_datatable(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     anio: int = None,
     fecha: date = None,
 ):
@@ -53,6 +59,8 @@ async def listado_edictos_datatable(
             db=db,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
             anio=anio,
             fecha=fecha,
         )
@@ -63,8 +71,8 @@ async def listado_edictos_datatable(
 
 @edictos.get("/{edicto_id}", response_model=OneEdictoOut)
 async def detalle_edicto(
-    edicto_id: int,
     db: DatabaseSession,
+    edicto_id: int,
 ):
     """Detalle de un edicto a partir de su id"""
     try:

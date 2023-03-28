@@ -24,3 +24,7 @@ GET {{baseUrl}}/edictos
 GET {{baseUrl}}/edictos
     ?autoridad_clave=SLT-J2-CIV
     &fecha=2021-04-26
+
+### Edictos del distrito DMON
+GET {{baseUrl}}/edictos
+    ?distrito_clave=DMON

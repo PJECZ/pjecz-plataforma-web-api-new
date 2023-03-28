@@ -38,8 +38,8 @@ async def listado_autoridades(
 
 @autoridades.get("/{clave}", response_model=OneAutoridadOut)
 async def detalle_autoridad(
-    clave: str,
     db: DatabaseSession,
+    clave: str,
 ):
     """Detalle de una autoridad a partir de su clave"""
     try:

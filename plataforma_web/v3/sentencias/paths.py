@@ -22,6 +22,8 @@ async def listado_sentencias(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     anio: int = None,
     fecha: date = None,
     materia_tipo_juicio_id: int = None,
@@ -32,6 +34,8 @@ async def listado_sentencias(
             db=db,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
             anio=anio,
             fecha=fecha,
             materia_tipo_juicio_id=materia_tipo_juicio_id,
@@ -46,6 +50,8 @@ async def listado_sentencias_datatable(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     anio: int = None,
     fecha: date = None,
     materia_tipo_juicio_id: int = None,
@@ -56,6 +62,8 @@ async def listado_sentencias_datatable(
             db=db,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
             anio=anio,
             fecha=fecha,
             materia_tipo_juicio_id=materia_tipo_juicio_id,
@@ -67,8 +75,8 @@ async def listado_sentencias_datatable(
 
 @sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
 async def detalle_sentencia(
-    sentencia_id: int,
     db: DatabaseSession,
+    sentencia_id: int,
 ):
     """Detalle de una sentencia a partir de su id"""
     try:
