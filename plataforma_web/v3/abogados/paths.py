@@ -15,10 +15,20 @@ abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 
 
 @abogados.get("", response_model=CustomPage[AbogadoOut])
-async def listado_abogados(db: DatabaseSession):
+async def listado_abogados(
+    db: DatabaseSession,
+    nombre: str = None,
+    anio_desde: int = None,
+    anio_hasta: int = None,
+):
     """Listado de abogados"""
     try:
-        resultados = get_abogados(db=db)
+        resultados = get_abogados(
+            db=db,
+            nombre=nombre,
+            anio_desde=anio_desde,
+            anio_hasta=anio_hasta,
+        )
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
