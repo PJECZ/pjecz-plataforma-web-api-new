@@ -11,6 +11,10 @@ GET {{baseUrl}}/redams
 GET {{baseUrl}}/redams
     ?nombre=Luis
 
+### Redams con un nombre que no existe
+GET {{baseUrl}}/redams
+    ?nombre=EsteNombreNOExiste
+
 ### Redams con expediente 1195/2018
 GET {{baseUrl}}/redams
     ?expediente=1195/2018
@@ -19,6 +23,6 @@ GET {{baseUrl}}/redams
 GET {{baseUrl}}/redams
     ?autoridad_clave=TRC-J1-FAM
 
-### Redams del distrito DRGR
+### Redams del distrito DTRC
 GET {{baseUrl}}/redams
-    ?distrito_clave=DRGR
+    ?distrito_clave=DTRC
