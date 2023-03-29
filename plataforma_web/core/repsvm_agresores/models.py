@@ -51,6 +51,21 @@ class RepsvmAgresor(Base, UniversalMixin):
     tipo_juzgado = Column(Enum(*TIPOS_JUZGADOS, name="tipos_juzgados", native_enum=False), index=True, nullable=False)
     tipo_sentencia = Column(Enum(*TIPOS_SENTENCIAS, name="tipos_juzgados", native_enum=False), index=True, nullable=False)
 
+    @property
+    def distrito_clave(self):
+        """Distrito clave"""
+        return self.distrito.clave
+
+    @property
+    def distrito_nombre(self):
+        """Distrito nombre"""
+        return self.distrito.nombre
+
+    @property
+    def distrito_nombre_corto(self):
+        """Distrito nombre corto"""
+        return self.distrito.nombre_corto
+
     def __repr__(self):
         """Representación"""
         return f"<RepsvmAgresor {self.id}>"

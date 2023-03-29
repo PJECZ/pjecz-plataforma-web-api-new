@@ -5,16 +5,32 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from lib.exceptions import MyIsDeletedError, MyNotExistsError
+from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
+from lib.safe_string import safe_string
 
 from ...core.repsvm_agresores.models import RepsvmAgresor
+from ..distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_repsvm_agresores(
     db: Session,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    nombre: str = None,
 ) -> Any:
     """Consultar los agresores activos"""
     consulta = db.query(RepsvmAgresor)
+    if distrito_id is not None:
+        distrito = get_distrito(db, distrito_id)
+        consulta = consulta.filter_by(distrito_id=distrito.id)
+    elif distrito_clave is not None:
+        distrito = get_distrito_with_clave(db, distrito_clave)
+        consulta = consulta.filter_by(distrito_id=distrito.id)
+    if nombre is not None:
+        nombre = safe_string(nombre)
+        if nombre == "":
+            raise MyNotValidParamError("El nombre no es válido")
+        consulta = consulta.filter(RepsvmAgresor.nombre.contains(nombre))
     return consulta.filter_by(estatus="A").order_by(RepsvmAgresor.id)
 
 
