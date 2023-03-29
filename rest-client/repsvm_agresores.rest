@@ -1,0 +1,16 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### REPSVM Agresores
+GET {{baseUrl}}/repsvm_agresores
+
+### REPSVM Agresores con nombre Luis
+GET {{baseUrl}}/repsvm_agresores
+    ?nombre=Luis
+
+### REPSVM Agresores del distrito DRGR
+GET {{baseUrl}}/repsvm_agresores
+    ?distrito_clave=DRGR
