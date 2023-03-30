@@ -11,6 +11,7 @@ from .v3.abogados.paths import abogados
 from .v3.autoridades.paths import autoridades
 from .v3.distritos.paths import distritos
 from .v3.edictos.paths import edictos
+from .v3.glosas.paths import glosas
 from .v3.listas_de_acuerdos.paths import listas_de_acuerdos
 from .v3.materias.paths import materias
 from .v3.materias_tipos_juicios.paths import materias_tipos_juicios
@@ -44,6 +45,7 @@ def create_app() -> FastAPI:
     app.include_router(autoridades)
     app.include_router(distritos)
     app.include_router(edictos)
+    app.include_router(glosas)
     app.include_router(listas_de_acuerdos)
     app.include_router(materias)
     app.include_router(materias_tipos_juicios)
