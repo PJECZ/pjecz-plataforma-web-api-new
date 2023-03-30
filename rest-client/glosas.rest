@@ -1,0 +1,33 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Glosas
+GET {{baseUrl}}/glosas
+
+### Glosas de la autoridad 106
+GET {{baseUrl}}/glosas
+    ?autoridad_id=106
+
+### Glosas del Pleno del Tribunal Constitucional
+GET {{baseUrl}}/glosas
+    ?autoridad_clave=PTC
+
+### Glosas del Pleno del Tribunal Constitucional del 2022
+GET {{baseUrl}}/glosas
+    ?autoridad_clave=PTC
+    &anio=2022
+
+### Glosas del 2022-07-14
+GET {{baseUrl}}/glosas
+    ?fecha=2022-07-14
+
+### Glosas del Pleno del Tribunal Constitucional expediente 5/2021-AIL
+GET {{baseUrl}}/glosas
+    ?autoridad_clave=PTC
+    &expediente=5/2021-AIL
+
+### Glosa con id 1868
+GET {{baseUrl}}/glosas/1868
