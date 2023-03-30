@@ -17,6 +17,7 @@ from .v3.materias_tipos_juicios.paths import materias_tipos_juicios
 from .v3.redams.paths import redams
 from .v3.repsvm_agresores.paths import repsvm_agresores
 from .v3.sentencias.paths import sentencias
+from .v3.ubicaciones_expedientes.paths import ubicaciones_expedientes
 
 
 def create_app() -> FastAPI:
@@ -49,6 +50,7 @@ def create_app() -> FastAPI:
     app.include_router(redams)
     app.include_router(repsvm_agresores)
     app.include_router(sentencias)
+    app.include_router(ubicaciones_expedientes)
 
     # Paginación
     add_pagination(app)
