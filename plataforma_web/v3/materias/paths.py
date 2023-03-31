@@ -11,7 +11,7 @@ from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_f
 from .crud import get_materias, get_materia
 from .schemas import MateriaOut, OneMateriaOut
 
-materias = APIRouter(prefix="/v3/materias", tags=["autoridades"])
+materias = APIRouter(prefix="/v3/materias", tags=["materias"])
 
 
 @materias.get("", response_model=CustomList[MateriaOut])
