@@ -22,7 +22,10 @@ async def listado_materias_tipos_juicios(
 ):
     """Listado de materias-tipos de juicios"""
     try:
-        resultados = get_materias_tipos_juicios(db=db, materia_id=materia_id)
+        resultados = get_materias_tipos_juicios(
+            db=db,
+            materia_id=materia_id,
+        )
     except MyAnyError as error:
         return custom_list_success_false(error)
     return paginate(resultados)
@@ -35,7 +38,10 @@ async def listado_materias_tipos_juicios_datatable(
 ):
     """Listado de materias-tipos de juicios para DataTable"""
     try:
-        resultados = get_materias_tipos_juicios(db=db, materia_id=materia_id)
+        resultados = get_materias_tipos_juicios(
+            db=db,
+            materia_id=materia_id,
+        )
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)

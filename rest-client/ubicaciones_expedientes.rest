@@ -19,3 +19,6 @@ GET {{baseUrl}}/ubicaciones_expedientes
 GET {{baseUrl}}/ubicaciones_expedientes
     ?autoridad_clave=SLT-J2-CIV
     &expediente=123/2022
+
+### Ubicacion del Expediente con id 184230
+GET {{baseUrl}}/ubicaciones_expedientes/184230

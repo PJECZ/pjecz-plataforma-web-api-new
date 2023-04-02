@@ -26,3 +26,6 @@ GET {{baseUrl}}/redams
 ### Redams del distrito DTRC
 GET {{baseUrl}}/redams
     ?distrito_clave=DTRC
+
+### Redam con id 13
+GET {{baseUrl}}/redams/13

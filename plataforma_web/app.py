@@ -8,6 +8,7 @@ from fastapi_pagination import add_pagination
 from config.settings import get_settings
 
 from .v3.abogados.paths import abogados
+from .v3.audiencias.paths import audiencias
 from .v3.autoridades.paths import autoridades
 from .v3.distritos.paths import distritos
 from .v3.edictos.paths import edictos
@@ -44,6 +45,7 @@ def create_app() -> FastAPI:
 
     # Rutas
     app.include_router(abogados)
+    app.include_router(audiencias)
     app.include_router(autoridades)
     app.include_router(distritos)
     app.include_router(edictos)

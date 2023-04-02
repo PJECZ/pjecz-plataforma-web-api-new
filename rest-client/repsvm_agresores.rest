@@ -18,3 +18,6 @@ GET {{baseUrl}}/repsvm_agresores
 ### REPSVM Agresores del distrito DRGR
 GET {{baseUrl}}/repsvm_agresores
     ?distrito_clave=DRGR
+
+### REPSVM Agresor con id 955
+GET {{baseUrl}}/repsvm_agresores/955

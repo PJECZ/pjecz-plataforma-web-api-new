@@ -20,3 +20,6 @@ GET {{baseUrl}}/abogados
 GET {{baseUrl}}/abogados
     ?anio_desde=2020
     &anio_hasta=2021
+
+### Abogado con id 12922
+GET {{baseUrl}}/abogados/12922

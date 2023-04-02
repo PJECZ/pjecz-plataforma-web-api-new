@@ -33,3 +33,6 @@ GET {{baseUrl}}/peritos
 GET {{baseUrl}}/peritos
     ?distrito_clave=DSLT
     &nombre=Luis
+
+### Perito con id 474
+GET {{baseUrl}}/peritos/474

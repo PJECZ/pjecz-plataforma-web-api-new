@@ -38,23 +38,31 @@ async def listado_repsvm_agresores(
 @repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
 async def listado_repsvm_agresores_datatable(
     db: DatabaseSession,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    nombre: str = None,
 ):
     """Listado de agresores para DataTable"""
     try:
-        resultados = get_repsvm_agresores(db=db)
+        resultados = get_repsvm_agresores(
+            db=db,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            nombre=nombre,
+        )
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
 
 
-@repsvm_agresores.get("/{repvm_agresor_id}", response_model=OneRepsvmAgresorOut)
+@repsvm_agresores.get("/{repsvm_agresor_id}", response_model=OneRepsvmAgresorOut)
 async def detalle_repvm_agresor(
     db: DatabaseSession,
-    repvm_agresor_id: int,
+    repsvm_agresor_id: int,
 ):
     """Detalle de un agresor a partir de su id"""
     try:
-        repvm_agresor = get_repsvm_agresor(db=db, repvm_agresor_id=repvm_agresor_id)
+        repvm_agresor = get_repsvm_agresor(db=db, repsvm_agresor_id=repsvm_agresor_id)
     except MyAnyError as error:
         return OneRepsvmAgresorOut(success=False, message=str(error))
     return OneRepsvmAgresorOut.from_orm(repvm_agresor)
