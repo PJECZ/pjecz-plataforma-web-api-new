@@ -14,7 +14,7 @@ from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_succe
 from .crud import get_glosas, get_glosa
 from .schemas import GlosaOut, OneGlosaOut
 
-glosas = APIRouter(prefix="/v3/glosas", tags=["categoria"])
+glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 
 
 @glosas.get("", response_model=CustomPage[GlosaOut])
