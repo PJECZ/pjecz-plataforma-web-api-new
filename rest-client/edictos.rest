@@ -28,3 +28,6 @@ GET {{baseUrl}}/edictos
 ### Edictos del distrito DMON
 GET {{baseUrl}}/edictos
     ?distrito_clave=DMON
+
+### Edicto con id 49367
+GET {{baseUrl}}/edictos/49367
