@@ -1,0 +1,35 @@
+@root = {{$dotenv HOST}}
+@baseUrl = {{root}}/v3
+
+### Bienvenida
+GET {{root}}
+
+### Tipos de Peritos
+GET {{baseUrl}}/peritos_tipos
+
+### Tipo de Perito CRIMINOLOGIA 14
+GET {{baseUrl}}/peritos_tipos/14
+
+### Peritos
+GET {{baseUrl}}/peritos
+
+### Peritos con tipo CRIMINOLOGIA 14
+GET {{baseUrl}}/peritos
+    ?perito_tipo_id=14
+
+### Peritos con nombre Luis
+GET {{baseUrl}}/peritos
+    ?nombre=Luis
+
+### Peritos con nombre EsteNombreNoExiste
+GET {{baseUrl}}/peritos
+    ?nombre=EsteNombreNoExiste
+
+### Peritos del Distrito de Saltillo DSLT
+GET {{baseUrl}}/peritos
+    ?distrito_clave=DSLT
+
+### Peritos del Distrito de Saltillo DSLT con nombre Luis
+GET {{baseUrl}}/peritos
+    ?distrito_clave=DSLT
+    &nombre=Luis
