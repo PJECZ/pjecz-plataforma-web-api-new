@@ -7,16 +7,16 @@ from lib.schemas_base import OneBaseOut
 
 
 class EpocaOut(BaseModel):
-    """ Esquema para entregar epocas """
+    """Esquema para entregar epocas"""
 
     id: int | None
     nombre: str | None
 
     class Config:
-        """ SQLAlchemy config """
+        """SQLAlchemy config"""
 
         orm_mode = True
 
 
 class OneEpocaOut(EpocaOut, OneBaseOut):
-    """ Esquema para entregar un epoca """
+    """Esquema para entregar un epoca"""
