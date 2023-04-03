@@ -1,8 +1,7 @@
 """
 Epocas, modelos
 """
-from collections import OrderedDict
-from sqlalchemy import Boolean, Column, Date, Enum, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from lib.database import Base

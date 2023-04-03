@@ -102,9 +102,9 @@ class TesisJurisprudencia(Base, UniversalMixin):
         return self.autoridad.descripcion_corta
 
     @property
-    def materia_nombre(self):
-        """Nombre de la materia"""
-        return self.materia.nombre
+    def epoca_nombre(self):
+        """Nombre de la época"""
+        return self.epoca.nombre
 
     @property
     def materia_nombre(self):
