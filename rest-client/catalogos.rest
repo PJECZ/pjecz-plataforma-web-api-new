@@ -25,6 +25,14 @@ GET {{baseUrl}}/distritos/dtrc
 ### Autoridades
 GET {{baseUrl}}/autoridades
 
+### Autoridades del Distrito Judicial de Saltillo id 6
+GET {{baseUrl}}/autoridades
+    ?distrito_id=6
+
+### Autoridades del Distrito Judicial de Torreon DTRC
+GET {{baseUrl}}/autoridades
+    ?distrito_clave=dtrc
+
 ### Autoridades CEMASC
 GET {{baseUrl}}/autoridades
     ?es_cemasc=true
@@ -45,3 +53,9 @@ GET {{baseUrl}}/autoridades
 ### Autoridades Notarias
 GET {{baseUrl}}/autoridades
     ?es_notaria=true
+
+
+### Autoridades Notarias en el Distrito Judicial de Monclova
+GET {{baseUrl}}/autoridades
+    ?distrito_clave=dmnc
+    &es_notaria=true

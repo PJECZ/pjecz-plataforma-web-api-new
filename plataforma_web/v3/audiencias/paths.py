@@ -14,7 +14,7 @@ from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_succe
 from .crud import get_audiencias, get_audiencia
 from .schemas import AudienciaOut, OneAudienciaOut
 
-audiencias = APIRouter(prefix="/v3/audiencias", tags=["categoria"])
+audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 
 
 @audiencias.get("", response_model=CustomPage[AudienciaOut])
