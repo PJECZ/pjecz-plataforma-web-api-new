@@ -12,7 +12,7 @@ from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_succe
 from .crud import get_peritos, get_perito
 from .schemas import PeritoOut, OnePeritoOut
 
-peritos = APIRouter(prefix="/v3/peritos", tags=["categoria"])
+peritos = APIRouter(prefix="/v3/peritos", tags=["peritos"])
 
 
 @peritos.get("", response_model=CustomPage[PeritoOut])
