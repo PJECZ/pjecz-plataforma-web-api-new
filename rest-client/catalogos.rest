@@ -54,7 +54,6 @@ GET {{baseUrl}}/autoridades
 GET {{baseUrl}}/autoridades
     ?es_notaria=true
 
-
 ### Autoridades Notarias en el Distrito Judicial de Monclova
 GET {{baseUrl}}/autoridades
     ?distrito_clave=dmnc
