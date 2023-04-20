@@ -12,11 +12,11 @@ from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_succe
 from .crud import get_redams, get_redam
 from .schemas import RedamOut, OneRedamOut
 
-redams = APIRouter(prefix="/v3/redams", tags=["redams"])
+redam = APIRouter(prefix="/v3/redam", tags=["redam"])
 
 
-@redams.get("", response_model=CustomPage[RedamOut])
-async def listado_redams(
+@redam.get("", response_model=CustomPage[RedamOut])
+async def listado_redam(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -41,8 +41,8 @@ async def listado_redams(
     return paginate(resultados)
 
 
-@redams.get("/datatable", response_model=DataTablePage[RedamOut])
-async def listado_redams_datatable(
+@redam.get("/datatable", response_model=DataTablePage[RedamOut])
+async def listado_redam_datatable(
     db: DatabaseSession,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -67,7 +67,7 @@ async def listado_redams_datatable(
     return paginate(resultados)
 
 
-@redams.get("/{redam_id}", response_model=OneRedamOut)
+@redam.get("/{redam_id}", response_model=OneRedamOut)
 async def detalle_redam(
     db: DatabaseSession,
     redam_id: int,

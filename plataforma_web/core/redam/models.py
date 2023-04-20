@@ -19,7 +19,7 @@ class Redam(Base, UniversalMixin):
 
     # Claves foráneas
     autoridad_id = Column(Integer, ForeignKey("autoridades.id"), index=True, nullable=False)
-    autoridad = relationship("Autoridad", back_populates="redams")
+    autoridad = relationship("Autoridad", back_populates="redam")
 
     # Columnas
     nombre = Column(String(256), nullable=False)
