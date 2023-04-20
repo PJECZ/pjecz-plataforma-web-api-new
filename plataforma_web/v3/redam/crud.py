@@ -9,7 +9,7 @@ from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamEr
 from lib.safe_string import safe_string, safe_expediente
 
 from ...core.autoridades.models import Autoridad
-from ...core.redams.models import Redam
+from ...core.redam.models import Redam
 from ..autoridades.crud import get_autoridad, get_autoridad_with_clave
 from ..distritos.crud import get_distrito, get_distrito_with_clave
 

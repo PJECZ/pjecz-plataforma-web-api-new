@@ -5,27 +5,27 @@
 GET {{root}}
 
 ### Redams
-GET {{baseUrl}}/redams
+GET {{baseUrl}}/redam
 
 ### Redams con nombre Luis
-GET {{baseUrl}}/redams
+GET {{baseUrl}}/redam
     ?nombre=Luis
 
 ### Redams con un nombre que no existe
-GET {{baseUrl}}/redams
+GET {{baseUrl}}/redam
     ?nombre=EsteNombreNOExiste
 
 ### Redams con expediente 1195/2018
-GET {{baseUrl}}/redams
+GET {{baseUrl}}/redam
     ?expediente=1195/2018
 
-### Redams del TRC-J1-FAM
-GET {{baseUrl}}/redams
-    ?autoridad_clave=TRC-J1-FAM
+### Redams del TRC-J2-FAM
+GET {{baseUrl}}/redam
+    ?autoridad_clave=TRC-J2-FAM
 
 ### Redams del distrito DTRC
-GET {{baseUrl}}/redams
+GET {{baseUrl}}/redam
     ?distrito_clave=DTRC
 
 ### Redam con id 13
-GET {{baseUrl}}/redams/13
+GET {{baseUrl}}/redam/13
