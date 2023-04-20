@@ -20,6 +20,8 @@ class SentenciaOut(BaseModel):
     autoridad_clave: str | None
     autoridad_descripcion: str | None
     autoridad_descripcion_corta: str | None
+    materia_tipo_juicio_id: int | None
+    materia_tipo_juicio_descripcion: str | None
     sentencia: str | None
     sentencia_fecha: date | None
     expediente: str | None

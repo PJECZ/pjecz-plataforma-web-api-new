@@ -68,6 +68,11 @@ class Sentencia(Base, UniversalMixin):
         """Autoridad descripción corta"""
         return self.autoridad.descripcion_corta
 
+    @property
+    def materia_tipo_juicio_descripcion(self):
+        """Materia-Tipo de Juicio descripción"""
+        return self.materia_tipo_juicio.descripcion
+
     def __repr__(self):
         """Representación"""
         return f"<Sentencia {self.id}>"
