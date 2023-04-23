@@ -1,5 +1,5 @@
 """
-REDAMs v3, CRUD (create, read, update, and delete)
+REDAM (Registro Estatal de Deudores Alimentarios Morosos) v3, CRUD (create, read, update, and delete)
 """
 from typing import Any
 

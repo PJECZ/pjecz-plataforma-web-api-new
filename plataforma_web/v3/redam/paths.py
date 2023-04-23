@@ -1,5 +1,5 @@
 """
-REDAMs v3, rutas (paths)
+REDAM (Registro Estatal de Deudores Alimentarios Morosos) v3, rutas (paths)
 """
 from fastapi import APIRouter
 from fastapi_pagination.ext.sqlalchemy import paginate
@@ -25,7 +25,7 @@ async def listado_redam(
     nombre: str = None,
     expediente: str = None,
 ):
-    """Listado de deudores alimentarios morosos"""
+    """Listado de Deudores Alimentarios Morosos"""
     try:
         resultados = get_redams(
             db=db,
@@ -51,7 +51,7 @@ async def listado_redam_datatable(
     nombre: str = None,
     expediente: str = None,
 ):
-    """Listado de deudores alimentarios morosos para DataTable"""
+    """Listado de Deudores Alimentarios Morosos para DataTable"""
     try:
         resultados = get_redams(
             db=db,
@@ -72,9 +72,9 @@ async def detalle_redam(
     db: DatabaseSession,
     redam_id: int,
 ):
-    """Detalle de una deudor alimentario moroso a partir de su id"""
+    """Detalle de una Deudor Alimentario Moroso a partir de su id"""
     try:
-        redam = get_redam(db=db, redam_id=redam_id)
+        deudor = get_redam(db=db, redam_id=redam_id)
     except MyAnyError as error:
         return OneRedamOut(success=False, message=str(error))
-    return OneRedamOut.from_orm(redam)
+    return OneRedamOut.from_orm(deudor)
