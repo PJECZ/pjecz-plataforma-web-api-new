@@ -25,9 +25,15 @@ GET {{baseUrl}}/edictos
     ?autoridad_clave=SLT-J2-CIV
     &fecha=2021-04-26
 
-### Edictos del distrito DMON
+### Edictos del distrito DMNC
 GET {{baseUrl}}/edictos
-    ?distrito_clave=DMON
+    ?distrito_clave=DMNC
+
+### Edictos del distrito DMNC del 2022-03-01 al 2022-03-31
+GET {{baseUrl}}/edictos
+    ?distrito_clave=DMNC
+    &fecha_desde=2022-03-01
+    &fecha_hasta=2022-03-31
 
 ### Edicto con id 49367
 GET {{baseUrl}}/edictos/49367
