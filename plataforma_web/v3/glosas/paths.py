@@ -53,6 +53,8 @@ async def listado_glosas_datatable(
     expediente: str = None,
     anio: int = None,
     fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
 ):
     """Listado de glosas para DataTable"""
     try:
@@ -63,6 +65,8 @@ async def listado_glosas_datatable(
             expediente=expediente,
             anio=anio,
             fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
         )
     except MyAnyError as error:
         return datatable_page_success_false(error)
