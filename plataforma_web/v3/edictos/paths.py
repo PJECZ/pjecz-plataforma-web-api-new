@@ -56,6 +56,8 @@ async def listado_edictos_datatable(
     distrito_clave: str = None,
     anio: int = None,
     fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
 ):
     """Listado de edictos para DataTable"""
     try:
@@ -67,6 +69,8 @@ async def listado_edictos_datatable(
             distrito_clave=distrito_clave,
             anio=anio,
             fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
         )
     except MyAnyError as error:
         return datatable_page_success_false(error)
