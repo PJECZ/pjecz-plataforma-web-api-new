@@ -26,6 +26,8 @@ async def listado_sentencias(
     distrito_clave: str = None,
     anio: int = None,
     fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
     materia_tipo_juicio_id: int = None,
 ):
     """Listado de sentencias"""
@@ -38,6 +40,8 @@ async def listado_sentencias(
             distrito_clave=distrito_clave,
             anio=anio,
             fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
             materia_tipo_juicio_id=materia_tipo_juicio_id,
         )
     except MyAnyError as error:

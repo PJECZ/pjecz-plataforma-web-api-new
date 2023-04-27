@@ -20,6 +20,12 @@ GET {{baseUrl}}/sentencias
     ?autoridad_clave=SLT-J2-CIV
     &anio=2021
 
+### Sentencias del SLT-J2-CIV del 2021-11-01 al 2021-12-31
+GET {{baseUrl}}/sentencias
+    ?autoridad_clave=SLT-J2-CIV
+    &fecha_desde=2021-11-01
+    &fecha_hasta=2021-12-31
+
 ### Sentencias del SLT-J2-CIV del 2021-05-31
 GET {{baseUrl}}/sentencias
     ?autoridad_clave=SLT-J2-CIV
