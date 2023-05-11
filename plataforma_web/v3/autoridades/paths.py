@@ -44,6 +44,8 @@ async def listado_autoridades(
 @autoridades.get("/datatable", response_model=DataTablePage[AutoridadOut])
 async def listado_autoridades_datatable(
     db: DatabaseSession,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     es_cemasc: bool = None,
     es_defensoria: bool = None,
     es_jurisdiccional: bool = None,
@@ -53,6 +55,8 @@ async def listado_autoridades_datatable(
     try:
         resultados = get_autoridades(
             db=db,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
             es_cemasc=es_cemasc,
             es_defensoria=es_defensoria,
             es_jurisdiccional=es_jurisdiccional,

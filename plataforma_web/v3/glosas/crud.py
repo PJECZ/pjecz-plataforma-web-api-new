@@ -9,14 +9,18 @@ from sqlalchemy.orm import Session
 from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_expediente
 
+from ...core.autoridades.models import Autoridad
 from ...core.glosas.models import Glosa
 from ..autoridades.crud import get_autoridad, get_autoridad_with_clave
+from ..distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_glosas(
     db: Session,
     autoridad_id: int = None,
     autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     expediente: str = None,
     anio: int = None,
     fecha: date = None,
@@ -31,6 +35,12 @@ def get_glosas(
     elif autoridad_clave is not None:
         autoridad = get_autoridad_with_clave(db, autoridad_clave)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
+    elif distrito_id is not None:
+        distrito = get_distrito(db, distrito_id)
+        consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
+    elif distrito_clave is not None:
+        distrito = get_distrito_with_clave(db, distrito_clave)
+        consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     if expediente is not None:
         try:
             expediente = safe_expediente(expediente)
