@@ -7,12 +7,32 @@ GET {{root}}
 ### Abogados
 GET {{baseUrl}}/abogados
 
+### Abogados
+GET {{baseUrl}}/abogados/datatable
+
 ### Abogados con nombre Garza
 GET {{baseUrl}}/abogados
     ?nombre=Garza
 
+### Abogados con nombre Garza
+GET {{baseUrl}}/abogados/datatable
+    ?nombre=Garza
+
+### Abogados con nombre EsteNombreNoExiste
+GET {{baseUrl}}/abogados
+    ?nombre=EsteNombreNoExiste
+
+### Abogados con nombre EsteNombreNoExiste
+GET {{baseUrl}}/abogados/datatable
+    ?nombre=EsteNombreNoExiste
+
 ### Abogados con nombre Garza registrados desde 2020
 GET {{baseUrl}}/abogados
+    ?nombre=Garza
+    &anio_desde=2020
+
+### Abogados con nombre Garza registrados desde 2020
+GET {{baseUrl}}/abogados/datatable
     ?nombre=Garza
     &anio_desde=2020
 
@@ -20,6 +40,21 @@ GET {{baseUrl}}/abogados
 GET {{baseUrl}}/abogados
     ?anio_desde=2020
     &anio_hasta=2021
+
+### Abogados registrados entre 2020 y 2021
+GET {{baseUrl}}/abogados/datatable
+    ?anio_desde=2020
+    &anio_hasta=2021
+
+### Abogados registrados entre 1800 y 1899
+GET {{baseUrl}}/abogados
+    ?anio_desde=1800
+    &anio_hasta=1899
+
+### Abogados registrados entre 1800 y 1899
+GET {{baseUrl}}/abogados/datatable
+    ?anio_desde=1800
+    &anio_hasta=1899
 
 ### Abogado con id 12922
 GET {{baseUrl}}/abogados/12922
