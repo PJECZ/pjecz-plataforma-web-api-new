@@ -37,6 +37,10 @@ GET {{baseUrl}}/autoridades
 GET {{baseUrl}}/autoridades
     ?es_cemasc=true
 
+### Autoridades creadoras de glosas
+GET {{baseUrl}}/autoridades
+    ?es_creador_glosas=true
+
 ### Autoridades Defensorias
 GET {{baseUrl}}/autoridades
     ?es_defensoria=true
