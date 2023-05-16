@@ -130,9 +130,10 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
 
     if [ -f app.yaml ]
     then
-        echo "-- Subir a Google Cloud"
+        echo "-- Para subir a produccion ya NO necesita ejecutar gcloud app deploy"
+        echo "   GitHub Actions lo hace automaticamente"
+        echo "   Pero si hace cambios en pyproject.toml reconstruya requirements.txt"
         echo "   poetry export -f requirements.txt --output requirements.txt --without-hashes"
-        echo "   gcloud app deploy"
         echo
     fi
 
