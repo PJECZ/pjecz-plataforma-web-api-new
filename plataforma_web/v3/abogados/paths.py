@@ -62,7 +62,7 @@ async def detalle_abogado(
 ):
     """Detalle de un abogado a partir de su id"""
     try:
-        abogado = get_abogado(db=db, abogado_id=abogado_id)
+        abogado = get_abogado(db, abogado_id)
     except MyAnyError as error:
         return OneAbogadoOut(success=False, message=str(error))
     return OneAbogadoOut.from_orm(abogado)

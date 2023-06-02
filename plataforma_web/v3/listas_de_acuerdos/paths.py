@@ -84,7 +84,7 @@ async def detalle_lista_de_acuerdo(
 ):
     """Detalle de una lista de acuerdo a partir de su id"""
     try:
-        lista_de_acuerdo = get_lista_de_acuerdo(db=db, lista_de_acuerdo_id=lista_de_acuerdo_id)
+        lista_de_acuerdo = get_lista_de_acuerdo(db, lista_de_acuerdo_id)
     except MyAnyError as error:
         return OneListaDeAcuerdoOut(success=False, message=str(error))
     return OneListaDeAcuerdoOut.from_orm(lista_de_acuerdo)

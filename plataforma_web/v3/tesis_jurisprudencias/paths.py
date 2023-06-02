@@ -24,6 +24,7 @@ async def listado_tesis_jurisprudencias(
     distrito_clave: str = None,
     epoca_id: int = None,
     materia_id: int = None,
+    materia_clave: str = None,
 ):
     """Listado de tesis jurisprudencias"""
     try:
@@ -35,6 +36,7 @@ async def listado_tesis_jurisprudencias(
             distrito_clave=distrito_clave,
             epoca_id=epoca_id,
             materia_id=materia_id,
+            materia_clave=materia_clave,
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
@@ -50,6 +52,7 @@ async def listado_tesis_jurisprudencias_datatable(
     distrito_clave: str = None,
     epoca_id: int = None,
     materia_id: int = None,
+    materia_clave: str = None,
 ):
     """Listado de tesis jurisprudencias para DataTable"""
     try:
@@ -61,6 +64,7 @@ async def listado_tesis_jurisprudencias_datatable(
             distrito_clave=distrito_clave,
             epoca_id=epoca_id,
             materia_id=materia_id,
+            materia_clave=materia_clave,
         )
     except MyAnyError as error:
         return datatable_page_success_false(error)
@@ -74,7 +78,7 @@ async def detalle_tesis_jurisprudencia(
 ):
     """Detalle de una tesis jurisprudencia a partir de su id"""
     try:
-        tesis_jurisprudencia = get_tesis_jurisprudencia(db=db, tesis_jurisprudencia_id=tesis_jurisprudencia_id)
+        tesis_jurisprudencia = get_tesis_jurisprudencia(db, tesis_jurisprudencia_id)
     except MyAnyError as error:
         return OneTesisJurisprudenciaOut(success=False, message=str(error))
     return OneTesisJurisprudenciaOut.from_orm(tesis_jurisprudencia)

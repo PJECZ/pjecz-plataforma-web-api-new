@@ -84,7 +84,7 @@ async def detalle_edicto(
 ):
     """Detalle de un edicto a partir de su id"""
     try:
-        edicto = get_edicto(db=db, edicto_id=edicto_id)
+        edicto = get_edicto(db, edicto_id)
     except MyAnyError as error:
         return OneEdictoOut(success=False, message=str(error))
     return OneEdictoOut.from_orm(edicto)

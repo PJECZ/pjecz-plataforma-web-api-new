@@ -46,7 +46,7 @@ async def detalle_perito_tipo(
 ):
     """Detalle de un tipo de perito a partir de su id"""
     try:
-        perito_tipo = get_perito_tipo(db=db, perito_tipo_id=perito_tipo_id)
+        perito_tipo = get_perito_tipo(db, perito_tipo_id)
     except MyAnyError as error:
         return OnePeritoTipoOut(success=False, message=str(error))
     return OnePeritoTipoOut.from_orm(perito_tipo)

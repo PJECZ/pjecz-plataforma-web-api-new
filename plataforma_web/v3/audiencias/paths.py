@@ -76,7 +76,7 @@ async def detalle_audiencia(
 ):
     """Detalle de una audiencia a partir de su id"""
     try:
-        audiencia = get_audiencia(db=db, audiencia_id=audiencia_id)
+        audiencia = get_audiencia(db, audiencia_id)
     except MyAnyError as error:
         return OneAudienciaOut(success=False, message=str(error))
     return OneAudienciaOut.from_orm(audiencia)

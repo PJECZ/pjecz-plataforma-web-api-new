@@ -62,7 +62,7 @@ async def detalle_ubicacion_expediente(
 ):
     """Detalle de una ubicacion de expediente a partir de su id"""
     try:
-        ubicacion_expediente = get_ubicacion_expediente(db=db, ubicacion_expediente_id=ubicacion_expediente_id)
+        ubicacion_expediente = get_ubicacion_expediente(db, ubicacion_expediente_id)
     except MyAnyError as error:
         return OneUbicacionExpedienteOut(success=False, message=str(error))
     return OneUbicacionExpedienteOut.from_orm(ubicacion_expediente)

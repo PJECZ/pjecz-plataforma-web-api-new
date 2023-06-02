@@ -9,7 +9,7 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_materias, get_materia
+from .crud import get_materias, get_materia_with_clave
 from .schemas import MateriaOut, OneMateriaOut
 
 materias = APIRouter(prefix="/v3/materias", tags=["materias"])
@@ -39,14 +39,14 @@ async def listado_materias_datatable(
     return paginate(resultados)
 
 
-@materias.get("/{materia_id}", response_model=OneMateriaOut)
+@materias.get("/{materia_clave}", response_model=OneMateriaOut)
 async def detalle_materia(
     db: DatabaseSession,
-    materia_id: int,
+    materia_clave: str,
 ):
     """Detalle de una materia a partir de su id"""
     try:
-        materia = get_materia(db=db, materia_id=materia_id)
+        materia = get_materia_with_clave(db, materia_clave)
     except MyAnyError as error:
         return OneMateriaOut(success=False, message=str(error))
     return OneMateriaOut.from_orm(materia)
