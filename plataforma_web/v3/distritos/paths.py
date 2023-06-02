@@ -55,14 +55,14 @@ async def listado_distritos_datatable(
     return paginate(resultados)
 
 
-@distritos.get("/{clave}", response_model=OneDistritoOut)
+@distritos.get("/{distrito_clave}", response_model=OneDistritoOut)
 async def detalle_distrito(
     db: DatabaseSession,
-    clave: str,
+    distrito_clave: str,
 ):
     """Detalle de un distrito a partir de su clave"""
     try:
-        distrito = get_distrito_with_clave(db=db, clave=clave)
+        distrito = get_distrito_with_clave(db, distrito_clave)
     except MyAnyError as error:
         return OneDistritoOut(success=False, message=str(error))
     return OneDistritoOut.from_orm(distrito)

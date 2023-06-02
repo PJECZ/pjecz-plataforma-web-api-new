@@ -19,12 +19,14 @@ materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["m
 async def listado_materias_tipos_juicios(
     db: DatabaseSession,
     materia_id: int = None,
+    materia_clave: str = None,
 ):
     """Listado de materias-tipos de juicios"""
     try:
         resultados = get_materias_tipos_juicios(
             db=db,
             materia_id=materia_id,
+            materia_clave=materia_clave,
         )
     except MyAnyError as error:
         return custom_list_success_false(error)
@@ -35,12 +37,14 @@ async def listado_materias_tipos_juicios(
 async def listado_materias_tipos_juicios_datatable(
     db: DatabaseSession,
     materia_id: int = None,
+    materia_clave: str = None,
 ):
     """Listado de materias-tipos de juicios para DataTable"""
     try:
         resultados = get_materias_tipos_juicios(
             db=db,
             materia_id=materia_id,
+            materia_clave=materia_clave,
         )
     except MyAnyError as error:
         return datatable_page_success_false(error)
@@ -54,7 +58,7 @@ async def detalle_materia_tipo_juicio(
 ):
     """Detalle de una materia-tipo de juicio a partir de su id"""
     try:
-        materia_tipo_juicio = get_materia_tipo_juicio(db=db, materia_tipo_juicio_id=materia_tipo_juicio_id)
+        materia_tipo_juicio = get_materia_tipo_juicio(db, materia_tipo_juicio_id)
     except MyAnyError as error:
         return OneMateriaTipoJuicioOut(success=False, message=str(error))
     return OneMateriaTipoJuicioOut.from_orm(materia_tipo_juicio)

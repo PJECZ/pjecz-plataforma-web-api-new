@@ -84,7 +84,7 @@ async def detalle_glosa(
 ):
     """Detalle de una glosa a partir de su id"""
     try:
-        glosa = get_glosa(db=db, glosa_id=glosa_id)
+        glosa = get_glosa(db, glosa_id)
     except MyAnyError as error:
         return OneGlosaOut(success=False, message=str(error))
     return OneGlosaOut.from_orm(glosa)

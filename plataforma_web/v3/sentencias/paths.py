@@ -88,7 +88,7 @@ async def detalle_sentencia(
 ):
     """Detalle de una sentencia a partir de su id"""
     try:
-        sentencia = get_sentencia(db=db, sentencia_id=sentencia_id)
+        sentencia = get_sentencia(db, sentencia_id)
     except MyAnyError as error:
         return OneSentenciaOut(success=False, message=str(error))
     return OneSentenciaOut.from_orm(sentencia)

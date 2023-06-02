@@ -25,6 +25,8 @@ async def listado_autoridades(
     es_defensoria: bool = None,
     es_jurisdiccional: bool = None,
     es_notaria: bool = None,
+    materia_id: int = None,
+    materia_clave: str = None,
 ):
     """Listado de autoridades"""
     try:
@@ -37,6 +39,8 @@ async def listado_autoridades(
             es_defensoria=es_defensoria,
             es_jurisdiccional=es_jurisdiccional,
             es_notaria=es_notaria,
+            materia_id=materia_id,
+            materia_clave=materia_clave,
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
@@ -53,6 +57,8 @@ async def listado_autoridades_datatable(
     es_defensoria: bool = None,
     es_jurisdiccional: bool = None,
     es_notaria: bool = None,
+    materia_id: int = None,
+    materia_clave: str = None,
 ):
     """Listado de autoridades para DataTable"""
     try:
@@ -65,20 +71,22 @@ async def listado_autoridades_datatable(
             es_defensoria=es_defensoria,
             es_jurisdiccional=es_jurisdiccional,
             es_notaria=es_notaria,
+            materia_id=materia_id,
+            materia_clave=materia_clave,
         )
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
 
 
-@autoridades.get("/{clave}", response_model=OneAutoridadOut)
+@autoridades.get("/{autoridad_clave}", response_model=OneAutoridadOut)
 async def detalle_autoridad(
     db: DatabaseSession,
-    clave: str,
+    autoridad_clave: str,
 ):
     """Detalle de una autoridad a partir de su clave"""
     try:
-        autoridad = get_autoridad_with_clave(db=db, clave=clave)
+        autoridad = get_autoridad_with_clave(db, autoridad_clave)
     except MyAnyError as error:
         return OneAutoridadOut(success=False, message=str(error))
     return OneAutoridadOut.from_orm(autoridad)

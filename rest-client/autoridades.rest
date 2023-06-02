@@ -4,24 +4,6 @@
 ### Bienvenida
 GET {{root}}
 
-### Distritos
-GET {{baseUrl}}/distritos
-
-### Distritos es_distrito_judicial
-GET {{baseUrl}}/distritos
-    ?es_distrito_judicial=true
-
-### Distritos es_distrito
-GET {{baseUrl}}/distritos
-    ?es_distrito=true
-
-### Distritos es_jurisdiccional
-GET {{baseUrl}}/distritos
-    ?es_jurisdiccional=true
-
-### Distrito Torreon
-GET {{baseUrl}}/distritos/dtrc
-
 ### Autoridades
 GET {{baseUrl}}/autoridades
 

@@ -42,7 +42,7 @@ async def detalle_epoca(
 ):
     """Detalle de una epoca a partir de su id"""
     try:
-        epoca = get_epoca(db=db, epoca_id=epoca_id)
+        epoca = get_epoca(db, epoca_id)
     except MyAnyError as error:
         return OneEpocaOut(success=False, message=str(error))
     return OneEpocaOut.from_orm(epoca)

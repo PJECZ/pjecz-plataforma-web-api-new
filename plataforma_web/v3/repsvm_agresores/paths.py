@@ -62,7 +62,7 @@ async def detalle_repvm_agresor(
 ):
     """Detalle de un agresor a partir de su id"""
     try:
-        repvm_agresor = get_repsvm_agresor(db=db, repsvm_agresor_id=repsvm_agresor_id)
+        repvm_agresor = get_repsvm_agresor(db, repsvm_agresor_id)
     except MyAnyError as error:
         return OneRepsvmAgresorOut(success=False, message=str(error))
     return OneRepsvmAgresorOut.from_orm(repvm_agresor)

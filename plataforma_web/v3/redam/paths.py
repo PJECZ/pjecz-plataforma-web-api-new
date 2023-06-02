@@ -74,7 +74,7 @@ async def detalle_redam(
 ):
     """Detalle de una Deudor Alimentario Moroso a partir de su id"""
     try:
-        deudor = get_redam(db=db, redam_id=redam_id)
+        deudor = get_redam(db, redam_id)
     except MyAnyError as error:
         return OneRedamOut(success=False, message=str(error))
     return OneRedamOut.from_orm(deudor)
