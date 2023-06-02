@@ -1,6 +1,6 @@
 # pjecz-plataforma-web-api-new
 
-API que proporciona datos para el sitio web pjecz.gob.mx
+Nueva API que proporciona datos para el sitio web pjecz.gob.mx
 
 ## Mejores practicas
 
@@ -88,9 +88,9 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
 
     if command -v figlet &> /dev/null
     then
-        figlet PJECZ Plataforma Web API
+        figlet Plataforma Web API New
     else
-        echo "== PJECZ Plataforma Web API"
+        echo "== Plataforma Web API New"
     fi
     echo
 
@@ -121,18 +121,17 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
         export PYTHONPATH=$(pwd)
         echo "   PYTHONPATH: ${PYTHONPATH}"
         echo
-        alias black="black --config pyproject.toml"
-        alias arrancar="uvicorn --host=127.0.0.1 --port 8001 --reload plataforma_web.app:create_app"
+        alias arrancar="uvicorn --factory --host=127.0.0.1 --port 8001 --reload plataforma_web.app:create_app"
         echo "-- Ejecutar FastAPI 127.0.0.1:8001"
         echo "   arrancar"
         echo
     fi
 
-    if [ -f app.yaml ]
+    if [ -f .github/workflows/gcloud-app-deploy.yml ]
     then
-        echo "-- Para subir a produccion ya NO necesita ejecutar gcloud app deploy"
-        echo "   GitHub Actions lo hace automaticamente"
-        echo "   Pero si hace cambios en pyproject.toml reconstruya requirements.txt"
+        echo "-- Google Cloud"
+        echo "   GitHub Actions hace el deploy en Google Cloud"
+        echo "   Si hace cambios en pyproject.toml reconstruya requirements.txt"
         echo "   poetry export -f requirements.txt --output requirements.txt --without-hashes"
         echo
     fi
@@ -161,20 +160,20 @@ Instale el entorno virtual con **Python 3.11** y los paquetes necesarios
     pip install wheel
     poetry install
 
-## Arrancar local para desarrollo
+## Arrancar para desarrollo
 
-Ejecute `arrancar` que contiene el comando y parametros para arrancar el servicio
+Ejecute `arrancar` que es un alias dentro de `.bashrc`
 
     arrancar
 
 ## Google Cloud deployment
 
-Relice estos pasos para subir a Google Cloud App Engine
+Este proyecto usa **GitHub Actions** para subir a **Google Cloud**
 
-Crear el archivo `requirements.txt`
+Para ello debe crear el archivo `requirements.txt`
 
     poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-Y subir a Google Cloud
+Y subir a Google Cloud con
 
     gcloud app deploy
