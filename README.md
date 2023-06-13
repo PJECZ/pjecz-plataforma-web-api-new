@@ -188,27 +188,27 @@ Va a usar el puerto **8001** para la API
 Construir la imagen con el comando **podman**
 
 ```bash
-podman build -t pjecz_plataforma_web_api_key .
+podman build -t pjecz_plataforma_web_api .
 ```
 
 Arrancar el contenedor donde el puerto 8001 del contendor se dirige al puerto 7001 local
 
 ```bash
 podman run --rm \
-    --name pjecz_plataforma_web_api_key \
+    --name pjecz_plataforma_web_api \
     -p 7001:8001 \
     --env-file .env \
-    pjecz_plataforma_web_api_key
+    pjecz_plataforma_web_api
 ```
 
 Arrancar el contenedor y dejar corriendo en el fondo
 
 ```bash
 podman run -d \
-    --name pjecz_plataforma_web_api_key \
+    --name pjecz_plataforma_web_api \
     -p 7001:8001 \
     --env-file .env \
-    pjecz_plataforma_web_api_key
+    pjecz_plataforma_web_api
 ```
 
 ## Google Cloud deployment
