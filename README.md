@@ -179,6 +179,38 @@ Para ejecutar las pruebas arranque el servidor y ejecute
 
     python -m unittest discover tests
 
+## Contenedores
+
+Esta incluido el archivo `Dockerfile` para construir la imagen
+
+Va a usar el puerto **8001** para la API
+
+Construir la imagen con el comando **podman**
+
+```bash
+podman build -t pjecz_plataforma_web_api_key .
+```
+
+Arrancar el contenedor donde el puerto 8001 del contendor se dirige al puerto 7001 local
+
+```bash
+podman run --rm \
+    --name pjecz_plataforma_web_api_key \
+    -p 7001:8001 \
+    --env-file .env \
+    pjecz_plataforma_web_api_key
+```
+
+Arrancar el contenedor y dejar corriendo en el fondo
+
+```bash
+podman run -d \
+    --name pjecz_plataforma_web_api_key \
+    -p 7001:8001 \
+    --env-file .env \
+    pjecz_plataforma_web_api_key
+```
+
 ## Google Cloud deployment
 
 Este proyecto usa **GitHub Actions** para subir a **Google Cloud**
