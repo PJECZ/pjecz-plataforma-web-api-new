@@ -1,13 +1,15 @@
 """
 Materias v3, rutas (paths)
 """
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
-from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
 from .crud import get_materias, get_materia_with_clave
 from .schemas import MateriaOut, OneMateriaOut
@@ -18,6 +20,7 @@ materias = APIRouter(prefix="/v3/materias", tags=["materias"])
 @materias.get("", response_model=CustomList[MateriaOut])
 async def listado_materias(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
 ):
     """Listado de materias"""
     try:
@@ -27,21 +30,10 @@ async def listado_materias(
     return paginate(resultados)
 
 
-@materias.get("/datatable", response_model=DataTablePage[MateriaOut])
-async def listado_materias_datatable(
-    db: DatabaseSession,
-):
-    """Listado de materias para DataTable"""
-    try:
-        resultados = get_materias(db=db)
-    except MyAnyError as error:
-        return datatable_page_success_false(error)
-    return paginate(resultados)
-
-
 @materias.get("/{materia_clave}", response_model=OneMateriaOut)
 async def detalle_materia(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     materia_clave: str,
 ):
     """Detalle de una materia a partir de su id"""

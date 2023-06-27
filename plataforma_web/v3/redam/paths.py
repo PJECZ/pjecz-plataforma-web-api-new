@@ -1,9 +1,12 @@
 """
 REDAM (Registro Estatal de Deudores Alimentarios Morosos) v3, rutas (paths)
 """
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -18,6 +21,7 @@ redam = APIRouter(prefix="/v3/redam", tags=["redam"])
 @redam.get("", response_model=CustomPage[RedamOut])
 async def listado_redam(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -44,6 +48,7 @@ async def listado_redam(
 @redam.get("/datatable", response_model=DataTablePage[RedamOut])
 async def listado_redam_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -70,6 +75,7 @@ async def listado_redam_datatable(
 @redam.get("/{redam_id}", response_model=OneRedamOut)
 async def detalle_redam(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     redam_id: int,
 ):
     """Detalle de una Deudor Alimentario Moroso a partir de su id"""

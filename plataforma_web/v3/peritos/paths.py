@@ -1,9 +1,12 @@
 """
 Peritos v3, rutas (paths)
 """
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -18,6 +21,7 @@ peritos = APIRouter(prefix="/v3/peritos", tags=["peritos"])
 @peritos.get("", response_model=CustomPage[PeritoOut])
 async def listado_peritos(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
@@ -40,6 +44,7 @@ async def listado_peritos(
 @peritos.get("/datatable", response_model=DataTablePage[PeritoOut])
 async def listado_peritos_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
@@ -62,6 +67,7 @@ async def listado_peritos_datatable(
 @peritos.get("/{perito_id}", response_model=OnePeritoOut)
 async def detalle_perito(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     perito_id: int,
 ):
     """Detalle de un perito a partir de su id"""

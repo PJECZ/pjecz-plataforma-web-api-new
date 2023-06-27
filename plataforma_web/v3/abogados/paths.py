@@ -1,9 +1,12 @@
 """
 Abogados v3, rutas (paths)
 """
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -18,6 +21,7 @@ abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 @abogados.get("", response_model=CustomPage[AbogadoOut])
 async def listado_abogados(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     nombre: str = None,
     anio_desde: int = None,
     anio_hasta: int = None,
@@ -38,6 +42,7 @@ async def listado_abogados(
 @abogados.get("/datatable", response_model=DataTablePage[AbogadoOut])
 async def listado_abogados_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     nombre: str = None,
     anio_desde: int = None,
     anio_hasta: int = None,
@@ -58,6 +63,7 @@ async def listado_abogados_datatable(
 @abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
 async def detalle_abogado(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     abogado_id: int,
 ):
     """Detalle de un abogado a partir de su id"""

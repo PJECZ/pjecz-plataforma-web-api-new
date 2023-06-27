@@ -2,10 +2,12 @@
 Audiencias v3, rutas (paths)
 """
 from datetime import date
+from typing import Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -20,6 +22,7 @@ audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 @audiencias.get("", response_model=CustomPage[AudienciaOut])
 async def listado_audiencias(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -46,6 +49,7 @@ async def listado_audiencias(
 @audiencias.get("/datatable", response_model=DataTablePage[AudienciaOut])
 async def listado_audiencias_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -72,6 +76,7 @@ async def listado_audiencias_datatable(
 @audiencias.get("/{audiencia_id}", response_model=OneAudienciaOut)
 async def detalle_audiencia(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     audiencia_id: int,
 ):
     """Detalle de una audiencia a partir de su id"""

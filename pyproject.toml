@@ -7,6 +7,7 @@ license = "AGPL3"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+cryptography = {extras = ["fernet"], version = "^41.0.1"}
 fastapi = "^0.95.0"
 fastapi-pagination = {extras = ["sqlalchemy"], version = "^0.11.4"}
 google-auth = "^2.16.2"
