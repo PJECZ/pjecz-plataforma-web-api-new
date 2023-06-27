@@ -34,7 +34,7 @@ T = TypeVar("T")
 class LimitOffsetParams(BaseLimitOffsetParams):
     """Change default limit and offset"""
 
-    limit: int = Query(10, ge=1, le=400, description="Query limit")
+    limit: int = Query(10, ge=1, le=50, description="Query limit")
     offset: int = Query(0, ge=0, description="Query offset")
 
 
