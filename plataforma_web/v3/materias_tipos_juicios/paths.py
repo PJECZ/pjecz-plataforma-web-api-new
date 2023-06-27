@@ -1,9 +1,12 @@
 """
 Materias-Tipos de Juicios v3, rutas (paths)
 """
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
@@ -18,6 +21,7 @@ materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["m
 @materias_tipos_juicios.get("", response_model=CustomList[MateriaTipoJuicioOut])
 async def listado_materias_tipos_juicios(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     materia_id: int = None,
     materia_clave: str = None,
 ):
@@ -36,6 +40,7 @@ async def listado_materias_tipos_juicios(
 @materias_tipos_juicios.get("/datatable", response_model=DataTablePage[MateriaTipoJuicioOut])
 async def listado_materias_tipos_juicios_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     materia_id: int = None,
     materia_clave: str = None,
 ):
@@ -54,6 +59,7 @@ async def listado_materias_tipos_juicios_datatable(
 @materias_tipos_juicios.get("/{materia_tipo_juicio_id}", response_model=OneMateriaTipoJuicioOut)
 async def detalle_materia_tipo_juicio(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     materia_tipo_juicio_id: int,
 ):
     """Detalle de una materia-tipo de juicio a partir de su id"""

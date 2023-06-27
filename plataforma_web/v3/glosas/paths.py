@@ -2,10 +2,12 @@
 Glosas v3, rutas (paths)
 """
 from datetime import date
+from typing import Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -20,6 +22,7 @@ glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 @glosas.get("", response_model=CustomPage[GlosaOut])
 async def listado_glosas(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -52,6 +55,7 @@ async def listado_glosas(
 @glosas.get("/datatable", response_model=DataTablePage[GlosaOut])
 async def listado_glosas_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     expediente: str = None,
@@ -80,6 +84,7 @@ async def listado_glosas_datatable(
 @glosas.get("/{glosa_id}", response_model=OneGlosaOut)
 async def detalle_glosa(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     glosa_id: int,
 ):
     """Detalle de una glosa a partir de su id"""

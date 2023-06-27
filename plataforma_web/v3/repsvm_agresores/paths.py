@@ -1,9 +1,12 @@
 """
 REVSPM Agresores v3, rutas (paths)
 """
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
+from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -18,6 +21,7 @@ repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agreso
 @repsvm_agresores.get("", response_model=CustomPage[RepsvmAgresorOut])
 async def listado_repsvm_agresores(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
@@ -38,6 +42,7 @@ async def listado_repsvm_agresores(
 @repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
 async def listado_repsvm_agresores_datatable(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
@@ -58,6 +63,7 @@ async def listado_repsvm_agresores_datatable(
 @repsvm_agresores.get("/{repsvm_agresor_id}", response_model=OneRepsvmAgresorOut)
 async def detalle_repvm_agresor(
     db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
     repsvm_agresor_id: int,
 ):
     """Detalle de un agresor a partir de su id"""
