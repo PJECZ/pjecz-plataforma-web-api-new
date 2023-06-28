@@ -20,6 +20,15 @@ class TestMaterias(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_get_materias_tipos_juicios(self):
+        """Test GET method for materias_tipos_juicios"""
+        response = requests.get(
+            f"{config['host']}/v3/materias_tipos_juicios",
+            headers={"X-Api-Key": config["api_key"]},
+            timeout=config["timeout"],
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 if __name__ == "__main__":
     unittest.main()
