@@ -35,7 +35,7 @@ class TestPeritos(unittest.TestCase):
         for item in result["items"]:
             self.assertEqual(item["distrito_id"], 6)
 
-    def test_get_peritos_by_distrito_clave_trc(self):
+    def test_get_peritos_by_distrito_clave_dtrc(self):
         """Test GET method for peritos by distrito_clave DTRC"""
         response = requests.get(
             f"{config['host']}/v3/peritos",
