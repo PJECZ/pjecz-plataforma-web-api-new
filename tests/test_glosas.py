@@ -35,6 +35,23 @@ class TestGlosas(unittest.TestCase):
         for item in result["items"]:
             self.assertEqual(item["autoridad_id"], 53)
 
+    def test_get_glosas_by_autoridad_id_53_by_fechas(self):
+        """Test GET method for glosas by autoridad_id 53 fecha_desde 2020-01-01 and fecha_hasta 2020-01-31"""
+        response = requests.get(
+            f"{config['host']}/v3/glosas",
+            headers={"X-Api-Key": config["api_key"]},
+            params={"autoridad_id": 53, "fecha_desde": "2020-01-01", "fecha_hasta": "2020-01-31"},
+            timeout=config["timeout"],
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["success"], True)
+        result = data["result"]
+        for item in result["items"]:
+            self.assertEqual(item["autoridad_id"], 53)
+            self.assertGreaterEqual(item["fecha"], "2020-01-01")
+            self.assertLessEqual(item["fecha"], "2020-01-31")
+
     def test_get_glosas_by_autoridad_clave_trn_cya(self):
         """Test GET method for glosas by autoridad_clave TRN-CYA"""
         response = requests.get(
@@ -49,6 +66,23 @@ class TestGlosas(unittest.TestCase):
         result = data["result"]
         for item in result["items"]:
             self.assertEqual(item["autoridad_clave"], "TRN-CYA")
+
+    def test_get_glosas_by_autoridad_clave_trn_cya_by_fechas(self):
+        """Test GET method for glosas by autoridad_clave TRN-CYA fecha_desde 2020-01-01 and fecha_hasta 2020-01-31"""
+        response = requests.get(
+            f"{config['host']}/v3/glosas",
+            headers={"X-Api-Key": config["api_key"]},
+            params={"autoridad_clave": "TRN-CYA", "fecha_desde": "2020-01-01", "fecha_hasta": "2020-01-31"},
+            timeout=config["timeout"],
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["success"], True)
+        result = data["result"]
+        for item in result["items"]:
+            self.assertEqual(item["autoridad_clave"], "TRN-CYA")
+            self.assertGreaterEqual(item["fecha"], "2020-01-01")
+            self.assertLessEqual(item["fecha"], "2020-01-31")
 
 
 if __name__ == "__main__":
