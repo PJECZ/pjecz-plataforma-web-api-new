@@ -54,11 +54,11 @@ async def listado_listas_de_acuerdos(
 async def listado_listas_de_acuerdos_datatable(
     db: DatabaseSession,
     current_user: Annotated[Usuario, Depends(get_current_user)],
+    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
     distrito_clave: str = None,
-    anio: int = None,
     fecha: date = None,
     fecha_desde: date = None,
     fecha_hasta: date = None,
@@ -67,11 +67,11 @@ async def listado_listas_de_acuerdos_datatable(
     try:
         resultados = get_listas_de_acuerdos(
             db=db,
+            anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
-            anio=anio,
             fecha=fecha,
             fecha_desde=fecha_desde,
             fecha_hasta=fecha_hasta,
