@@ -73,11 +73,17 @@ Verifique que este en True
     DB_USER=readerpjeczplataformaweb
     DB_PASS=XXXXXXXXXXXXXXXX
 
+    # Fernet key para cifrar y descifrar la API_KEY
+    FERNET_KEY="XXXXXXXXXXXXXXXX"
+
     # CORS origins
     ORIGINS=http://localhost:3000,http://localhost:5000,http://127.0.0.1:3000,http://127.0.0.1:5000
 
     # Huso horario
     TZ=America/Mexico_City
+
+    # Username es una dirección de correo electrónico para identificar al cliente
+    USERNAME=anonymous@server.net
 
 Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
 
@@ -104,7 +110,10 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
         echo "   DB_USER: ${DB_USER}"
         echo "   DB_PASS: ${DB_PASS}"
         echo "   ORIGINS: ${ORIGINS}"
+        echo "   FERNET_KEY: ${FERNET_KEY}"
         echo "   TZ: ${TZ}"
+        echo "   USERNAME: ${USERNAME}"
+        echo
         echo
         export PGHOST=$DB_HOST
         export PGPORT=$DB_PORT
@@ -198,8 +207,10 @@ DB_HOST=NNN.NNN.NNN.NNN
 DB_PORT=5432
 DB_NAME=pjecz_plataforma_web
 DB_USER=readerpjeczplataformaweb
-DB_PASS=****************
+DB_PASS=XXXXXXXXXXXXXXXX
+FERNET_KEY="XXXXXXXXXXXXXXXX"
 ORIGINS=*
+USERNAME=anonymous@server.net
 ```
 
 Arrancar el contenedor donde el puerto 8001 del contendor se dirige al puerto 7001 local

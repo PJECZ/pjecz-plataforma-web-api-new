@@ -14,7 +14,9 @@ con las siguientes variables:
 - DB_NAME
 - DB_USER
 - DB_PASS
+- FERNET_KEY
 - ORIGINS
+- USERNAME
 
 Para producción vaya a Google Secret Manager en
 https://console.cloud.google.com/security/secret-manager
@@ -25,7 +27,9 @@ y cree como secretos las siguientes variable de entorno
 - pjecz_plataforma_web_api_db_name
 - pjecz_plataforma_web_api_db_pass
 - pjecz_plataforma_web_api_db_user
+- pjecz_plataforma_web_api_fernet_key
 - pjecz_plataforma_web_api_origins
+- pjecz_plataforma_web_api_username
 
 Y en el archivo app.yaml agregue las siguientes variables de entorno
 
@@ -73,8 +77,10 @@ class Settings(BaseSettings):
     db_name: str = get_secret("db_name")
     db_pass: str = get_secret("db_pass")
     db_user: str = get_secret("db_user")
+    fernet_key: str = get_secret("fernet_key")
     origins: str = get_secret("origins")
     tz: str = "America/Mexico_City"
+    username: str = get_secret("username")
 
     class Config:
         """Load configuration"""
