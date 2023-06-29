@@ -17,11 +17,11 @@ from ..distritos.crud import get_distrito, get_distrito_with_clave
 
 def get_edictos(
     db: Session,
+    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
     distrito_clave: str = None,
-    anio: int = None,
     expediente: str = None,
     fecha: date = None,
     fecha_desde: date = None,
