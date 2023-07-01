@@ -62,8 +62,6 @@ Verifique que este en True
 
 ## Configuracion
 
-**Para produccion** se toman los secretos desde **Google Cloud** con _secret manager_
-
 **Para desarrollo** hay que crear un archivo para las variables de entorno `.env`
 
     # Base de datos
@@ -196,63 +194,57 @@ Va a usar el puerto **8001** para la API
 
 Construir la imagen con el comando **podman**
 
-```bash
-podman build -t pjecz_plataforma_web_api .
-```
+    podman build -t pjecz_plataforma_web_api .
 
 Escribir el archivo `.env` con las variables de entorno
 
-```ini
-DB_HOST=NNN.NNN.NNN.NNN
-DB_PORT=5432
-DB_NAME=pjecz_plataforma_web
-DB_USER=readerpjeczplataformaweb
-DB_PASS=XXXXXXXXXXXXXXXX
-FERNET_KEY="XXXXXXXXXXXXXXXX"
-ORIGINS=*
-USERNAME=anonymous@server.net
-```
+    DB_HOST=NNN.NNN.NNN.NNN
+    DB_PORT=5432
+    DB_NAME=pjecz_plataforma_web
+    DB_USER=readerpjeczplataformaweb
+    DB_PASS=XXXXXXXXXXXXXXXX
+    FERNET_KEY="XXXXXXXXXXXXXXXX"
+    ORIGINS=*
+    USERNAME=anonymous@server.net
 
 Arrancar el contenedor donde el puerto 8001 del contendor se dirige al puerto 7001 local
 
-```bash
-podman run --rm \
-    --name pjecz_plataforma_web_api \
-    -p 7001:8001 \
-    --env-file .env \
-    pjecz_plataforma_web_api
-```
+    podman run --rm \
+        --name pjecz_plataforma_web_api \
+        -p 7001:8001 \
+        --env-file .env \
+        pjecz_plataforma_web_api
 
 Arrancar el contenedor y dejar corriendo en el fondo
 
-```bash
-podman run -d \
-    --name pjecz_plataforma_web_api \
-    -p 7001:8001 \
-    --env-file .env \
-    pjecz_plataforma_web_api
-```
+    podman run -d \
+        --name pjecz_plataforma_web_api \
+        -p 7001:8001 \
+        --env-file .env \
+        pjecz_plataforma_web_api
 
 Detener contenedor
 
-```bash
-podman container stop pjecz_plataforma_web_api
-```
+    podman container stop pjecz_plataforma_web_api
+
+Arrancar contenedor
+
+    podman container start pjecz_plataforma_web_api
 
 Eliminar contenedor
 
-```bash
-podman container rm pjecz_plataforma_web_api
-```
+    podman container rm pjecz_plataforma_web_api
+
+Eliminar la imagen
+
+    podman image rm pjecz_plataforma_web_api
 
 ## Google Cloud deployment
 
 Este proyecto usa **GitHub Actions** para subir a **Google Cloud**
 
-Para ello debe crear el archivo `requirements.txt`
+Y se toman las variables de entorno desde **Google Cloud** con _secret manager_
+
+En caso de haber cambiado las dependencias se debe sobrescribir el archivo `requirements.txt`
 
     poetry export -f requirements.txt --output requirements.txt --without-hashes
-
-Y subir a Google Cloud con
-
-    gcloud app deploy
