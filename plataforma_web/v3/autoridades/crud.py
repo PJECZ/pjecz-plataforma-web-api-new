@@ -30,7 +30,7 @@ def get_autoridades(
     if distrito_id is not None:
         distrito = get_distrito(db, distrito_id)
         consulta = consulta.filter_by(distrito_id=distrito.id)
-    elif distrito_clave is not None:
+    elif distrito_clave is not None and distrito_clave != "":
         distrito = get_distrito_with_clave(db, distrito_clave)
         consulta = consulta.filter_by(distrito_id=distrito.id)
     if es_cemasc is not None:
@@ -46,7 +46,7 @@ def get_autoridades(
     if materia_id is not None:
         materia = get_materia(db, materia_id)
         consulta = consulta.filter_by(materia_id=materia.id)
-    elif materia_clave is not None:
+    elif materia_clave is not None and materia_clave != "":
         materia = get_materia_with_clave(db, materia_clave)
         consulta = consulta.filter_by(materia_id=materia.id)
     return consulta.filter_by(estatus="A").order_by(Autoridad.clave)

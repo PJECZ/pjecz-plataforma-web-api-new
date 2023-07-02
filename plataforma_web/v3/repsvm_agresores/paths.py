@@ -12,8 +12,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_repsvm_agresores, get_repsvm_agresor
-from .schemas import RepsvmAgresorOut, OneRepsvmAgresorOut
+from .crud import get_repsvm_agresores
+from .schemas import RepsvmAgresorOut
 
 repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agresores"])
 
@@ -58,17 +58,3 @@ async def listado_repsvm_agresores_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@repsvm_agresores.get("/{repsvm_agresor_id}", response_model=OneRepsvmAgresorOut)
-async def detalle_repvm_agresor(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    repsvm_agresor_id: int,
-):
-    """Detalle de un agresor a partir de su id"""
-    try:
-        repvm_agresor = get_repsvm_agresor(db, repsvm_agresor_id)
-    except MyAnyError as error:
-        return OneRepsvmAgresorOut(success=False, message=str(error))
-    return OneRepsvmAgresorOut.from_orm(repvm_agresor)

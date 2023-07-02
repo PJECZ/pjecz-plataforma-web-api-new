@@ -13,8 +13,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_listas_de_acuerdos, get_lista_de_acuerdo
-from .schemas import ListaDeAcuerdoOut, OneListaDeAcuerdoOut
+from .crud import get_listas_de_acuerdos
+from .schemas import ListaDeAcuerdoOut
 
 listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de acuerdos"])
 
@@ -79,17 +79,3 @@ async def listado_listas_de_acuerdos_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
-async def detalle_lista_de_acuerdo(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    lista_de_acuerdo_id: int,
-):
-    """Detalle de una lista de acuerdo a partir de su id"""
-    try:
-        lista_de_acuerdo = get_lista_de_acuerdo(db, lista_de_acuerdo_id)
-    except MyAnyError as error:
-        return OneListaDeAcuerdoOut(success=False, message=str(error))
-    return OneListaDeAcuerdoOut.from_orm(lista_de_acuerdo)

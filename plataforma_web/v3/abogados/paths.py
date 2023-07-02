@@ -12,8 +12,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_abogados, get_abogado
-from .schemas import AbogadoOut, OneAbogadoOut
+from .crud import get_abogados
+from .schemas import AbogadoOut
 
 abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 
@@ -58,17 +58,3 @@ async def listado_abogados_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
-async def detalle_abogado(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    abogado_id: int,
-):
-    """Detalle de un abogado a partir de su id"""
-    try:
-        abogado = get_abogado(db, abogado_id)
-    except MyAnyError as error:
-        return OneAbogadoOut(success=False, message=str(error))
-    return OneAbogadoOut.from_orm(abogado)

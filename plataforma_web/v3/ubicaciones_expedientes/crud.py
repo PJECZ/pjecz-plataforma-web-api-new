@@ -23,7 +23,7 @@ def get_ubicaciones_expedientes(
     if autoridad_id is not None:
         autoridad = get_autoridad(db, autoridad_id)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
-    elif autoridad_clave is not None:
+    elif autoridad_clave is not None and autoridad_clave != "":
         autoridad = get_autoridad_with_clave(db, autoridad_clave)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     if expediente is not None:

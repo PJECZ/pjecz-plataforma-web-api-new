@@ -28,13 +28,13 @@ def get_audiencias(
     if autoridad_id is not None:
         autoridad = get_autoridad(db, autoridad_id)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
-    elif autoridad_clave is not None:
+    elif autoridad_clave is not None and autoridad_clave != "":
         autoridad = get_autoridad_with_clave(db, autoridad_clave)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif distrito_id is not None:
         distrito = get_distrito(db, distrito_id)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
-    elif distrito_clave is not None:
+    elif distrito_clave is not None and distrito_clave != "":
         distrito = get_distrito_with_clave(db, distrito_clave)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     if fecha is not None:

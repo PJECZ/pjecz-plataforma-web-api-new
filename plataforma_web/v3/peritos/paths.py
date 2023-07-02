@@ -12,8 +12,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_peritos, get_perito
-from .schemas import PeritoOut, OnePeritoOut
+from .crud import get_peritos
+from .schemas import PeritoOut
 
 peritos = APIRouter(prefix="/v3/peritos", tags=["peritos"])
 
@@ -62,17 +62,3 @@ async def listado_peritos_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@peritos.get("/{perito_id}", response_model=OnePeritoOut)
-async def detalle_perito(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    perito_id: int,
-):
-    """Detalle de un perito a partir de su id"""
-    try:
-        perito = get_perito(db, perito_id)
-    except MyAnyError as error:
-        return OnePeritoOut(success=False, message=str(error))
-    return OnePeritoOut.from_orm(perito)
