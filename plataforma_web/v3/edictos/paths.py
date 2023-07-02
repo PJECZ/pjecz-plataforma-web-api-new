@@ -14,8 +14,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_edictos, get_edicto
-from .schemas import EdictoOut, OneEdictoOut
+from .crud import get_edictos
+from .schemas import EdictoOut
 
 edictos = APIRouter(prefix="/v3/edictos", tags=["edictos"])
 
@@ -86,17 +86,3 @@ async def listado_edictos_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@edictos.get("/{edicto_id}", response_model=OneEdictoOut)
-async def detalle_edicto(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    edicto_id: int,
-):
-    """Detalle de un edicto a partir de su id"""
-    try:
-        edicto = get_edicto(db, edicto_id)
-    except MyAnyError as error:
-        return OneEdictoOut(success=False, message=str(error))
-    return OneEdictoOut.from_orm(edicto)

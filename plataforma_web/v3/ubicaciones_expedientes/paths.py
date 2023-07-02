@@ -12,8 +12,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_ubicaciones_expedientes, get_ubicacion_expediente
-from .schemas import UbicacionExpedienteOut, OneUbicacionExpedienteOut
+from .crud import get_ubicaciones_expedientes
+from .schemas import UbicacionExpedienteOut
 
 ubicaciones_expedientes = APIRouter(prefix="/v3/ubicaciones_expedientes", tags=["ubicaciones de expedientes"])
 
@@ -58,17 +58,3 @@ async def listado_ubicaciones_expedientes_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@ubicaciones_expedientes.get("/{ubicacion_expediente_id}", response_model=OneUbicacionExpedienteOut)
-async def detalle_ubicacion_expediente(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    ubicacion_expediente_id: int,
-):
-    """Detalle de una ubicacion de expediente a partir de su id"""
-    try:
-        ubicacion_expediente = get_ubicacion_expediente(db, ubicacion_expediente_id)
-    except MyAnyError as error:
-        return OneUbicacionExpedienteOut(success=False, message=str(error))
-    return OneUbicacionExpedienteOut.from_orm(ubicacion_expediente)

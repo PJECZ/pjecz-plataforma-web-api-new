@@ -13,8 +13,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_glosas, get_glosa
-from .schemas import GlosaOut, OneGlosaOut
+from .crud import get_glosas
+from .schemas import GlosaOut
 
 glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 
@@ -79,17 +79,3 @@ async def listado_glosas_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@glosas.get("/{glosa_id}", response_model=OneGlosaOut)
-async def detalle_glosa(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    glosa_id: int,
-):
-    """Detalle de una glosa a partir de su id"""
-    try:
-        glosa = get_glosa(db, glosa_id)
-    except MyAnyError as error:
-        return OneGlosaOut(success=False, message=str(error))
-    return OneGlosaOut.from_orm(glosa)

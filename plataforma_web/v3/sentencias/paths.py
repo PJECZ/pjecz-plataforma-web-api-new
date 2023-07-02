@@ -13,8 +13,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_sentencias, get_sentencia
-from .schemas import SentenciaOut, OneSentenciaOut
+from .crud import get_sentencias
+from .schemas import SentenciaOut
 
 sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
@@ -91,17 +91,3 @@ async def listado_sentencias_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
-async def detalle_sentencia(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    sentencia_id: int,
-):
-    """Detalle de una sentencia a partir de su id"""
-    try:
-        sentencia = get_sentencia(db, sentencia_id)
-    except MyAnyError as error:
-        return OneSentenciaOut(success=False, message=str(error))
-    return OneSentenciaOut.from_orm(sentencia)

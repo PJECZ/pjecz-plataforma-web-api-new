@@ -32,9 +32,8 @@ def get_abogados(
             raise MyNotValidParamError("Año fuera de rango.")
     if nombre is not None:
         nombre = safe_string(nombre)
-        if nombre == "":
-            raise MyNotValidParamError("El nombre es incorrecto.")
-        consulta = consulta.filter(Abogado.nombre.contains(nombre))
+        if nombre != "":
+            consulta = consulta.filter(Abogado.nombre.contains(nombre))
     return consulta.filter_by(estatus="A").order_by(Abogado.id.desc())
 
 

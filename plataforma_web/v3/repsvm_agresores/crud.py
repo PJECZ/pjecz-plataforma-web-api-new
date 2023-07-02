@@ -5,7 +5,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
+from lib.exceptions import MyIsDeletedError, MyNotExistsError
 from lib.safe_string import safe_string
 
 from ...core.repsvm_agresores.models import RepsvmAgresor
@@ -23,14 +23,13 @@ def get_repsvm_agresores(
     if distrito_id is not None:
         distrito = get_distrito(db, distrito_id)
         consulta = consulta.filter_by(distrito_id=distrito.id)
-    elif distrito_clave is not None:
+    elif distrito_clave is not None and distrito_clave != "":
         distrito = get_distrito_with_clave(db, distrito_clave)
         consulta = consulta.filter_by(distrito_id=distrito.id)
     if nombre is not None:
         nombre = safe_string(nombre)
-        if nombre == "":
-            raise MyNotValidParamError("El nombre no es válido")
-        consulta = consulta.filter(RepsvmAgresor.nombre.contains(nombre))
+        if nombre != "":
+            consulta = consulta.filter(RepsvmAgresor.nombre.contains(nombre))
     return consulta.filter_by(estatus="A").order_by(RepsvmAgresor.id)
 
 
