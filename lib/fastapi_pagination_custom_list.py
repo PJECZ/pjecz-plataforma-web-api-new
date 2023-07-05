@@ -14,7 +14,7 @@ T = TypeVar("T")
 class ListParams(BaseParams):
     """Change default limit and offset"""
 
-    size: int = Query(100, ge=1, le=500, description="Page size")
+    size: int = Query(150, ge=1, le=200, description="Page size")
 
 
 class ListResult(GenericModel, Generic[T]):
