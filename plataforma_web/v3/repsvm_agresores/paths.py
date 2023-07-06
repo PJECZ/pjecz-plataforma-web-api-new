@@ -18,27 +18,6 @@ from .schemas import RepsvmAgresorOut
 repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agresores"])
 
 
-@repsvm_agresores.get("", response_model=CustomPage[RepsvmAgresorOut])
-async def listado_repsvm_agresores(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    distrito_id: int = None,
-    distrito_clave: str = None,
-    nombre: str = None,
-):
-    """Listado de agresores"""
-    try:
-        resultados = get_repsvm_agresores(
-            db=db,
-            distrito_id=distrito_id,
-            distrito_clave=distrito_clave,
-            nombre=nombre,
-        )
-    except MyAnyError as error:
-        return custom_page_success_false(error)
-    return paginate(resultados)
-
-
 @repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
 async def listado_repsvm_agresores_datatable(
     db: DatabaseSession,

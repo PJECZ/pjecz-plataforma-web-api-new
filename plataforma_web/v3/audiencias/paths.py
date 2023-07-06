@@ -19,33 +19,6 @@ from .schemas import AudienciaOut
 audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 
 
-@audiencias.get("", response_model=CustomPage[AudienciaOut])
-async def listado_audiencias(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    autoridad_id: int = None,
-    autoridad_clave: str = None,
-    distrito_id: int = None,
-    distrito_clave: str = None,
-    anio: int = None,
-    fecha: date = None,
-):
-    """Listado de audiencias"""
-    try:
-        resultados = get_audiencias(
-            db=db,
-            autoridad_id=autoridad_id,
-            autoridad_clave=autoridad_clave,
-            distrito_id=distrito_id,
-            distrito_clave=distrito_clave,
-            anio=anio,
-            fecha=fecha,
-        )
-    except MyAnyError as error:
-        return custom_page_success_false(error)
-    return paginate(resultados)
-
-
 @audiencias.get("/datatable", response_model=DataTablePage[AudienciaOut])
 async def listado_audiencias_datatable(
     db: DatabaseSession,
