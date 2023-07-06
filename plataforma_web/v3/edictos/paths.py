@@ -22,39 +22,6 @@ edictos = APIRouter(prefix="/v3/edictos", tags=["edictos"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-@edictos.get("", response_model=CustomPage[EdictoOut])
-async def listado_edictos(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    anio: int = None,
-    autoridad_id: int = None,
-    autoridad_clave: str = None,
-    distrito_id: int = None,
-    distrito_clave: str = None,
-    expediente: str = None,
-    fecha: date = None,
-    fecha_desde: date = None,
-    fecha_hasta: date = None,
-):
-    """Listado de edictos"""
-    try:
-        resultados = get_edictos(
-            db=db,
-            anio=anio,
-            autoridad_id=autoridad_id,
-            autoridad_clave=autoridad_clave,
-            distrito_id=distrito_id,
-            distrito_clave=distrito_clave,
-            expediente=expediente,
-            fecha=fecha,
-            fecha_desde=fecha_desde,
-            fecha_hasta=fecha_hasta,
-        )
-    except MyAnyError as error:
-        return custom_page_success_false(error)
-    return paginate(resultados)
-
-
 @edictos.get("/datatable", response_model=DataTablePage[EdictoOut])
 async def listado_edictos_datatable(
     db: DatabaseSession,
