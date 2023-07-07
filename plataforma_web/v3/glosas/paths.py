@@ -19,6 +19,39 @@ from .schemas import GlosaOut
 glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 
 
+@glosas.get("", response_model=CustomPage[GlosaOut])
+async def listado_glosas(
+    db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    expediente: str = None,
+    anio: int = None,
+    fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
+):
+    """Listado de glosas"""
+    try:
+        resultados = get_glosas(
+            db=db,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            expediente=expediente,
+            anio=anio,
+            fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+        )
+    except MyAnyError as error:
+        return custom_page_success_false(error)
+    return paginate(resultados)
+
+
 @glosas.get("/datatable", response_model=DataTablePage[GlosaOut])
 async def listado_glosas_datatable(
     db: DatabaseSession,

@@ -19,6 +19,43 @@ from .schemas import SentenciaOut
 sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
 
+@sentencias.get("", response_model=CustomPage[SentenciaOut])
+async def listado_sentencias(
+    db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
+    anio: int = None,
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    expediente: str = None,
+    fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
+    materia_tipo_juicio_id: int = None,
+    sentencia: str = None,
+):
+    """Listado de sentencias"""
+    try:
+        resultados = get_sentencias(
+            db=db,
+            anio=anio,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            expediente=expediente,
+            fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+            materia_tipo_juicio_id=materia_tipo_juicio_id,
+            sentencia=sentencia,
+        )
+    except MyAnyError as error:
+        return custom_page_success_false(error)
+    return paginate(resultados)
+
+
 @sentencias.get("/datatable", response_model=DataTablePage[SentenciaOut])
 async def listado_sentencias_datatable(
     db: DatabaseSession,

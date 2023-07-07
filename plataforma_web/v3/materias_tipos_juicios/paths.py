@@ -37,25 +37,6 @@ async def listado_materias_tipos_juicios(
     return paginate(resultados)
 
 
-@materias_tipos_juicios.get("/datatable", response_model=DataTablePage[MateriaTipoJuicioOut])
-async def listado_materias_tipos_juicios_datatable(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    materia_id: int = None,
-    materia_clave: str = None,
-):
-    """Listado de materias-tipos de juicios para DataTable"""
-    try:
-        resultados = get_materias_tipos_juicios(
-            db=db,
-            materia_id=materia_id,
-            materia_clave=materia_clave,
-        )
-    except MyAnyError as error:
-        return datatable_page_success_false(error)
-    return paginate(resultados)
-
-
 @materias_tipos_juicios.get("/{materia_tipo_juicio_id}", response_model=OneMateriaTipoJuicioOut)
 async def detalle_materia_tipo_juicio(
     db: DatabaseSession,

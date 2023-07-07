@@ -18,6 +18,35 @@ from .schemas import TesisJurisprudenciaOut, OneTesisJurisprudenciaOut
 tesis_jurisprudencias = APIRouter(prefix="/v3/tesis_jurisprudencias", tags=["tesis jurisprudencias"])
 
 
+@tesis_jurisprudencias.get("", response_model=CustomPage[TesisJurisprudenciaOut])
+async def listado_tesis_jurisprudencias(
+    db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    epoca_id: int = None,
+    materia_id: int = None,
+    materia_clave: str = None,
+):
+    """Listado de tesis jurisprudencias"""
+    try:
+        resultados = get_tesis_jurisprudencias(
+            db=db,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            epoca_id=epoca_id,
+            materia_id=materia_id,
+            materia_clave=materia_clave,
+        )
+    except MyAnyError as error:
+        return custom_page_success_false(error)
+    return paginate(resultados)
+
+
 @tesis_jurisprudencias.get("/datatable", response_model=DataTablePage[TesisJurisprudenciaOut])
 async def listado_tesis_jurisprudencias_datatable(
     db: DatabaseSession,
