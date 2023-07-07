@@ -19,6 +19,37 @@ from .schemas import ListaDeAcuerdoOut
 listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de acuerdos"])
 
 
+@listas_de_acuerdos.get("", response_model=CustomPage[ListaDeAcuerdoOut])
+async def listado_listas_de_acuerdos(
+    db: DatabaseSession,
+    current_user: Annotated[Usuario, Depends(get_current_user)],
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    anio: int = None,
+    fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
+):
+    """Listado de listas de acuerdos"""
+    try:
+        resultados = get_listas_de_acuerdos(
+            db=db,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            anio=anio,
+            fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+        )
+    except MyAnyError as error:
+        return custom_page_success_false(error)
+    return paginate(resultados)
+
+
 @listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
 async def listado_listas_de_acuerdos_datatable(
     db: DatabaseSession,

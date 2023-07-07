@@ -31,19 +31,6 @@ async def listado_peritos_tipos(
     return paginate(resultados)
 
 
-@peritos_tipos.get("/datatable", response_model=DataTablePage[PeritoTipoOut])
-async def listado_peritos_tipos_datatable(
-    db: DatabaseSession,
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-):
-    """Listado de tipos de peritos para DataTable"""
-    try:
-        resultados = get_peritos_tipos(db=db)
-    except MyAnyError as error:
-        return datatable_page_success_false(error)
-    return paginate(resultados)
-
-
 @peritos_tipos.get("/{perito_tipo_id}", response_model=OnePeritoTipoOut)
 async def detalle_perito_tipo(
     db: DatabaseSession,
