@@ -79,12 +79,3 @@ async def listado_listas_de_acuerdos_datatable(
     except MyAnyError as error:
         return datatable_page_success_false(error)
     return paginate(resultados)
-
-
-@listas_de_acuerdos.post("", response_model=ListaDeAcuerdoOut)
-async def lista_de_acuerdo_solicitar(
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    token: str,
-    url: str,
-):
-    """Solicitar una lista de acuerdo"""
