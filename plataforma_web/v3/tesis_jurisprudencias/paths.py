@@ -12,8 +12,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_tesis_jurisprudencias, get_tesis_jurisprudencia
-from .schemas import TesisJurisprudenciaOut, OneTesisJurisprudenciaOut
+from .crud import get_tesis_jurisprudencia, get_tesis_jurisprudencias
+from .schemas import OneTesisJurisprudenciaOut, TesisJurisprudenciaOut
 
 tesis_jurisprudencias = APIRouter(prefix="/v3/tesis_jurisprudencias", tags=["tesis jurisprudencias"])
 

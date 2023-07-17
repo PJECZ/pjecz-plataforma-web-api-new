@@ -22,14 +22,12 @@ This is an example of the output JSON:
     }
 
 """
-from typing import TypeVar, Generic, Sequence
+from typing import Generic, Sequence, TypeVar
 
 from fastapi import Query
 from fastapi_pagination.bases import AbstractParams, RawParams
-from fastapi_pagination.limit_offset import (
-    LimitOffsetPage as BaseLimitOffsetPage,
-    LimitOffsetParams as BaseLimitOffsetParams,
-)
+from fastapi_pagination.limit_offset import LimitOffsetPage as BaseLimitOffsetPage
+from fastapi_pagination.limit_offset import LimitOffsetParams as BaseLimitOffsetParams
 
 T = TypeVar("T")
 
