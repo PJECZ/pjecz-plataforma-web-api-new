@@ -12,7 +12,7 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_materias_tipos_juicios, get_materia_tipo_juicio
+from .crud import get_materia_tipo_juicio, get_materias_tipos_juicios
 from .schemas import MateriaTipoJuicioOut, OneMateriaTipoJuicioOut
 
 materias_tipos_juicios = APIRouter(prefix="/v3/materias_tipos_juicios", tags=["materias - tipos de juicios"])

@@ -11,7 +11,7 @@ from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
-from .crud import get_distritos, get_distrito_with_clave
+from .crud import get_distrito_with_clave, get_distritos
 from .schemas import DistritoOut, OneDistritoOut
 
 distritos = APIRouter(prefix="/v3/distritos", tags=["distritos"])

@@ -12,8 +12,8 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_peritos_tipos, get_perito_tipo
-from .schemas import PeritoTipoOut, OnePeritoTipoOut
+from .crud import get_perito_tipo, get_peritos_tipos
+from .schemas import OnePeritoTipoOut, PeritoTipoOut
 
 peritos_tipos = APIRouter(prefix="/v3/peritos_tipos", tags=["peritos"])
 

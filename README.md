@@ -190,7 +190,7 @@ Para ejecutar las pruebas arranque el servidor y ejecute
 
 Esta incluido el archivo `Dockerfile` para construir la imagen
 
-Va a usar el puerto **8001** para la API
+Va a usar el puerto **8000** para la API
 
 Construir la imagen con el comando **podman**
 
@@ -207,11 +207,11 @@ Escribir el archivo `.env` con las variables de entorno
     ORIGINS=*
     USERNAME=anonymous@server.net
 
-Arrancar el contenedor donde el puerto 8001 del contendor se dirige al puerto 7001 local
+Arrancar el contenedor donde el puerto 8000 del contendor se dirige al puerto 7001 local
 
     podman run --rm \
         --name pjecz_plataforma_web_api \
-        -p 7001:8001 \
+        -p 7001:8000 \
         --env-file .env \
         pjecz_plataforma_web_api
 
@@ -219,7 +219,7 @@ Arrancar el contenedor y dejar corriendo en el fondo
 
     podman run -d \
         --name pjecz_plataforma_web_api \
-        -p 7001:8001 \
+        -p 7001:8000 \
         --env-file .env \
         pjecz_plataforma_web_api
 

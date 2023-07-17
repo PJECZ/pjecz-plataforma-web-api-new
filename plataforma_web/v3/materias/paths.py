@@ -11,7 +11,7 @@ from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
-from .crud import get_materias, get_materia_with_clave
+from .crud import get_materia_with_clave, get_materias
 from .schemas import MateriaOut, OneMateriaOut
 
 materias = APIRouter(prefix="/v3/materias", tags=["materias"])

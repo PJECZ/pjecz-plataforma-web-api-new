@@ -11,7 +11,7 @@ from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
-from .crud import get_epocas, get_epoca
+from .crud import get_epoca, get_epocas
 from .schemas import EpocaOut, OneEpocaOut
 
 epocas = APIRouter(prefix="/v3/epocas", tags=["tesis jurisprudencias"])

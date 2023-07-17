@@ -11,7 +11,7 @@ from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
-from .crud import get_autoridades, get_autoridad_with_clave
+from .crud import get_autoridad_with_clave, get_autoridades
 from .schemas import AutoridadOut, OneAutoridadOut
 
 autoridades = APIRouter(prefix="/v3/autoridades", tags=["autoridades"])
