@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
@@ -19,12 +19,12 @@ epocas = APIRouter(prefix="/v3/epocas", tags=["tesis jurisprudencias"])
 
 @epocas.get("", response_model=CustomList[EpocaOut])
 async def listado_epocas(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
 ):
     """Listado de epocas"""
     try:
-        resultados = get_epocas(db=db)
+        resultados = get_epocas(database)
     except MyAnyError as error:
         return custom_list_success_false(error)
     return paginate(resultados)
@@ -32,13 +32,13 @@ async def listado_epocas(
 
 @epocas.get("/{epoca_id}", response_model=OneEpocaOut)
 async def detalle_epoca(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     epoca_id: int,
 ):
     """Detalle de una epoca a partir de su id"""
     try:
-        epoca = get_epoca(db, epoca_id)
+        epoca = get_epoca(database, epoca_id)
     except MyAnyError as error:
         return OneEpocaOut(success=False, message=str(error))
     return OneEpocaOut.from_orm(epoca)

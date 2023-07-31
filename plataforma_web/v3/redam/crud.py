@@ -15,7 +15,7 @@ from ..distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_redams(
-    db: Session,
+    database: Session,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -24,18 +24,18 @@ def get_redams(
     expediente: str = None,
 ) -> Any:
     """Consultar los deudores alimentarios morosos activos"""
-    consulta = db.query(Redam)
+    consulta = database.query(Redam)
     if autoridad_id is not None:
-        autoridad = get_autoridad(db, autoridad_id)
+        autoridad = get_autoridad(database, autoridad_id)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif autoridad_clave is not None and autoridad_clave != "":
-        autoridad = get_autoridad_with_clave(db, autoridad_clave)
+        autoridad = get_autoridad_with_clave(database, autoridad_clave)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif distrito_id is not None:
-        distrito = get_distrito(db, distrito_id)
+        distrito = get_distrito(database, distrito_id)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     elif distrito_clave is not None and distrito_clave != "":
-        distrito = get_distrito_with_clave(db, distrito_clave)
+        distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     if nombre is not None:
         nombre = safe_string(nombre)
@@ -50,9 +50,9 @@ def get_redams(
     return consulta.filter_by(estatus="A").order_by(Redam.id)
 
 
-def get_redam(db: Session, redam_id: int) -> Redam:
+def get_redam(database: Session, redam_id: int) -> Redam:
     """Consultar un deudor alimentario moroso por su id"""
-    redam = db.query(Redam).get(redam_id)
+    redam = database.query(Redam).get(redam_id)
     if redam is None:
         raise MyNotExistsError("No existe ese deudor alimentario moroso")
     if redam.estatus != "A":

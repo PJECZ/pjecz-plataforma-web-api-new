@@ -9,7 +9,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
@@ -24,7 +24,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @edictos.get("", response_model=CustomPage[EdictoOut])
 async def listado_edictos(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     anio: int = None,
     autoridad_id: int = None,
@@ -39,7 +39,7 @@ async def listado_edictos(
     """Listado de edictos"""
     try:
         resultados = get_edictos(
-            db=db,
+            database=database,
             anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
@@ -57,7 +57,7 @@ async def listado_edictos(
 
 @edictos.get("/datatable", response_model=DataTablePage[EdictoOut])
 async def listado_edictos_datatable(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     anio: int = None,
     autoridad_id: int = None,
@@ -72,7 +72,7 @@ async def listado_edictos_datatable(
     """Listado de edictos para DataTable"""
     try:
         resultados = get_edictos(
-            db=db,
+            database=database,
             anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,

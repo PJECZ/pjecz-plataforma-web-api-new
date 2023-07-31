@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
@@ -20,7 +20,7 @@ ubicaciones_expedientes = APIRouter(prefix="/v3/ubicaciones_expedientes", tags=[
 
 @ubicaciones_expedientes.get("", response_model=CustomPage[UbicacionExpedienteOut])
 async def listado_ubicaciones_expedientes(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -29,7 +29,7 @@ async def listado_ubicaciones_expedientes(
     """Listado de ubicaciones de expedientes"""
     try:
         resultados = get_ubicaciones_expedientes(
-            db=db,
+            database=database,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             expediente=expediente,
@@ -41,7 +41,7 @@ async def listado_ubicaciones_expedientes(
 
 @ubicaciones_expedientes.get("/datatable", response_model=DataTablePage[UbicacionExpedienteOut])
 async def listado_ubicaciones_expedientes_datatable(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -50,7 +50,7 @@ async def listado_ubicaciones_expedientes_datatable(
     """Listado de ubicaciones de expedientes para DataTable"""
     try:
         resultados = get_ubicaciones_expedientes(
-            db=db,
+            database=database,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             expediente=expediente,

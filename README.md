@@ -137,7 +137,7 @@ Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
     if [ -d tests ]
     then
         echo "-- Pruebas unitarias"
-        echo "   python -m unittest discover tests"
+        echo "   python3 -m unittest discover tests"
         echo
     fi
 
@@ -184,7 +184,7 @@ Ejecute `arrancar` que es un alias dentro de `.bashrc`
 
 Para ejecutar las pruebas arranque el servidor y ejecute
 
-    python -m unittest discover tests
+    python3 -m unittest discover tests
 
 ## Contenedores
 

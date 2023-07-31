@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
@@ -21,7 +21,7 @@ sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
 @sentencias.get("", response_model=CustomPage[SentenciaOut])
 async def listado_sentencias(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     anio: int = None,
     autoridad_id: int = None,
@@ -38,7 +38,7 @@ async def listado_sentencias(
     """Listado de sentencias"""
     try:
         resultados = get_sentencias(
-            db=db,
+            database=database,
             anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
@@ -58,7 +58,7 @@ async def listado_sentencias(
 
 @sentencias.get("/datatable", response_model=DataTablePage[SentenciaOut])
 async def listado_sentencias_datatable(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     anio: int = None,
     autoridad_id: int = None,
@@ -75,7 +75,7 @@ async def listado_sentencias_datatable(
     """Listado de sentencias para DataTable"""
     try:
         resultados = get_sentencias(
-            db=db,
+            database=database,
             anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,

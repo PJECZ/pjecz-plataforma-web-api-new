@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
@@ -20,7 +20,7 @@ repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agreso
 
 @repsvm_agresores.get("", response_model=CustomPage[RepsvmAgresorOut])
 async def listado_repsvm_agresores(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
@@ -29,7 +29,7 @@ async def listado_repsvm_agresores(
     """Listado de agresores"""
     try:
         resultados = get_repsvm_agresores(
-            db=db,
+            database=database,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
             nombre=nombre,
@@ -41,7 +41,7 @@ async def listado_repsvm_agresores(
 
 @repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
 async def listado_repsvm_agresores_datatable(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
@@ -50,7 +50,7 @@ async def listado_repsvm_agresores_datatable(
     """Listado de agresores para DataTable"""
     try:
         resultados = get_repsvm_agresores(
-            db=db,
+            database=database,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
             nombre=nombre,

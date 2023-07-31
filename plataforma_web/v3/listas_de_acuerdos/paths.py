@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
@@ -21,7 +21,7 @@ listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de
 
 @listas_de_acuerdos.get("", response_model=CustomPage[ListaDeAcuerdoOut])
 async def listado_listas_de_acuerdos(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -35,7 +35,7 @@ async def listado_listas_de_acuerdos(
     """Listado de listas de acuerdos"""
     try:
         resultados = get_listas_de_acuerdos(
-            db=db,
+            database=database,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
@@ -52,7 +52,7 @@ async def listado_listas_de_acuerdos(
 
 @listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
 async def listado_listas_de_acuerdos_datatable(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     anio: int = None,
     autoridad_id: int = None,
@@ -66,7 +66,7 @@ async def listado_listas_de_acuerdos_datatable(
     """Listado de listas de acuerdos para DataTable"""
     try:
         resultados = get_listas_de_acuerdos(
-            db=db,
+            database=database,
             anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
