@@ -9,8 +9,7 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 from lib.authentications import Usuario, get_current_user
 from lib.database import DatabaseSession
 from lib.exceptions import MyAnyError
-from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
-from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
 from .crud import get_perito_tipo, get_peritos_tipos
 from .schemas import OnePeritoTipoOut, PeritoTipoOut
@@ -18,7 +17,7 @@ from .schemas import OnePeritoTipoOut, PeritoTipoOut
 peritos_tipos = APIRouter(prefix="/v3/peritos_tipos", tags=["peritos"])
 
 
-@peritos_tipos.get("", response_model=CustomPage[PeritoTipoOut])
+@peritos_tipos.get("", response_model=CustomList[PeritoTipoOut])
 async def listado_peritos_tipos(
     db: DatabaseSession,
     current_user: Annotated[Usuario, Depends(get_current_user)],
@@ -27,7 +26,7 @@ async def listado_peritos_tipos(
     try:
         resultados = get_peritos_tipos(db=db)
     except MyAnyError as error:
-        return custom_page_success_false(error)
+        return custom_list_success_false(error)
     return paginate(resultados)
 
 
