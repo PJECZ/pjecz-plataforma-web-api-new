@@ -15,7 +15,7 @@ from ..distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_audiencias(
-    db: Session,
+    database: Session,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -24,18 +24,18 @@ def get_audiencias(
     fecha: date = None,
 ) -> Any:
     """Consultar las audiencias activos"""
-    consulta = db.query(Audiencia)
+    consulta = database.query(Audiencia)
     if autoridad_id is not None:
-        autoridad = get_autoridad(db, autoridad_id)
+        autoridad = get_autoridad(database, autoridad_id)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif autoridad_clave is not None and autoridad_clave != "":
-        autoridad = get_autoridad_with_clave(db, autoridad_clave)
+        autoridad = get_autoridad_with_clave(database, autoridad_clave)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif distrito_id is not None:
-        distrito = get_distrito(db, distrito_id)
+        distrito = get_distrito(database, distrito_id)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     elif distrito_clave is not None and distrito_clave != "":
-        distrito = get_distrito_with_clave(db, distrito_clave)
+        distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     if fecha is not None:
         desde = datetime(year=fecha.year, month=fecha.month, day=fecha.day, hour=0, minute=0, second=0)
@@ -48,9 +48,9 @@ def get_audiencias(
     return consulta.filter_by(estatus="A").order_by(Audiencia.id)
 
 
-def get_audiencia(db: Session, audiencia_id: int) -> Audiencia:
+def get_audiencia(database: Session, audiencia_id: int) -> Audiencia:
     """Consultar una audiencia por su id"""
-    audiencia = db.query(Audiencia).get(audiencia_id)
+    audiencia = database.query(Audiencia).get(audiencia_id)
     if audiencia is None:
         raise MyNotExistsError("No existe ese audiencia")
     if audiencia.estatus != "A":

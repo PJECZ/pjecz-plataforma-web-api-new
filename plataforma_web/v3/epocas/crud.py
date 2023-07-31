@@ -10,14 +10,14 @@ from lib.exceptions import MyIsDeletedError, MyNotExistsError
 from ...core.epocas.models import Epoca
 
 
-def get_epocas(db: Session) -> Any:
+def get_epocas(database: Session) -> Any:
     """Consultar las epocas activas"""
-    return db.query(Epoca).filter_by(estatus="A").order_by(Epoca.nombre)
+    return database.query(Epoca).filter_by(estatus="A").order_by(Epoca.nombre)
 
 
-def get_epoca(db: Session, epoca_id: int) -> Epoca:
+def get_epoca(database: Session, epoca_id: int) -> Epoca:
     """Consultar una epoca por su id"""
-    epoca = db.query(Epoca).get(epoca_id)
+    epoca = database.query(Epoca).get(epoca_id)
     if epoca is None:
         raise MyNotExistsError("No existe ese epoca")
     if epoca.estatus != "A":

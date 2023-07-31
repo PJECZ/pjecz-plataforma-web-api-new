@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
 
@@ -19,7 +19,7 @@ autoridades = APIRouter(prefix="/v3/autoridades", tags=["autoridades"])
 
 @autoridades.get("", response_model=CustomList[AutoridadOut])
 async def listado_autoridades(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     distrito_id: int = None,
     distrito_clave: str = None,
@@ -34,7 +34,7 @@ async def listado_autoridades(
     """Listado de autoridades"""
     try:
         resultados = get_autoridades(
-            db=db,
+            database=database,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
             es_cemasc=es_cemasc,
@@ -52,13 +52,13 @@ async def listado_autoridades(
 
 @autoridades.get("/{autoridad_clave}", response_model=OneAutoridadOut)
 async def detalle_autoridad(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     autoridad_clave: str,
 ):
     """Detalle de una autoridad a partir de su clave"""
     try:
-        autoridad = get_autoridad_with_clave(db, autoridad_clave)
+        autoridad = get_autoridad_with_clave(database, autoridad_clave)
     except MyAnyError as error:
         return OneAutoridadOut(success=False, message=str(error))
     return OneAutoridadOut.from_orm(autoridad)

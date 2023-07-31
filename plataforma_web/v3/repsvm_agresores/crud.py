@@ -13,18 +13,18 @@ from ..distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_repsvm_agresores(
-    db: Session,
+    database: Session,
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
 ) -> Any:
     """Consultar los agresores activos"""
-    consulta = db.query(RepsvmAgresor)
+    consulta = database.query(RepsvmAgresor)
     if distrito_id is not None:
-        distrito = get_distrito(db, distrito_id)
+        distrito = get_distrito(database, distrito_id)
         consulta = consulta.filter_by(distrito_id=distrito.id)
     elif distrito_clave is not None and distrito_clave != "":
-        distrito = get_distrito_with_clave(db, distrito_clave)
+        distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.filter_by(distrito_id=distrito.id)
     if nombre is not None:
         nombre = safe_string(nombre)
@@ -33,9 +33,9 @@ def get_repsvm_agresores(
     return consulta.filter_by(estatus="A").order_by(RepsvmAgresor.id)
 
 
-def get_repsvm_agresor(db: Session, repsvm_agresor_id: int) -> RepsvmAgresor:
+def get_repsvm_agresor(database: Session, repsvm_agresor_id: int) -> RepsvmAgresor:
     """Consultar un agresor por su id"""
-    repsvm_agresor = db.query(RepsvmAgresor).get(repsvm_agresor_id)
+    repsvm_agresor = database.query(RepsvmAgresor).get(repsvm_agresor_id)
     if repsvm_agresor is None:
         raise MyNotExistsError("No existe ese agresor")
     if repsvm_agresor.estatus != "A":

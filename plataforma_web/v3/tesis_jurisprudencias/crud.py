@@ -16,7 +16,7 @@ from ..materias.crud import get_materia, get_materia_with_clave
 
 
 def get_tesis_jurisprudencias(
-    db: Session,
+    database: Session,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -26,34 +26,34 @@ def get_tesis_jurisprudencias(
     materia_clave: str = None,
 ) -> Any:
     """Consultar las tesis jurisprudencias activas"""
-    consulta = db.query(TesisJurisprudencia)
+    consulta = database.query(TesisJurisprudencia)
     if autoridad_id is not None:
-        autoridad = get_autoridad(db, autoridad_id)
+        autoridad = get_autoridad(database, autoridad_id)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif autoridad_clave is not None and autoridad_clave != "":
-        autoridad = get_autoridad_with_clave(db, autoridad_clave)
+        autoridad = get_autoridad_with_clave(database, autoridad_clave)
         consulta = consulta.filter_by(autoridad_id=autoridad.id)
     elif distrito_id is not None:
-        distrito = get_distrito(db, distrito_id)
+        distrito = get_distrito(database, distrito_id)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     elif distrito_clave is not None and distrito_clave != "":
-        distrito = get_distrito_with_clave(db, distrito_clave)
+        distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
     if epoca_id is not None:
-        epoca = get_epoca(db, epoca_id)
+        epoca = get_epoca(database, epoca_id)
         consulta = consulta.filter_by(epoca_id=epoca.id)
     if materia_id is not None:
-        materia = get_materia(db, materia_id)
+        materia = get_materia(database, materia_id)
         consulta = consulta.filter_by(materia_id=materia.id)
     elif materia_clave is not None and materia_clave != "":
-        materia = get_materia_with_clave(db, materia_clave)
+        materia = get_materia_with_clave(database, materia_clave)
         consulta = consulta.filter_by(materia_id=materia.id)
     return consulta.filter_by(estatus="A").order_by(TesisJurisprudencia.id)
 
 
-def get_tesis_jurisprudencia(db: Session, tesis_jurisprudencia_id: int) -> TesisJurisprudencia:
+def get_tesis_jurisprudencia(database: Session, tesis_jurisprudencia_id: int) -> TesisJurisprudencia:
     """Consultar una tesis jurisprudencia por su id"""
-    tesis_jurisprudencia = db.query(TesisJurisprudencia).get(tesis_jurisprudencia_id)
+    tesis_jurisprudencia = database.query(TesisJurisprudencia).get(tesis_jurisprudencia_id)
     if tesis_jurisprudencia is None:
         raise MyNotExistsError("No existe ese tesis jurisprudencia")
     if tesis_jurisprudencia.estatus != "A":

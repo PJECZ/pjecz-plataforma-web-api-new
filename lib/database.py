@@ -36,6 +36,3 @@ def get_db(settings: CurrentSettings) -> Session:
         yield db
     finally:
         db.close()
-
-
-DatabaseSession = Annotated[Session, Depends(get_db)]

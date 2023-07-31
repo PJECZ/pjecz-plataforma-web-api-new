@@ -13,13 +13,13 @@ from ...core.abogados.models import Abogado
 
 
 def get_abogados(
-    db: Session,
+    database: Session,
     nombre: str = None,
     anio_desde: int = None,
     anio_hasta: int = None,
 ) -> Any:
     """Consultar los abogados activos"""
-    consulta = db.query(Abogado)
+    consulta = database.query(Abogado)
     if anio_desde is not None:
         if 1925 <= anio_desde <= datetime.now().year:
             consulta = consulta.filter(Abogado.fecha >= date(year=anio_desde, month=1, day=1))
@@ -37,9 +37,9 @@ def get_abogados(
     return consulta.filter_by(estatus="A").order_by(Abogado.id.desc())
 
 
-def get_abogado(db: Session, abogado_id: int) -> Abogado:
+def get_abogado(database: Session, abogado_id: int) -> Abogado:
     """Consultar un abogado por su id"""
-    abogado = db.query(Abogado).get(abogado_id)
+    abogado = database.query(Abogado).get(abogado_id)
     if abogado is None:
         raise MyNotExistsError("No existe ese abogado")
     if abogado.estatus != "A":

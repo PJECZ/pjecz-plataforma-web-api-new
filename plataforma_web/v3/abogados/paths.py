@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
-from lib.database import DatabaseSession
+from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
@@ -20,7 +20,7 @@ abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 
 @abogados.get("", response_model=CustomPage[AbogadoOut])
 async def listado_abogados(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     nombre: str = None,
     anio_desde: int = None,
@@ -29,7 +29,7 @@ async def listado_abogados(
     """Listado de abogados"""
     try:
         resultados = get_abogados(
-            db=db,
+            database=database,
             nombre=nombre,
             anio_desde=anio_desde,
             anio_hasta=anio_hasta,
@@ -41,7 +41,7 @@ async def listado_abogados(
 
 @abogados.get("/datatable", response_model=DataTablePage[AbogadoOut])
 async def listado_abogados_datatable(
-    db: DatabaseSession,
+    database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
     nombre: str = None,
     anio_desde: int = None,
@@ -50,7 +50,7 @@ async def listado_abogados_datatable(
     """Listado de abogados para DataTable"""
     try:
         resultados = get_abogados(
-            db=db,
+            database=database,
             nombre=nombre,
             anio_desde=anio_desde,
             anio_hasta=anio_hasta,
