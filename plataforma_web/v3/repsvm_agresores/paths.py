@@ -29,7 +29,7 @@ async def listado_repsvm_agresores_datatable(
 ):
     """Listado de agresores para DataTable"""
     draw = request.query_params.get("draw")
-    if not draw.isdigit() or int(draw) < 1:
+    if draw is None or not draw.isdigit() or int(draw) < 1:
         return datatable_page_success_false("Invalid request")
     try:
         resultados = get_repsvm_agresores(

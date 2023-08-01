@@ -33,7 +33,7 @@ async def listado_audiencias_datatable(
 ):
     """Listado de audiencias para DataTable"""
     draw = request.query_params.get("draw")
-    if not draw.isdigit() or int(draw) < 1:
+    if draw is None or not draw.isdigit() or int(draw) < 1:
         return datatable_page_success_false("Invalid request")
     try:
         resultados = get_audiencias(
