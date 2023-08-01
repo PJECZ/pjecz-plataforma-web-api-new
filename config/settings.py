@@ -16,6 +16,7 @@ con las siguientes variables:
 - DB_PASS
 - FERNET_KEY
 - ORIGINS
+- USERDEV
 - USERNAME
 
 Para producción vaya a Google Secret Manager en
@@ -29,6 +30,7 @@ y cree como secretos las siguientes variable de entorno
 - pjecz_plataforma_web_api_db_user
 - pjecz_plataforma_web_api_fernet_key
 - pjecz_plataforma_web_api_origins
+- pjecz_plataforma_web_api_userdev
 - pjecz_plataforma_web_api_username
 
 Y en el archivo app.yaml agregue las siguientes variables de entorno
@@ -81,6 +83,7 @@ class Settings(BaseSettings):
     origins: str = get_secret("origins")
     tz: str = "America/Mexico_City"
     username: str = get_secret("username")
+    userdev: str = get_secret("userdev")
 
     class Config:
         """Load configuration"""

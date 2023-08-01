@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
@@ -20,7 +20,7 @@ peritos_tipos = APIRouter(prefix="/v3/peritos_tipos", tags=["peritos"])
 @peritos_tipos.get("", response_model=CustomList[PeritoTipoOut])
 async def listado_peritos_tipos(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
 ):
     """Listado de tipos de peritos"""
     try:
@@ -33,7 +33,7 @@ async def listado_peritos_tipos(
 @peritos_tipos.get("/{perito_tipo_id}", response_model=OnePeritoTipoOut)
 async def detalle_perito_tipo(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     perito_tipo_id: int,
 ):
     """Detalle de un tipo de perito a partir de su id"""

@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -22,7 +22,7 @@ abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 async def listado_abogados_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     nombre: str = None,
     anio_desde: int = None,
     anio_hasta: int = None,
@@ -46,7 +46,7 @@ async def listado_abogados_datatable(
 @abogados.get("/paginado", response_model=CustomPage[AbogadoOut])
 async def listado_abogados(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     nombre: str = None,
     anio_desde: int = None,
     anio_hasta: int = None,
@@ -67,7 +67,7 @@ async def listado_abogados(
 @abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
 async def detalle_abogado(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     abogado_id: int,
 ):
     """Detalle de un abogado a partir de su id"""

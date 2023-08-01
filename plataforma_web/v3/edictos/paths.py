@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.security import OAuth2PasswordBearer
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -26,7 +26,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 async def listado_edictos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -62,7 +62,7 @@ async def listado_edictos_datatable(
 @edictos.get("/paginado", response_model=CustomPage[EdictoOut])
 async def listado_edictos(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -95,7 +95,7 @@ async def listado_edictos(
 @edictos.get("/{edicto_id}", response_model=OneEdictoOut)
 async def detalle_edicto(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     edicto_id: int,
 ):
     """Detalle de un edicto a partir de su id"""
