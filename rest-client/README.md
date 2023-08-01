@@ -6,4 +6,5 @@ Instale la extension REST Client
 
 Cree un archivo `.env` en este directorio con las variables de entorno...
 
+    API_KEY="XXXXXXXXXXXX"
     HOST=http://127.0.0.1:8001

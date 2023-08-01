@@ -88,4 +88,4 @@ async def detalle_audiencia(
         audiencia = get_audiencia(database=database, audiencia_id=audiencia_id)
     except MyAnyError as error:
         return OneAudienciaOut(success=False, error=error)
-    return OneAudienciaOut.model_validate(audiencia)
+    return OneAudienciaOut.from_orm(audiencia)

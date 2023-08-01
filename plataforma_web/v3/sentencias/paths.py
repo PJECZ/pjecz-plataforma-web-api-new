@@ -108,4 +108,4 @@ async def detalle_sentencia(
         sentencia = get_sentencia(database=database, sentencia_id=sentencia_id)
     except MyAnyError as error:
         return OneSentenciaOut(success=False, error=error)
-    return OneSentenciaOut.model_validate(sentencia)
+    return OneSentenciaOut.from_orm(sentencia)

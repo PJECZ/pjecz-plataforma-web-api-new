@@ -134,7 +134,7 @@
       "\t\t${2:singular} = get_${2:singular}(database=database, ${2:singular}_id=${2:singular}_id)",
       "\texcept MyAnyError as error:",
       "\t\treturn ${3:OneEsquemaOut}(success=False, error=error)",
-      "\treturn ${3:OneEsquemaOut}.model_validate(${2:singular})",
+      "\treturn ${3:OneEsquemaOut}.from_orm(${2:singular})",
       "",
       ""
     ],

@@ -1,3 +1,4 @@
+@api_key = {{$dotenv API_KEY}}
 @root = {{$dotenv HOST}}
 @baseUrl = {{root}}/v3
 
