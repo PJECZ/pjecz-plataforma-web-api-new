@@ -87,4 +87,4 @@ async def detalle_redam(
         resultado = get_redam(database=database, redam_id=redam_id)
     except MyAnyError as error:
         return OneRedamOut(success=False, error=error)
-    return OneRedamOut.model_validate(resultado)
+    return OneRedamOut.from_orm(resultado)

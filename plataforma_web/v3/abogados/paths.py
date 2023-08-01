@@ -75,4 +75,4 @@ async def detalle_abogado(
         abogado = get_abogado(database=database, abogado_id=abogado_id)
     except MyAnyError as error:
         return OneAbogadoOut(success=False, error=error)
-    return OneAbogadoOut.model_validate(abogado)
+    return OneAbogadoOut.from_orm(abogado)

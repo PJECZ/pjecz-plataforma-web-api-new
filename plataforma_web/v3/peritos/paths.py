@@ -79,4 +79,4 @@ async def detalle_perito(
         perito = get_perito(database=database, perito_id=perito_id)
     except MyAnyError as error:
         return OnePeritoOut(success=False, error=error)
-    return OnePeritoOut.model_validate(perito)
+    return OnePeritoOut.from_orm(perito)

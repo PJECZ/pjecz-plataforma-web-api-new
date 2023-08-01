@@ -96,4 +96,4 @@ async def detalle_glosa(
         glosa = get_glosa(database=database, glosa_id=glosa_id)
     except MyAnyError as error:
         return OneGlosaOut(success=False, error=error)
-    return OneGlosaOut.model_validate(glosa)
+    return OneGlosaOut.from_orm(glosa)

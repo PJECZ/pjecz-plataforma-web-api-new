@@ -96,4 +96,4 @@ async def detalle_lista_de_acuerdo(
         lista_de_acuerdo = get_lista_de_acuerdo(database=database, lista_de_acuerdo_id=lista_de_acuerdo_id)
     except MyAnyError as error:
         return OneListaDeAcuerdoOut(success=False, error=error)
-    return OneListaDeAcuerdoOut.model_validate(lista_de_acuerdo)
+    return OneListaDeAcuerdoOut.from_orm(lista_de_acuerdo)

@@ -103,4 +103,4 @@ async def detalle_edicto(
         edicto = get_edicto(database=database, edicto_id=edicto_id)
     except MyAnyError as error:
         return OneEdictoOut(success=False, error=error)
-    return OneEdictoOut.model_validate(edicto)
+    return OneEdictoOut.from_orm(edicto)
