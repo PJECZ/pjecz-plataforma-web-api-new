@@ -34,7 +34,7 @@ async def listado_glosas_datatable(
 ):
     """Listado de glosas para DataTable"""
     draw = request.query_params.get("draw")
-    if not draw.isdigit() or int(draw) < 1:
+    if draw is None or not draw.isdigit() or int(draw) < 1:
         return datatable_page_success_false("Invalid request")
     try:
         resultados = get_glosas(
