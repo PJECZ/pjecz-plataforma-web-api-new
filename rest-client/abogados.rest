@@ -6,56 +6,75 @@
 GET {{root}}
 
 ### Abogados
-GET {{baseUrl}}/abogados
+GET {{baseUrl}}/abogados/paginado
+X-Api-Key: {{api_key}}
 
-### Abogados
+### Abogados datatable
 GET {{baseUrl}}/abogados/datatable
+    ?draw=1
+X-Api-Key: {{api_key}}
 
 ### Abogados con nombre Garza
-GET {{baseUrl}}/abogados
+GET {{baseUrl}}/abogados/paginado
     ?nombre=Garza
+X-Api-Key: {{api_key}}
 
 ### Abogados con nombre Garza
 GET {{baseUrl}}/abogados/datatable
-    ?nombre=Garza
+    ?draw=1
+    &nombre=Garza
+X-Api-Key: {{api_key}}
 
 ### Abogados con nombre EsteNombreNoExiste
-GET {{baseUrl}}/abogados
+GET {{baseUrl}}/abogados/paginado
     ?nombre=EsteNombreNoExiste
+X-Api-Key: {{api_key}}
 
 ### Abogados con nombre EsteNombreNoExiste
 GET {{baseUrl}}/abogados/datatable
-    ?nombre=EsteNombreNoExiste
+    ?draw=1
+    &nombre=EsteNombreNoExiste
+X-Api-Key: {{api_key}}
 
 ### Abogados con nombre Garza registrados desde 2020
-GET {{baseUrl}}/abogados
+GET {{baseUrl}}/abogados/paginado
     ?nombre=Garza
     &anio_desde=2020
+X-Api-Key: {{api_key}}
 
 ### Abogados con nombre Garza registrados desde 2020
 GET {{baseUrl}}/abogados/datatable
-    ?nombre=Garza
+    ?draw=1
+    &nombre=Garza
     &anio_desde=2020
+X-Api-Key: {{api_key}}
 
 ### Abogados registrados entre 2020 y 2021
-GET {{baseUrl}}/abogados
+GET {{baseUrl}}/abogados/paginado
     ?anio_desde=2020
     &anio_hasta=2021
+X-Api-Key: {{api_key}}
 
 ### Abogados registrados entre 2020 y 2021
 GET {{baseUrl}}/abogados/datatable
-    ?anio_desde=2020
+    ?draw=1
+    &anio_desde=2020
     &anio_hasta=2021
+X-Api-Key: {{api_key}}
 
 ### Abogados registrados entre 1800 y 1899
-GET {{baseUrl}}/abogados
+GET {{baseUrl}}/abogados/paginado
     ?anio_desde=1800
     &anio_hasta=1899
+X-Api-Key: {{api_key}}
 
 ### Abogados registrados entre 1800 y 1899
 GET {{baseUrl}}/abogados/datatable
-    ?anio_desde=1800
+    ?draw=1
+    &anio_desde=1800
     &anio_hasta=1899
+X-Api-Key: {{api_key}}
 
 ### Abogado con id 12922
 GET {{baseUrl}}/abogados/12922
+X-Api-Key: {{api_key}}

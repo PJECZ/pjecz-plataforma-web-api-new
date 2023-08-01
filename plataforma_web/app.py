@@ -73,7 +73,7 @@ def create_app() -> FastAPI:
     @app.get("/")
     async def root():
         """Mensaje de Bienvenida"""
-        return {"message": "Bienvenido a PJECZ Plataforma Web API. Esta API proporciona información pública para consulta en el sitio web."}
+        return {"message": "Esta API proporciona información pública para consultar en el sitio web pjecz.gob.mx."}
 
     # Entregar
     return app

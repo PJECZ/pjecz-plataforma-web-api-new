@@ -6,35 +6,43 @@
 GET {{root}}
 
 ### Edictos
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
+X-Api-Key: {{api_key}}
 
 ### Edictos de la autoridad 37
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
     ?autoridad_id=37
+X-Api-Key: {{api_key}}
 
 ### Edictos del SLT-J2-CIV
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
     ?autoridad_clave=SLT-J2-CIV
+X-Api-Key: {{api_key}}
 
 ### Edictos del SLT-J2-CIV del 2021
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
     ?autoridad_clave=SLT-J2-CIV
     &anio=2021
+X-Api-Key: {{api_key}}
 
 ### Edictos del SLT-J2-CIV del 2021-04-26
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
     ?autoridad_clave=SLT-J2-CIV
     &fecha=2021-04-26
+X-Api-Key: {{api_key}}
 
 ### Edictos del distrito DMNC
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
     ?distrito_clave=DMNC
+X-Api-Key: {{api_key}}
 
 ### Edictos del distrito DMNC del 2022-03-01 al 2022-03-31
-GET {{baseUrl}}/edictos
+GET {{baseUrl}}/edictos/paginado
     ?distrito_clave=DMNC
     &fecha_desde=2022-03-01
     &fecha_hasta=2022-03-31
+X-Api-Key: {{api_key}}
 
 ### Edicto con id 49367
 GET {{baseUrl}}/edictos/49367
+X-Api-Key: {{api_key}}

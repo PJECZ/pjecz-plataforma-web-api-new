@@ -6,19 +6,24 @@
 GET {{root}}
 
 ### REPSVM Agresores
-GET {{baseUrl}}/repsvm_agresores
+GET {{baseUrl}}/repsvm_agresores/paginado
+X-Api-Key: {{api_key}}
 
 ### REPSVM Agresores con nombre Luis
-GET {{baseUrl}}/repsvm_agresores
+GET {{baseUrl}}/repsvm_agresores/paginado
     ?nombre=Luis
+X-Api-Key: {{api_key}}
 
 ### REPSVM Agresores con un nombre que no existe
-GET {{baseUrl}}/repsvm_agresores
+GET {{baseUrl}}/repsvm_agresores/paginado
     ?nombre=EsteNombreNOExiste
+X-Api-Key: {{api_key}}
 
 ### REPSVM Agresores del distrito DRGR
-GET {{baseUrl}}/repsvm_agresores
+GET {{baseUrl}}/repsvm_agresores/paginado
     ?distrito_clave=DRGR
+X-Api-Key: {{api_key}}
 
 ### REPSVM Agresor con id 955
 GET {{baseUrl}}/repsvm_agresores/955
+X-Api-Key: {{api_key}}
