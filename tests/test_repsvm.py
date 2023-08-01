@@ -11,10 +11,12 @@ from tests.load_env import config
 class TestREPSVM(unittest.TestCase):
     """Tests for repsvm category"""
 
+    url = f"{config['host']}/v3/repsvm_agresores/paginado"
+
     def test_get_repsvm(self):
         """Test GET method for repsvm_agresores"""
         response = requests.get(
-            f"{config['host']}/v3/repsvm_agresores",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             timeout=config["timeout"],
         )
@@ -23,7 +25,7 @@ class TestREPSVM(unittest.TestCase):
     def test_get_repsvm_by_distrito_id_6(self):
         """Test GET method for repsvm_agresores by distrito_id 6"""
         response = requests.get(
-            f"{config['host']}/v3/repsvm_agresores",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"distrito_id": 6},
             timeout=config["timeout"],
@@ -38,7 +40,7 @@ class TestREPSVM(unittest.TestCase):
     def test_get_repsvm_by_distrito_id_6_by_nombre(self):
         """Test GET method for repsvm_agresores by distrito_id 6 by nombre PEDRO"""
         response = requests.get(
-            f"{config['host']}/v3/repsvm_agresores",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"distrito_id": 6, "nombre": "PEDRO"},
             timeout=config["timeout"],
@@ -54,7 +56,7 @@ class TestREPSVM(unittest.TestCase):
     def test_get_repsvm_by_distrito_clave_dtrc(self):
         """Test GET method for repsvm_agresores by distrito_clave DTRC"""
         response = requests.get(
-            f"{config['host']}/v3/repsvm_agresores",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"distrito_clave": "DTRC"},
             timeout=config["timeout"],
@@ -69,7 +71,7 @@ class TestREPSVM(unittest.TestCase):
     def test_get_repsvm_by_distrito_clave_dtrc_by_nombre(self):
         """Test GET method for repsvm_agresores by distrito_clave DTRC by nombre PEDRO"""
         response = requests.get(
-            f"{config['host']}/v3/repsvm_agresores",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"distrito_clave": "DTRC", "nombre": "PEDRO"},
             timeout=config["timeout"],

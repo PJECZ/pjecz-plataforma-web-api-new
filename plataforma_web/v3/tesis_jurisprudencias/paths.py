@@ -3,7 +3,7 @@ Tesis Jurisprudencias v3, rutas (paths)
 """
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
@@ -18,7 +18,40 @@ from .schemas import OneTesisJurisprudenciaOut, TesisJurisprudenciaOut
 tesis_jurisprudencias = APIRouter(prefix="/v3/tesis_jurisprudencias", tags=["tesis jurisprudencias"])
 
 
-@tesis_jurisprudencias.get("", response_model=CustomPage[TesisJurisprudenciaOut])
+@tesis_jurisprudencias.get("/datatable", response_model=DataTablePage[TesisJurisprudenciaOut])
+async def listado_tesis_jurisprudencias_datatable(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_user)],
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    epoca_id: int = None,
+    materia_id: int = None,
+    materia_clave: str = None,
+):
+    """Listado de tesis jurisprudencias para DataTable"""
+    draw = request.query_params.get("draw")
+    if not draw.isdigit() or int(draw) < 1:
+        return datatable_page_success_false("Invalid request")
+    try:
+        resultados = get_tesis_jurisprudencias(
+            database=database,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            epoca_id=epoca_id,
+            materia_id=materia_id,
+            materia_clave=materia_clave,
+        )
+    except MyAnyError as error:
+        return datatable_page_success_false(error)
+    return paginate(resultados)
+
+
+@tesis_jurisprudencias.get("/paginado", response_model=CustomPage[TesisJurisprudenciaOut])
 async def listado_tesis_jurisprudencias(
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
@@ -44,35 +77,6 @@ async def listado_tesis_jurisprudencias(
         )
     except MyAnyError as error:
         return custom_page_success_false(error)
-    return paginate(resultados)
-
-
-@tesis_jurisprudencias.get("/datatable", response_model=DataTablePage[TesisJurisprudenciaOut])
-async def listado_tesis_jurisprudencias_datatable(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
-    autoridad_id: int = None,
-    autoridad_clave: str = None,
-    distrito_id: int = None,
-    distrito_clave: str = None,
-    epoca_id: int = None,
-    materia_id: int = None,
-    materia_clave: str = None,
-):
-    """Listado de tesis jurisprudencias para DataTable"""
-    try:
-        resultados = get_tesis_jurisprudencias(
-            database=database,
-            autoridad_id=autoridad_id,
-            autoridad_clave=autoridad_clave,
-            distrito_id=distrito_id,
-            distrito_clave=distrito_clave,
-            epoca_id=epoca_id,
-            materia_id=materia_id,
-            materia_clave=materia_clave,
-        )
-    except MyAnyError as error:
-        return datatable_page_success_false(error)
     return paginate(resultados)
 
 

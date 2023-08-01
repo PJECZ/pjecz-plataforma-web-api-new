@@ -11,10 +11,12 @@ from tests.load_env import config
 class TestAbogados(unittest.TestCase):
     """Tests for abogados category"""
 
+    url = f"{config['host']}/v3/abogados/paginado"
+
     def test_get_abogados(self):
         """Test GET method for abogados"""
         response = requests.get(
-            f"{config['host']}/v3/abogados",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             timeout=config["timeout"],
         )
@@ -23,7 +25,7 @@ class TestAbogados(unittest.TestCase):
     def test_get_abogados_by_nombre(self):
         """Test GET method for abogados by nombre GARZA"""
         response = requests.get(
-            f"{config['host']}/v3/abogados",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"nombre": "GARZA"},
             timeout=config["timeout"],
@@ -38,7 +40,7 @@ class TestAbogados(unittest.TestCase):
     def test_get_abogados_by_nombre_by_anio(self):
         """Test GET method for abogados by nombre GARZA anio_desde 2020 anio_hasta 2021"""
         response = requests.get(
-            f"{config['host']}/v3/abogados",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"nombre": "GARZA", "anio_desde": 2020, "anio_hasta": 2021},
             timeout=config["timeout"],
