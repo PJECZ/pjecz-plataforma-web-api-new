@@ -7,7 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -23,7 +23,7 @@ glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 async def listado_glosas_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     expediente: str = None,
@@ -55,7 +55,7 @@ async def listado_glosas_datatable(
 @glosas.get("/paginado", response_model=CustomPage[GlosaOut])
 async def listado_glosas(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -88,7 +88,7 @@ async def listado_glosas(
 @glosas.get("/{glosa_id}", response_model=OneGlosaOut)
 async def detalle_glosa(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     glosa_id: int,
 ):
     """Detalle de un glosa a partir de su id"""

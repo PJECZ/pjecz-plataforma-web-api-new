@@ -33,7 +33,7 @@ class Usuario(BaseModel):
     email: str
 
 
-async def get_current_user(settings: CurrentSettings, api_key: str = Depends(X_API_KEY)) -> Usuario:
+async def get_current_username(settings: CurrentSettings, api_key: str = Depends(X_API_KEY)) -> Usuario:
     """Obtener usuario actual"""
 
     # Desencriptar api_key para obtener email
@@ -45,7 +45,26 @@ async def get_current_user(settings: CurrentSettings, api_key: str = Depends(X_A
     # Validar email
     if not re.match(EMAIL_REGEXP, email):
         raise HTTPException(status_code=403, detail="API Key inválida porque el email no es válido")
-    if email != settings.username:
+    if email != settings.username and email != settings.userdev:
+        raise HTTPException(status_code=403, detail="API Key no autorizada")
+
+    # Entregar
+    return Usuario(api_key=api_key, email=email)
+
+
+async def get_current_userdev(settings: CurrentSettings, api_key: str = Depends(X_API_KEY)) -> Usuario:
+    """Obtener usuario actual"""
+
+    # Desencriptar api_key para obtener email
+    try:
+        email = decrypt_email(settings, api_key)
+    except Exception as error:
+        raise HTTPException(status_code=403, detail="API Key inválida")
+
+    # Validar email
+    if not re.match(EMAIL_REGEXP, email):
+        raise HTTPException(status_code=403, detail="API Key inválida porque el email no es válido")
+    if email != settings.userdev:
         raise HTTPException(status_code=403, detail="API Key no autorizada")
 
     # Entregar

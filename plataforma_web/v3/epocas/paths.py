@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
@@ -20,7 +20,7 @@ epocas = APIRouter(prefix="/v3/epocas", tags=["tesis jurisprudencias"])
 @epocas.get("", response_model=CustomList[EpocaOut])
 async def listado_epocas(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
 ):
     """Listado de epocas"""
     try:
@@ -33,7 +33,7 @@ async def listado_epocas(
 @epocas.get("/{epoca_id}", response_model=OneEpocaOut)
 async def detalle_epoca(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     epoca_id: int,
 ):
     """Detalle de una epoca a partir de su id"""

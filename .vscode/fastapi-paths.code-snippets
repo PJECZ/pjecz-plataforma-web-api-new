@@ -126,7 +126,7 @@
       "@${1:plural}.get(\"/{${2:singular}_id}\", response_model=${3:OneEsquemaOut})",
       "async def detalle_${2:singular}(",
       "\tdatabase: Annotated[Session, Depends(get_db)],",
-      "\tcurrent_user: Annotated[Usuario, Depends(get_current_user)],",
+      "\tcurrent_user: Annotated[Usuario, Depends(get_current_username)],",
       "\t${2:singular}_id: int,",
       "):",
       "\t\"\"\"Detalle de un ${2:singular} a partir de su id\"\"\"",

@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
@@ -20,7 +20,7 @@ autoridades = APIRouter(prefix="/v3/autoridades", tags=["autoridades"])
 @autoridades.get("", response_model=CustomList[AutoridadOut])
 async def listado_autoridades(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     distrito_id: int = None,
     distrito_clave: str = None,
     es_cemasc: bool = None,
@@ -53,7 +53,7 @@ async def listado_autoridades(
 @autoridades.get("/{autoridad_clave}", response_model=OneAutoridadOut)
 async def detalle_autoridad(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     autoridad_clave: str,
 ):
     """Detalle de una autoridad a partir de su clave"""

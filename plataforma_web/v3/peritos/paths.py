@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -22,7 +22,7 @@ peritos = APIRouter(prefix="/v3/peritos", tags=["peritos"])
 async def listado_peritos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
@@ -48,7 +48,7 @@ async def listado_peritos_datatable(
 @peritos.get("/paginado", response_model=CustomPage[PeritoOut])
 async def listado_peritos(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     distrito_id: int = None,
     distrito_clave: str = None,
     nombre: str = None,
@@ -71,7 +71,7 @@ async def listado_peritos(
 @peritos.get("/{perito_id}", response_model=OnePeritoOut)
 async def detalle_perito(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     perito_id: int,
 ):
     """Detalle de un perito a partir de su id"""

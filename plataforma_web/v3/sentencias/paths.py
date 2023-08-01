@@ -7,7 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -23,7 +23,7 @@ sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 async def listado_sentencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -63,7 +63,7 @@ async def listado_sentencias_datatable(
 @sentencias.get("/paginado", response_model=CustomPage[SentenciaOut])
 async def listado_sentencias(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -100,7 +100,7 @@ async def listado_sentencias(
 @sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
 async def detalle_sentencia(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     sentencia_id: int,
 ):
     """Detalle de un sentencia a partir de su id"""

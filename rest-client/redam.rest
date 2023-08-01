@@ -6,27 +6,34 @@
 GET {{root}}
 
 ### REDAM
-GET {{baseUrl}}/redam
+GET {{baseUrl}}/redam/paginado
+X-Api-Key: {{api_key}}
 
 ### REDAM con nombre Luis
-GET {{baseUrl}}/redam
+GET {{baseUrl}}/redam/paginado
     ?nombre=Luis
+X-Api-Key: {{api_key}}
 
 ### REDAM con un nombre que no existe
-GET {{baseUrl}}/redam
+GET {{baseUrl}}/redam/paginado
     ?nombre=EsteNombreNOExiste
+X-Api-Key: {{api_key}}
 
 ### REDAM con expediente 1195/2018
-GET {{baseUrl}}/redam
+GET {{baseUrl}}/redam/paginado
     ?expediente=1195/2018
+X-Api-Key: {{api_key}}
 
 ### REDAM del TRC-J2-FAM
-GET {{baseUrl}}/redam
+GET {{baseUrl}}/redam/paginado
     ?autoridad_clave=TRC-J2-FAM
+X-Api-Key: {{api_key}}
 
 ### REDAM del distrito DTRC
-GET {{baseUrl}}/redam
+GET {{baseUrl}}/redam/paginado
     ?distrito_clave=DTRC
+X-Api-Key: {{api_key}}
 
 ### REDAM con id 13
 GET {{baseUrl}}/redam/13
+X-Api-Key: {{api_key}}

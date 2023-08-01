@@ -7,7 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -23,7 +23,7 @@ listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de
 async def listado_listas_de_acuerdos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
@@ -57,7 +57,7 @@ async def listado_listas_de_acuerdos_datatable(
 @listas_de_acuerdos.get("/paginado", response_model=CustomPage[ListaDeAcuerdoOut])
 async def listado_listas_de_acuerdos(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -88,7 +88,7 @@ async def listado_listas_de_acuerdos(
 @listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
 async def detalle_lista_de_acuerdo(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     lista_de_acuerdo_id: int,
 ):
     """Detalle de un lista_de_acuerdo a partir de su id"""

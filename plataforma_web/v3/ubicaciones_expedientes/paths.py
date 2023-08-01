@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -22,7 +22,7 @@ ubicaciones_expedientes = APIRouter(prefix="/v3/ubicaciones_expedientes", tags=[
 async def listado_ubicaciones_expedientes_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     expediente: str = None,
@@ -46,7 +46,7 @@ async def listado_ubicaciones_expedientes_datatable(
 @ubicaciones_expedientes.get("/paginado", response_model=CustomPage[UbicacionExpedienteOut])
 async def listado_ubicaciones_expedientes(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     expediente: str = None,
@@ -67,7 +67,7 @@ async def listado_ubicaciones_expedientes(
 @ubicaciones_expedientes.get("/{ubicacion_expediente_id}", response_model=OneUbicacionExpedienteOut)
 async def detalle_ubicacion_expediente(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     ubicacion_expediente_id: int,
 ):
     """Detalle de un ubicacion_expediente a partir de su id"""

@@ -7,7 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
-from lib.authentications import Usuario, get_current_user
+from lib.authentications import Usuario, get_current_userdev, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
@@ -23,7 +23,7 @@ audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 async def listado_audiencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -53,7 +53,7 @@ async def listado_audiencias_datatable(
 @audiencias.get("/paginado", response_model=CustomPage[AudienciaOut])
 async def listado_audiencias(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -80,7 +80,7 @@ async def listado_audiencias(
 @audiencias.get("/{audiencia_id}", response_model=OneAudienciaOut)
 async def detalle_audiencia(
     database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_user)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
     audiencia_id: int,
 ):
     """Detalle de un audiencia a partir de su id"""
