@@ -3,7 +3,7 @@ REVSPM Agresores v3, rutas (paths)
 """
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 from lib.authentications import Usuario, get_current_user
@@ -12,13 +12,38 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
-from .crud import get_repsvm_agresores
-from .schemas import RepsvmAgresorOut
+from .crud import get_repsvm_agresor, get_repsvm_agresores
+from .schemas import OneRepsvmAgresorOut, RepsvmAgresorOut
 
 repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agresores"])
 
 
-@repsvm_agresores.get("", response_model=CustomPage[RepsvmAgresorOut])
+@repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
+async def listado_repsvm_agresores_datatable(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_user)],
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    nombre: str = None,
+):
+    """Listado de agresores para DataTable"""
+    draw = request.query_params.get("draw")
+    if not draw.isdigit() or int(draw) < 1:
+        return datatable_page_success_false("Invalid request")
+    try:
+        resultados = get_repsvm_agresores(
+            database=database,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            nombre=nombre,
+        )
+    except MyAnyError as error:
+        return datatable_page_success_false(error)
+    return paginate(resultados)
+
+
+@repsvm_agresores.get("/paginado", response_model=CustomPage[RepsvmAgresorOut])
 async def listado_repsvm_agresores(
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
@@ -39,22 +64,15 @@ async def listado_repsvm_agresores(
     return paginate(resultados)
 
 
-@repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
-async def listado_repsvm_agresores_datatable(
+@repsvm_agresores.get("/{repsvm_agresor_id}", response_model=OneRepsvmAgresorOut)
+async def detalle_repsvm_agresor(
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_user)],
-    distrito_id: int = None,
-    distrito_clave: str = None,
-    nombre: str = None,
+    repsvm_agresor_id: int,
 ):
-    """Listado de agresores para DataTable"""
+    """Detalle de un repsvm_agresor a partir de su id"""
     try:
-        resultados = get_repsvm_agresores(
-            database=database,
-            distrito_id=distrito_id,
-            distrito_clave=distrito_clave,
-            nombre=nombre,
-        )
+        repsvm_agresor = get_repsvm_agresor(database=database, repsvm_agresor_id=repsvm_agresor_id)
     except MyAnyError as error:
-        return datatable_page_success_false(error)
-    return paginate(resultados)
+        return OneRepsvmAgresorOut(success=False, error=error)
+    return OneRepsvmAgresorOut.model_validate(repsvm_agresor)

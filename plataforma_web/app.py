@@ -33,7 +33,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="PJECZ Plataforma Web API",
         description="Bienvenido a PJECZ Plataforma Web API. Esta API proporciona información pública para consulta en el sitio web.",
-        docs_url=None,
+        docs_url="/docs",
         redoc_url=None,
     )
 

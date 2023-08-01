@@ -118,5 +118,26 @@
       ""
     ],
     "description": "Contenido para paths.py con id"
+  },
+  "FastAPI paths detalle id": {
+    "scope": "python",
+    "prefix": "fpathsdetalleid",
+    "body": [
+      "@${1:plural}.get(\"/{${2:singular}_id}\", response_model=${3:OneEsquemaOut})",
+      "async def detalle_${2:singular}(",
+      "\tdatabase: Annotated[Session, Depends(get_db)],",
+      "\tcurrent_user: Annotated[Usuario, Depends(get_current_user)],",
+      "\t${2:singular}_id: int,",
+      "):",
+      "\t\"\"\"Detalle de un ${2:singular} a partir de su id\"\"\"",
+      "\ttry:",
+      "\t\t${2:singular} = get_${2:singular}(database=database, ${2:singular}_id=${2:singular}_id)",
+      "\texcept MyAnyError as error:",
+      "\t\treturn ${3:OneEsquemaOut}(success=False, error=error)",
+      "\treturn ${3:OneEsquemaOut}.model_validate(${2:singular})",
+      "",
+      ""
+    ],
+    "description": "Detalle de un registro a partir de su id"
   }
 }

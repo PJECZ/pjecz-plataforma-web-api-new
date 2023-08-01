@@ -11,10 +11,12 @@ from tests.load_env import config
 class TestAudiencias(unittest.TestCase):
     """Tests for audiencias category"""
 
+    url = f"{config['host']}/v3/audiencias/paginado"
+
     def test_get_audiencias(self):
         """Test GET method for audiencias"""
         response = requests.get(
-            f"{config['host']}/v3/audiencias",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             timeout=config["timeout"],
         )
@@ -23,7 +25,7 @@ class TestAudiencias(unittest.TestCase):
     def test_get_audiencias_by_autoridad_id_35(self):
         """Test GET method for audiencias by autoridad_id 35"""
         response = requests.get(
-            f"{config['host']}/v3/audiencias",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"autoridad_id": 35},
             timeout=config["timeout"],
@@ -38,7 +40,7 @@ class TestAudiencias(unittest.TestCase):
     def test_get_audiencias_by_autoridad_id_35_by_fecha(self):
         """Test GET method for audiencias by autoridad_id 35 and fecha 2023-05-11"""
         response = requests.get(
-            f"{config['host']}/v3/audiencias",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"autoridad_id": 35, "fecha": "2023-05-11"},
             timeout=config["timeout"],
@@ -54,7 +56,7 @@ class TestAudiencias(unittest.TestCase):
     def test_get_audiencias_by_autoridad_clave_35(self):
         """Test GET method for audiencias by autoridad_id 35"""
         response = requests.get(
-            f"{config['host']}/v3/audiencias",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"autoridad_clave": "SLT-J1-FAM"},
             timeout=config["timeout"],
@@ -69,7 +71,7 @@ class TestAudiencias(unittest.TestCase):
     def test_get_audiencias_by_autoridad_clave_35_by_fecha(self):
         """Test GET method for audiencias by autoridad_id 35 and fecha 2023-05-11"""
         response = requests.get(
-            f"{config['host']}/v3/audiencias",
+            url=self.url,
             headers={"X-Api-Key": config["api_key"]},
             params={"autoridad_clave": "SLT-J1-FAM", "fecha": "2023-05-11"},
             timeout=config["timeout"],
