@@ -85,8 +85,8 @@ class Settings(BaseSettings):
     origins: str = get_secret("origins")
     redis: str = get_secret("redis")
     tz: str = "America/Mexico_City"
-    username: str = get_secret("username")
     userdev: str = get_secret("userdev")
+    username: str = get_secret("username")
 
     class Config:
         """Load configuration"""

@@ -4,9 +4,8 @@ PJECZ Plataforma Web API
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
-from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from slowapi.util import get_remote_address
 
 from lib.limiter import limiter, settings
 
@@ -35,7 +34,7 @@ def create_app() -> FastAPI:
     # FastAPI
     app = FastAPI(
         title="PJECZ Plataforma Web API",
-        description="Bienvenido a PJECZ Plataforma Web API. Esta API proporciona información pública para consulta en el sitio web.",
+        description="API que brinda información pública solo al sitio web pjecz.gob.mx.",
         docs_url=None,
         redoc_url=None,
     )
@@ -79,7 +78,7 @@ def create_app() -> FastAPI:
     @app.get("/")
     async def root():
         """Mensaje de Bienvenida"""
-        return {"message": "Esta API proporciona información pública para consultar en el sitio web pjecz.gob.mx."}
+        return {"message": "API que brinda información pública solo al sitio web pjecz.gob.mx."}
 
     # Entregar
     return app
