@@ -12,6 +12,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_lista_de_acuerdo, get_listas_de_acuerdos
 from .schemas import ListaDeAcuerdoOut, OneListaDeAcuerdoOut
@@ -20,6 +21,7 @@ listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de
 
 
 @listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
+@limiter.limit("20/minute")
 async def listado_listas_de_acuerdos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -55,7 +57,9 @@ async def listado_listas_de_acuerdos_datatable(
 
 
 @listas_de_acuerdos.get("/paginado", response_model=CustomPage[ListaDeAcuerdoOut])
+@limiter.limit("20/minute")
 async def listado_listas_de_acuerdos(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
@@ -86,7 +90,9 @@ async def listado_listas_de_acuerdos(
 
 
 @listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
+@limiter.limit("20/minute")
 async def detalle_lista_de_acuerdo(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     lista_de_acuerdo_id: int,

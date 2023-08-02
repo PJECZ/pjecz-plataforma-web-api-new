@@ -12,6 +12,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_sentencia, get_sentencias
 from .schemas import OneSentenciaOut, SentenciaOut
@@ -20,6 +21,7 @@ sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
 
 @sentencias.get("/datatable", response_model=DataTablePage[SentenciaOut])
+@limiter.limit("20/minute")
 async def listado_sentencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -61,7 +63,9 @@ async def listado_sentencias_datatable(
 
 
 @sentencias.get("/paginado", response_model=CustomPage[SentenciaOut])
+@limiter.limit("20/minute")
 async def listado_sentencias(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     anio: int = None,
@@ -98,7 +102,9 @@ async def listado_sentencias(
 
 
 @sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
+@limiter.limit("20/minute")
 async def detalle_sentencia(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     sentencia_id: int,

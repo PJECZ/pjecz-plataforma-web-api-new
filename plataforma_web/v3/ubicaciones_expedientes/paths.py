@@ -11,6 +11,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_ubicacion_expediente, get_ubicaciones_expedientes
 from .schemas import OneUbicacionExpedienteOut, UbicacionExpedienteOut
@@ -19,6 +20,7 @@ ubicaciones_expedientes = APIRouter(prefix="/v3/ubicaciones_expedientes", tags=[
 
 
 @ubicaciones_expedientes.get("/datatable", response_model=DataTablePage[UbicacionExpedienteOut])
+@limiter.limit("20/minute")
 async def listado_ubicaciones_expedientes_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -44,7 +46,9 @@ async def listado_ubicaciones_expedientes_datatable(
 
 
 @ubicaciones_expedientes.get("/paginado", response_model=CustomPage[UbicacionExpedienteOut])
+@limiter.limit("20/minute")
 async def listado_ubicaciones_expedientes(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
@@ -65,7 +69,9 @@ async def listado_ubicaciones_expedientes(
 
 
 @ubicaciones_expedientes.get("/{ubicacion_expediente_id}", response_model=OneUbicacionExpedienteOut)
+@limiter.limit("20/minute")
 async def detalle_ubicacion_expediente(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     ubicacion_expediente_id: int,

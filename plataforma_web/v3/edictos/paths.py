@@ -13,6 +13,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_edicto, get_edictos
 from .schemas import EdictoOut, OneEdictoOut
@@ -23,6 +24,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @edictos.get("/datatable", response_model=DataTablePage[EdictoOut])
+@limiter.limit("20/minute")
 async def listado_edictos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -60,7 +62,9 @@ async def listado_edictos_datatable(
 
 
 @edictos.get("/paginado", response_model=CustomPage[EdictoOut])
+@limiter.limit("20/minute")
 async def listado_edictos(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     anio: int = None,
@@ -93,7 +97,9 @@ async def listado_edictos(
 
 
 @edictos.get("/{edicto_id}", response_model=OneEdictoOut)
+@limiter.limit("20/minute")
 async def detalle_edicto(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     edicto_id: int,

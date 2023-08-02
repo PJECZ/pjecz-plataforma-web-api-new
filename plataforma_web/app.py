@@ -4,8 +4,11 @@ PJECZ Plataforma Web API
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
-from config.settings import get_settings
+from lib.limiter import limiter, settings
 
 from .v3.abogados.paths import abogados
 from .v3.audiencias.paths import audiencias
@@ -38,7 +41,6 @@ def create_app() -> FastAPI:
     )
 
     # CORSMiddleware
-    settings = get_settings()
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.origins.split(","),
@@ -66,8 +68,12 @@ def create_app() -> FastAPI:
     app.include_router(tesis_jurisprudencias)
     app.include_router(ubicaciones_expedientes)
 
-    # Paginación
+    # Paginar
     add_pagination(app)
+
+    # Limitar peticiones
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
     # Mensaje de Bienvenida
     @app.get("/")
