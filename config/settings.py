@@ -16,6 +16,7 @@ con las siguientes variables:
 - DB_PASS
 - FERNET_KEY
 - ORIGINS
+- REDIS
 - USERDEV
 - USERNAME
 
@@ -30,6 +31,7 @@ y cree como secretos las siguientes variable de entorno
 - pjecz_plataforma_web_api_db_user
 - pjecz_plataforma_web_api_fernet_key
 - pjecz_plataforma_web_api_origins
+- pjecz_plataforma_web_api_redis
 - pjecz_plataforma_web_api_userdev
 - pjecz_plataforma_web_api_username
 
@@ -81,6 +83,7 @@ class Settings(BaseSettings):
     db_user: str = get_secret("db_user")
     fernet_key: str = get_secret("fernet_key")
     origins: str = get_secret("origins")
+    redis: str = get_secret("redis")
     tz: str = "America/Mexico_City"
     username: str = get_secret("username")
     userdev: str = get_secret("userdev")

@@ -11,6 +11,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_abogado, get_abogados
 from .schemas import AbogadoOut, OneAbogadoOut
@@ -19,6 +20,7 @@ abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 
 
 @abogados.get("/datatable", response_model=DataTablePage[AbogadoOut])
+@limiter.limit("20/minute")
 async def listado_abogados_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -44,7 +46,9 @@ async def listado_abogados_datatable(
 
 
 @abogados.get("/paginado", response_model=CustomPage[AbogadoOut])
+@limiter.limit("20/minute")
 async def listado_abogados(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     nombre: str = None,
@@ -65,7 +69,9 @@ async def listado_abogados(
 
 
 @abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
+@limiter.limit("20/minute")
 async def detalle_abogado(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     abogado_id: int,

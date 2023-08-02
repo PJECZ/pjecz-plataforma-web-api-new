@@ -11,6 +11,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_redam, get_redams
 from .schemas import OneRedamOut, RedamOut
@@ -19,6 +20,7 @@ redam = APIRouter(prefix="/v3/redam", tags=["redam"])
 
 
 @redam.get("/datatable", response_model=DataTablePage[RedamOut])
+@limiter.limit("20/minute")
 async def listado_redam_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -50,7 +52,9 @@ async def listado_redam_datatable(
 
 
 @redam.get("/paginado", response_model=CustomPage[RedamOut])
+@limiter.limit("20/minute")
 async def listado_redam(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
@@ -77,7 +81,9 @@ async def listado_redam(
 
 
 @redam.get("/{redam_id}", response_model=OneRedamOut)
+@limiter.limit("20/minute")
 async def detalle_redam(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     redam_id: int,

@@ -11,6 +11,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_repsvm_agresor, get_repsvm_agresores
 from .schemas import OneRepsvmAgresorOut, RepsvmAgresorOut
@@ -19,6 +20,7 @@ repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agreso
 
 
 @repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
+@limiter.limit("20/minute")
 async def listado_repsvm_agresores_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -44,7 +46,9 @@ async def listado_repsvm_agresores_datatable(
 
 
 @repsvm_agresores.get("/paginado", response_model=CustomPage[RepsvmAgresorOut])
+@limiter.limit("20/minute")
 async def listado_repsvm_agresores(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     distrito_id: int = None,
@@ -65,7 +69,9 @@ async def listado_repsvm_agresores(
 
 
 @repsvm_agresores.get("/{repsvm_agresor_id}", response_model=OneRepsvmAgresorOut)
+@limiter.limit("20/minute")
 async def detalle_repsvm_agresor(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     repsvm_agresor_id: int,

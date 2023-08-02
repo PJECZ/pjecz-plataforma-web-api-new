@@ -12,6 +12,7 @@ from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.limiter import limiter
 
 from .crud import get_audiencia, get_audiencias
 from .schemas import AudienciaOut, OneAudienciaOut
@@ -20,6 +21,7 @@ audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 
 
 @audiencias.get("/datatable", response_model=DataTablePage[AudienciaOut])
+@limiter.limit("20/minute")
 async def listado_audiencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -51,7 +53,9 @@ async def listado_audiencias_datatable(
 
 
 @audiencias.get("/paginado", response_model=CustomPage[AudienciaOut])
+@limiter.limit("20/minute")
 async def listado_audiencias(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
     autoridad_id: int = None,
@@ -78,7 +82,9 @@ async def listado_audiencias(
 
 
 @audiencias.get("/{audiencia_id}", response_model=OneAudienciaOut)
+@limiter.limit("20/minute")
 async def detalle_audiencia(
+    request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
     audiencia_id: int,
