@@ -20,7 +20,7 @@ redam = APIRouter(prefix="/v3/redam", tags=["redam"])
 
 
 @redam.get("/datatable", response_model=DataTablePage[RedamOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_redam_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -52,7 +52,7 @@ async def listado_redam_datatable(
 
 
 @redam.get("/paginado", response_model=CustomPage[RedamOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_redam(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -81,7 +81,7 @@ async def listado_redam(
 
 
 @redam.get("/{redam_id}", response_model=OneRedamOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_redam(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

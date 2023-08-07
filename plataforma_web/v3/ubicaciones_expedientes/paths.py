@@ -20,7 +20,7 @@ ubicaciones_expedientes = APIRouter(prefix="/v3/ubicaciones_expedientes", tags=[
 
 
 @ubicaciones_expedientes.get("/datatable", response_model=DataTablePage[UbicacionExpedienteOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_ubicaciones_expedientes_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -46,7 +46,7 @@ async def listado_ubicaciones_expedientes_datatable(
 
 
 @ubicaciones_expedientes.get("/paginado", response_model=CustomPage[UbicacionExpedienteOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_ubicaciones_expedientes(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -69,7 +69,7 @@ async def listado_ubicaciones_expedientes(
 
 
 @ubicaciones_expedientes.get("/{ubicacion_expediente_id}", response_model=OneUbicacionExpedienteOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_ubicacion_expediente(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

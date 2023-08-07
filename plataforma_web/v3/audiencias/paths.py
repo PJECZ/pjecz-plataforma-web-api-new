@@ -21,7 +21,7 @@ audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 
 
 @audiencias.get("/datatable", response_model=DataTablePage[AudienciaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_audiencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -53,7 +53,7 @@ async def listado_audiencias_datatable(
 
 
 @audiencias.get("/paginado", response_model=CustomPage[AudienciaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_audiencias(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -82,7 +82,7 @@ async def listado_audiencias(
 
 
 @audiencias.get("/{audiencia_id}", response_model=OneAudienciaOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_audiencia(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

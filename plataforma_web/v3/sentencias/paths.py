@@ -21,7 +21,7 @@ sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
 
 @sentencias.get("/datatable", response_model=DataTablePage[SentenciaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_sentencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -63,7 +63,7 @@ async def listado_sentencias_datatable(
 
 
 @sentencias.get("/paginado", response_model=CustomPage[SentenciaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_sentencias(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -102,7 +102,7 @@ async def listado_sentencias(
 
 
 @sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_sentencia(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

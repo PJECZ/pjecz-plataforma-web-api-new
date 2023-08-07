@@ -20,7 +20,7 @@ peritos = APIRouter(prefix="/v3/peritos", tags=["peritos"])
 
 
 @peritos.get("/datatable", response_model=DataTablePage[PeritoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_peritos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -48,7 +48,7 @@ async def listado_peritos_datatable(
 
 
 @peritos.get("/paginado", response_model=CustomPage[PeritoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_peritos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -73,7 +73,7 @@ async def listado_peritos(
 
 
 @peritos.get("/{perito_id}", response_model=OnePeritoOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_perito(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

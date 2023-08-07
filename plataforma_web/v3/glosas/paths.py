@@ -21,7 +21,7 @@ glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 
 
 @glosas.get("/datatable", response_model=DataTablePage[GlosaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_glosas_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -55,7 +55,7 @@ async def listado_glosas_datatable(
 
 
 @glosas.get("/paginado", response_model=CustomPage[GlosaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_glosas(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -90,7 +90,7 @@ async def listado_glosas(
 
 
 @glosas.get("/{glosa_id}", response_model=OneGlosaOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_glosa(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

@@ -20,7 +20,7 @@ abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 
 
 @abogados.get("/datatable", response_model=DataTablePage[AbogadoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_abogados_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -46,7 +46,7 @@ async def listado_abogados_datatable(
 
 
 @abogados.get("/paginado", response_model=CustomPage[AbogadoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_abogados(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -69,7 +69,7 @@ async def listado_abogados(
 
 
 @abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_abogado(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

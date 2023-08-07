@@ -24,7 +24,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @edictos.get("/datatable", response_model=DataTablePage[EdictoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_edictos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -62,7 +62,7 @@ async def listado_edictos_datatable(
 
 
 @edictos.get("/paginado", response_model=CustomPage[EdictoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_edictos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -97,7 +97,7 @@ async def listado_edictos(
 
 
 @edictos.get("/{edicto_id}", response_model=OneEdictoOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_edicto(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
