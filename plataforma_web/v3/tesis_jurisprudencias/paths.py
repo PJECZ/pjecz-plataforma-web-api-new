@@ -20,7 +20,7 @@ tesis_jurisprudencias = APIRouter(prefix="/v3/tesis_jurisprudencias", tags=["tes
 
 
 @tesis_jurisprudencias.get("/datatable", response_model=DataTablePage[TesisJurisprudenciaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_tesis_jurisprudencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -54,7 +54,7 @@ async def listado_tesis_jurisprudencias_datatable(
 
 
 @tesis_jurisprudencias.get("/paginado", response_model=CustomPage[TesisJurisprudenciaOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_tesis_jurisprudencias(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -85,7 +85,7 @@ async def listado_tesis_jurisprudencias(
 
 
 @tesis_jurisprudencias.get("/{tesis_jurisprudencia_id}", response_model=OneTesisJurisprudenciaOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_tesis_jurisprudencia(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

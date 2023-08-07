@@ -21,7 +21,7 @@ listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de
 
 
 @listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_listas_de_acuerdos_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -57,7 +57,7 @@ async def listado_listas_de_acuerdos_datatable(
 
 
 @listas_de_acuerdos.get("/paginado", response_model=CustomPage[ListaDeAcuerdoOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_listas_de_acuerdos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -90,7 +90,7 @@ async def listado_listas_de_acuerdos(
 
 
 @listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_lista_de_acuerdo(
     request: Request,
     database: Annotated[Session, Depends(get_db)],

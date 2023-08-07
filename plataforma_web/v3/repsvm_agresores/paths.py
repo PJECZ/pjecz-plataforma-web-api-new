@@ -20,7 +20,7 @@ repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agreso
 
 
 @repsvm_agresores.get("/datatable", response_model=DataTablePage[RepsvmAgresorOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_repsvm_agresores_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -46,7 +46,7 @@ async def listado_repsvm_agresores_datatable(
 
 
 @repsvm_agresores.get("/paginado", response_model=CustomPage[RepsvmAgresorOut])
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def listado_repsvm_agresores(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
@@ -69,7 +69,7 @@ async def listado_repsvm_agresores(
 
 
 @repsvm_agresores.get("/{repsvm_agresor_id}", response_model=OneRepsvmAgresorOut)
-@limiter.limit("20/minute")
+@limiter.limit("40/minute")
 async def detalle_repsvm_agresor(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
