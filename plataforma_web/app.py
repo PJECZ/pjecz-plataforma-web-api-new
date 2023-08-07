@@ -3,6 +3,7 @@ PJECZ Plataforma Web API
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 from fastapi_pagination import add_pagination
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -79,6 +80,11 @@ def create_app() -> FastAPI:
     async def root():
         """Mensaje de Bienvenida"""
         return {"message": "API que brinda información pública solo al sitio web pjecz.gob.mx."}
+
+    @app.get("/robots.txt", response_class=PlainTextResponse)
+    async def robots():
+        """robots.txt to disallow all agents"""
+        return """User-agent: *\nDisallow: /"""
 
     # Entregar
     return app
