@@ -58,7 +58,7 @@ def get_edictos(
         except (IndexError, ValueError) as error:
             raise MyNotValidParamError("El expediente no es válido") from error
         consulta = consulta.filter_by(expediente=expediente)
-    return consulta.filter_by(estatus="A").order_by(Edicto.id.desc())
+    return consulta.filter(Edicto.estatus == "A").order_by(Edicto.id.desc())
 
 
 def get_edicto(database: Session, edicto_id: int) -> Edicto:
