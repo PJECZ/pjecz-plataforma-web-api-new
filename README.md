@@ -12,25 +12,29 @@ Status code: **200**
 
 Body que entrega un listado
 
-    {
-        "success": true,
-        "message": "Success",
-        "result": {
-            "total": 2812,
-            "items": [ { "id": 1, ... } ],
-            "limit": 100,
-            "offset": 0
-        }
+```json
+{
+    "success": true,
+    "message": "Success",
+    "result": {
+        "total": 2812,
+        "items": [ { "id": 1, ... } ],
+        "limit": 100,
+        "offset": 0
     }
+}
+```
 
 Body que entrega un item
 
-    {
-        "success": true,
-        "message": "Success",
-        "id": 123,
-        ...
-    }
+```json
+{
+    "success": true,
+    "message": "Success",
+    "id": 123,
+    ...
+}
+```
 
 ### Respuesta fallida: registro no encontrado
 
@@ -38,10 +42,12 @@ Status code: **200**
 
 Body
 
-    {
-        "success": false,
-        "message": "No employee found for ID 100"
-    }
+```json
+{
+  "success": false,
+  "message": "No employee found for ID 100"
+}
+```
 
 ### Respuesta fallida: ruta incorrecta
 
@@ -53,138 +59,156 @@ Por defecto, con **poetry** el entorno se guarda en un directorio en `~/.cache/p
 
 Modifique para que el entorno se guarde en el mismo directorio que el proyecto
 
-    poetry config --list
-    poetry config virtualenvs.in-project true
+```bash
+poetry config --list
+poetry config virtualenvs.in-project true
+```
 
 Verifique que este en True
 
-    poetry config virtualenvs.in-project
+```bash
+poetry config virtualenvs.in-project
+```
 
 ## Configuracion
 
 **Para desarrollo** hay que crear un archivo para las variables de entorno `.env`
 
-    # Base de datos
-    DB_HOST=NNN.NNN.NNN.NNN
-    DB_PORT=5432
-    DB_NAME=pjecz_plataforma_web
-    DB_USER=readerpjeczplataformaweb
-    DB_PASS=XXXXXXXXXXXXXXXX
+```ini
+# Base de datos
+DB_HOST=NNN.NNN.NNN.NNN
+DB_PORT=5432
+DB_NAME=pjecz_plataforma_web
+DB_USER=readerpjeczplataformaweb
+DB_PASS=XXXXXXXXXXXXXXXX
 
-    # Fernet key para cifrar y descifrar la API_KEY
-    FERNET_KEY="XXXXXXXXXXXXXXXX"
+# Fernet key para cifrar y descifrar la API_KEY
+FERNET_KEY="XXXXXXXXXXXXXXXX"
 
-    # CORS origins
-    ORIGINS=http://localhost:3000,http://localhost:5000,http://127.0.0.1:3000,http://127.0.0.1:5000
+# CORS origins
+ORIGINS=http://localhost:3000,http://localhost:5000,http://127.0.0.1:3000,http://127.0.0.1:5000
 
-    # Huso horario
-    TZ=America/Mexico_City
+# Huso horario
+TZ=America/Mexico_City
 
-    # Username es una dirección de correo electrónico para identificar al cliente
-    USERNAME=anonymous@server.net
+# Username es una dirección de correo electrónico para identificar al cliente
+USERNAME=anonymous@server.net
+```
 
 Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
 
-    if [ -f ~/.bashrc ]
-    then
-        . ~/.bashrc
-    fi
+```bash
+if [ -f ~/.bashrc ]
+then
+    . ~/.bashrc
+fi
 
-    if command -v figlet &> /dev/null
-    then
-        figlet Plataforma Web API New
-    else
-        echo "== Plataforma Web API New"
-    fi
+if command -v figlet &> /dev/null
+then
+    figlet Plataforma Web API New
+else
+    echo "== Plataforma Web API New"
+fi
+echo
+
+if [ -f .env ]
+then
+    echo "-- Variables de entorno"
+    export $(grep -v '^#' .env | xargs)
+    echo "   DB_HOST: ${DB_HOST}"
+    echo "   DB_PORT: ${DB_PORT}"
+    echo "   DB_NAME: ${DB_NAME}"
+    echo "   DB_USER: ${DB_USER}"
+    echo "   DB_PASS: ${DB_PASS}"
+    echo "   ORIGINS: ${ORIGINS}"
+    echo "   FERNET_KEY: ${FERNET_KEY}"
+    echo "   TZ: ${TZ}"
+    echo "   USERNAME: ${USERNAME}"
     echo
+    echo
+    export PGHOST=$DB_HOST
+    export PGPORT=$DB_PORT
+    export PGDATABASE=$DB_NAME
+    export PGUSER=$DB_USER
+    export PGPASSWORD=$DB_PASS
+fi
 
-    if [ -f .env ]
-    then
-        echo "-- Variables de entorno"
-        export $(grep -v '^#' .env | xargs)
-        echo "   DB_HOST: ${DB_HOST}"
-        echo "   DB_PORT: ${DB_PORT}"
-        echo "   DB_NAME: ${DB_NAME}"
-        echo "   DB_USER: ${DB_USER}"
-        echo "   DB_PASS: ${DB_PASS}"
-        echo "   ORIGINS: ${ORIGINS}"
-        echo "   FERNET_KEY: ${FERNET_KEY}"
-        echo "   TZ: ${TZ}"
-        echo "   USERNAME: ${USERNAME}"
-        echo
-        echo
-        export PGHOST=$DB_HOST
-        export PGPORT=$DB_PORT
-        export PGDATABASE=$DB_NAME
-        export PGUSER=$DB_USER
-        export PGPASSWORD=$DB_PASS
-    fi
+if [ -d .venv ]
+then
+    echo "-- Python Virtual Environment"
+    source .venv/bin/activate
+    echo "   $(python3 --version)"
+    export PYTHONPATH=$(pwd)
+    echo "   PYTHONPATH: ${PYTHONPATH}"
+    echo
+    alias arrancar="uvicorn --factory --host=127.0.0.1 --port 8001 --reload plataforma_web.app:create_app"
+    echo "-- Ejecutar FastAPI 127.0.0.1:8001"
+    echo "   arrancar"
+    echo
+fi
 
-    if [ -d .venv ]
-    then
-        echo "-- Python Virtual Environment"
-        source .venv/bin/activate
-        echo "   $(python3 --version)"
-        export PYTHONPATH=$(pwd)
-        echo "   PYTHONPATH: ${PYTHONPATH}"
-        echo
-        alias arrancar="uvicorn --factory --host=127.0.0.1 --port 8001 --reload plataforma_web.app:create_app"
-        echo "-- Ejecutar FastAPI 127.0.0.1:8001"
-        echo "   arrancar"
-        echo
-    fi
+if [ -d tests ]
+then
+    echo "-- Pruebas unitarias"
+    echo "   python3 -m unittest discover tests"
+    echo
+fi
 
-    if [ -d tests ]
-    then
-        echo "-- Pruebas unitarias"
-        echo "   python3 -m unittest discover tests"
-        echo
-    fi
-
-    if [ -f .github/workflows/gcloud-app-deploy.yml ]
-    then
-        echo "-- Google Cloud"
-        echo "   GitHub Actions hace el deploy en Google Cloud"
-        echo "   Si hace cambios en pyproject.toml reconstruya requirements.txt"
-        echo "   poetry export -f requirements.txt --output requirements.txt --without-hashes"
-        echo
-    fi
+if [ -f .github/workflows/gcloud-app-deploy.yml ]
+then
+    echo "-- Google Cloud"
+    echo "   GitHub Actions hace el deploy en Google Cloud"
+    echo "   Si hace cambios en pyproject.toml reconstruya requirements.txt"
+    echo "   poetry export -f requirements.txt --output requirements.txt --without-hashes"
+    echo
+fi
+```
 
 ## Instalacion
 
 En Fedora Linux agregue este software
 
-    sudo dnf -y groupinstall "Development Tools"
-    sudo dnf -y install glibc-langpack-en glibc-langpack-es
-    sudo dnf -y install pipenv poetry python3-virtualenv
-    sudo dnf -y install python3-devel python3-docs python3-idle
-    sudo dnf -y install python3.11
+```bash
+sudo dnf -y groupinstall "Development Tools"
+sudo dnf -y install glibc-langpack-en glibc-langpack-es
+sudo dnf -y install pipenv poetry python3-virtualenv
+sudo dnf -y install python3-devel python3-docs python3-idle
+sudo dnf -y install python3.11
+```
 
 Clone el repositorio
 
-    cd ~/Documents/GitHub/PJECZ
-    git clone https://github.com/PJECZ/pjecz-plataforma-web-api-new.git
-    cd pjecz-plataforma-web-api-new
+```bash
+cd ~/Documents/GitHub/PJECZ
+git clone https://github.com/PJECZ/pjecz-plataforma-web-api-new.git
+cd pjecz-plataforma-web-api-new
+```
 
 Instale el entorno virtual con **Python 3.11** y los paquetes necesarios
 
-    python3.11 -m venv .venv
-    source .venv/bin/activate
-    pip install --upgrade pip
-    pip install wheel
-    poetry install
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install wheel
+poetry install
+```
 
 ## Arrancar para desarrollo
 
 Ejecute `arrancar` que es un alias dentro de `.bashrc`
 
-    arrancar
+```bash
+arrancar
+```
 
 ## Pruebas
 
 Para ejecutar las pruebas arranque el servidor y ejecute
 
-    python3 -m unittest discover tests
+```bash
+python3 -m unittest discover tests
+```
 
 ## Contenedores
 
@@ -194,50 +218,66 @@ Va a usar el puerto **8000** para la API
 
 Construir la imagen con el comando **podman**
 
-    podman build -t pjecz_plataforma_web_api .
+```bash
+podman build -t pjecz_plataforma_web_api .
+```
 
 Escribir el archivo `.env` con las variables de entorno
 
-    DB_HOST=NNN.NNN.NNN.NNN
-    DB_PORT=5432
-    DB_NAME=pjecz_plataforma_web
-    DB_USER=readerpjeczplataformaweb
-    DB_PASS=XXXXXXXXXXXXXXXX
-    FERNET_KEY="XXXXXXXXXXXXXXXX"
-    ORIGINS=*
-    USERNAME=anonymous@server.net
+```ini
+DB_HOST=NNN.NNN.NNN.NNN
+DB_PORT=5432
+DB_NAME=pjecz_plataforma_web
+DB_USER=readerpjeczplataformaweb
+DB_PASS=XXXXXXXXXXXXXXXX
+FERNET_KEY="XXXXXXXXXXXXXXXX"
+ORIGINS=*
+USERNAME=anonymous@server.net
+```
 
 Arrancar el contenedor donde el puerto 8000 del contendor se dirige al puerto 7001 local
 
-    podman run --rm \
-        --name pjecz_plataforma_web_api \
-        -p 7001:8000 \
-        --env-file .env \
-        pjecz_plataforma_web_api
+```bash
+podman run --rm \
+    --name pjecz_plataforma_web_api \
+    -p 7001:8000 \
+    --env-file .env \
+    pjecz_plataforma_web_api
+```
 
 Arrancar el contenedor y dejar corriendo en el fondo
 
-    podman run -d \
-        --name pjecz_plataforma_web_api \
-        -p 7001:8000 \
-        --env-file .env \
-        pjecz_plataforma_web_api
+```bash
+podman run -d \
+    --name pjecz_plataforma_web_api \
+    -p 7001:8000 \
+    --env-file .env \
+    pjecz_plataforma_web_api
+```
 
 Detener contenedor
 
-    podman container stop pjecz_plataforma_web_api
+```bash
+podman container stop pjecz_plataforma_web_api
+```
 
 Arrancar contenedor
 
-    podman container start pjecz_plataforma_web_api
+```bash
+podman container start pjecz_plataforma_web_api
+```
 
 Eliminar contenedor
 
-    podman container rm pjecz_plataforma_web_api
+```bash
+podman container rm pjecz_plataforma_web_api
+```
 
 Eliminar la imagen
 
-    podman image rm pjecz_plataforma_web_api
+```bash
+podman image rm pjecz_plataforma_web_api
+```
 
 ## Google Cloud deployment
 
@@ -247,4 +287,6 @@ Y se toman las variables de entorno desde **Google Cloud** con _secret manager_
 
 En caso de haber cambiado las dependencias se debe sobrescribir el archivo `requirements.txt`
 
-    poetry export -f requirements.txt --output requirements.txt --without-hashes
+```bash
+poetry export -f requirements.txt --output requirements.txt --without-hashes
+```

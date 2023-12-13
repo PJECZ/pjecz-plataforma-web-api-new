@@ -70,7 +70,7 @@ def get_sentencias(
         except (IndexError, ValueError) as error:
             raise MyNotValidParamError("La sentencia no es válida") from error
         consulta = consulta.filter_by(sentencia=sentencia)
-    return consulta.filter_by(estatus="A").order_by(Sentencia.id.desc())
+    return consulta.filter(Sentencia.estatus == "A").order_by(Sentencia.id.desc())
 
 
 def get_sentencia(database: Session, sentencia_id: int) -> Sentencia:
