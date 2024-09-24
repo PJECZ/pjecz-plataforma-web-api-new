@@ -1,6 +1,7 @@
 """
 Sentencias, modelos
 """
+
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 

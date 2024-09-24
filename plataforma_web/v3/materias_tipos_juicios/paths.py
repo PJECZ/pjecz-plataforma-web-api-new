@@ -1,6 +1,7 @@
 """
 Materias-Tipos de Juicios v3, rutas (paths)
 """
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -10,7 +11,6 @@ from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
-from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
 
 from .crud import get_materia_tipo_juicio, get_materias_tipos_juicios
 from .schemas import MateriaTipoJuicioOut, OneMateriaTipoJuicioOut
@@ -48,4 +48,4 @@ async def detalle_materia_tipo_juicio(
         materia_tipo_juicio = get_materia_tipo_juicio(database, materia_tipo_juicio_id)
     except MyAnyError as error:
         return OneMateriaTipoJuicioOut(success=False, message=str(error))
-    return OneMateriaTipoJuicioOut.from_orm(materia_tipo_juicio)
+    return OneMateriaTipoJuicioOut.model_validate(materia_tipo_juicio)

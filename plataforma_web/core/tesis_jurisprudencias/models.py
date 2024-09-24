@@ -1,6 +1,7 @@
 """
 Tesis Jurisprudencias, modelos
 """
+
 from collections import OrderedDict
 
 from sqlalchemy import Column, Date, DateTime, Enum, ForeignKey, Integer, String, Text

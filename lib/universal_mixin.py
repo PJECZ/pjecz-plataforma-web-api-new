@@ -1,6 +1,7 @@
 """
 UniversalMixin define las columnas y métodos comunes de todos los modelos
 """
+
 from sqlalchemy import Column, String
 
 

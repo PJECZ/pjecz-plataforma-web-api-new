@@ -1,6 +1,7 @@
 """
 Peritos - Tipos v3, rutas (paths)
 """
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -41,4 +42,4 @@ async def detalle_perito_tipo(
         perito_tipo = get_perito_tipo(database, perito_tipo_id)
     except MyAnyError as error:
         return OnePeritoTipoOut(success=False, message=str(error))
-    return OnePeritoTipoOut.from_orm(perito_tipo)
+    return OnePeritoTipoOut.model_validate(perito_tipo)

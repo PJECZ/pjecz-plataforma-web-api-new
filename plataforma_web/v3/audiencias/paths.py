@@ -1,6 +1,7 @@
 """
 Audiencias v3, rutas (paths)
 """
+
 from datetime import date
 from typing import Annotated
 
@@ -11,7 +12,7 @@ from lib.authentications import Usuario, get_current_userdev, get_current_userna
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
-from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
 
 from .crud import get_audiencia, get_audiencias
@@ -20,9 +21,9 @@ from .schemas import AudienciaOut, OneAudienciaOut
 audiencias = APIRouter(prefix="/v3/audiencias", tags=["audiencias"])
 
 
-@audiencias.get("/datatable", response_model=DataTablePage[AudienciaOut])
+@audiencias.get("/datatable", response_model=DataTable[AudienciaOut])
 @limiter.limit("40/minute")
-async def listado_audiencias_datatable(
+async def datatable_audiencias(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
@@ -33,10 +34,10 @@ async def listado_audiencias_datatable(
     anio: int = None,
     fecha: date = None,
 ):
-    """Listado de audiencias para DataTable"""
-    draw = request.query_params.get("draw")
-    if draw is None or not draw.isdigit() or int(draw) < 1:
-        return datatable_page_success_false("Invalid request")
+    """DataTable de audiencias"""
+    # draw = request.query_params.get("draw")
+    # if draw is None or not draw.isdigit() or int(draw) < 1:
+    #     return DataTable(success=False, error="Solicitud inválida")
     try:
         resultados = get_audiencias(
             database=database,
@@ -48,13 +49,13 @@ async def listado_audiencias_datatable(
             fecha=fecha,
         )
     except MyAnyError as error:
-        return datatable_page_success_false(error)
+        return custom_datatable_sucess_false(error)
     return paginate(resultados)
 
 
 @audiencias.get("/paginado", response_model=CustomPage[AudienciaOut])
 @limiter.limit("40/minute")
-async def listado_audiencias(
+async def paginado_audiencias(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
@@ -65,7 +66,7 @@ async def listado_audiencias(
     anio: int = None,
     fecha: date = None,
 ):
-    """Listado de audiencias"""
+    """Paginado de audiencias"""
     try:
         resultados = get_audiencias(
             database=database,
@@ -93,5 +94,5 @@ async def detalle_audiencia(
     try:
         audiencia = get_audiencia(database=database, audiencia_id=audiencia_id)
     except MyAnyError as error:
-        return OneAudienciaOut(success=False, error=error)
-    return OneAudienciaOut.from_orm(audiencia)
+        return OneAudienciaOut(success=False, message=error)
+    return OneAudienciaOut.model_validate(audiencia)

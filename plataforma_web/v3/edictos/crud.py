@@ -1,6 +1,7 @@
 """
 Edictos v3, CRUD (create, read, update, and delete)
 """
+
 from datetime import date
 from typing import Any
 

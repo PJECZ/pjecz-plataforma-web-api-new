@@ -1,6 +1,7 @@
 """
 Listas de Acuerdos v3, rutas (paths)
 """
+
 from datetime import date
 from typing import Annotated
 
@@ -11,7 +12,7 @@ from lib.authentications import Usuario, get_current_userdev, get_current_userna
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
-from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
 
 from .crud import get_lista_de_acuerdo, get_listas_de_acuerdos
@@ -20,9 +21,9 @@ from .schemas import ListaDeAcuerdoOut, OneListaDeAcuerdoOut
 listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de acuerdos"])
 
 
-@listas_de_acuerdos.get("/datatable", response_model=DataTablePage[ListaDeAcuerdoOut])
+@listas_de_acuerdos.get("/datatable", response_model=DataTable[ListaDeAcuerdoOut])
 @limiter.limit("40/minute")
-async def listado_listas_de_acuerdos_datatable(
+async def datatable_listas_de_acuerdos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
@@ -35,10 +36,10 @@ async def listado_listas_de_acuerdos_datatable(
     fecha_desde: date = None,
     fecha_hasta: date = None,
 ):
-    """Listado de listas de acuerdos para DataTable"""
-    draw = request.query_params.get("draw")
-    if draw is None or not draw.isdigit() or int(draw) < 1:
-        return datatable_page_success_false("Invalid request")
+    """DataTable de listas de acuerdos"""
+    # draw = request.query_params.get("draw")
+    # if draw is None or not draw.isdigit() or int(draw) < 1:
+    #     return DataTable(success=False, error="Solicitud inválida")
     try:
         resultados = get_listas_de_acuerdos(
             database=database,
@@ -52,13 +53,13 @@ async def listado_listas_de_acuerdos_datatable(
             fecha_hasta=fecha_hasta,
         )
     except MyAnyError as error:
-        return datatable_page_success_false(error)
+        return custom_datatable_sucess_false(error)
     return paginate(resultados)
 
 
 @listas_de_acuerdos.get("/paginado", response_model=CustomPage[ListaDeAcuerdoOut])
 @limiter.limit("40/minute")
-async def listado_listas_de_acuerdos(
+async def paginado_listas_de_acuerdos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
@@ -71,7 +72,7 @@ async def listado_listas_de_acuerdos(
     fecha_desde: date = None,
     fecha_hasta: date = None,
 ):
-    """Listado de listas de acuerdos"""
+    """Paginado de listas de acuerdos"""
     try:
         resultados = get_listas_de_acuerdos(
             database=database,
@@ -101,5 +102,5 @@ async def detalle_lista_de_acuerdo(
     try:
         lista_de_acuerdo = get_lista_de_acuerdo(database=database, lista_de_acuerdo_id=lista_de_acuerdo_id)
     except MyAnyError as error:
-        return OneListaDeAcuerdoOut(success=False, error=error)
-    return OneListaDeAcuerdoOut.from_orm(lista_de_acuerdo)
+        return OneListaDeAcuerdoOut(success=False, message=str(error))
+    return OneListaDeAcuerdoOut.model_validate(lista_de_acuerdo)

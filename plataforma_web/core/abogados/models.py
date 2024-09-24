@@ -1,6 +1,7 @@
 """
 Abogados, modelos
 """
+
 from sqlalchemy import Column, Date, Integer, String
 
 from lib.database import Base

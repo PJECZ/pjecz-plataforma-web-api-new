@@ -1,6 +1,7 @@
 """
 Glosas, modelos
 """
+
 from collections import OrderedDict
 
 from sqlalchemy import Column, Date, Enum, ForeignKey, Integer, String

@@ -1,93 +1,65 @@
 """
 FastAPI Pagination Custom Page
-
-Provides a custom pagination class to be used with FastAPI.
-
-This is an example of the output JSON:
-
-    {
-        "success": true,
-        "message": "Success",
-        "result": {
-            "total": 13613,
-            "items": [
-                { ... },
-                { ... },
-                ...
-            ],
-            "limit": 10,
-            "offset": 0,
-        }
-    }
-
 """
-from typing import Generic, List, Sequence, TypeVar
+
+from typing import Any, Generic, Optional, Sequence, TypeVar
 
 from fastapi import Query
-from fastapi_pagination.bases import AbstractPage, AbstractParams
-from fastapi_pagination.limit_offset import LimitOffsetParams as BaseLimitOffsetParams
-from pydantic.generics import GenericModel
+from fastapi_pagination.bases import AbstractPage, AbstractParams, RawParams
+from fastapi_pagination.limit_offset import LimitOffsetParams
 
 T = TypeVar("T")
 
 
-class LimitOffsetParams(BaseLimitOffsetParams):
-    """Change default limit and offset"""
+class CustomPageParams(LimitOffsetParams):
+    """Process the parameters from the request"""
 
     limit: int = Query(10, ge=1, le=50, description="Query limit")
     offset: int = Query(0, ge=0, description="Query offset")
 
-
-class PageResult(GenericModel, Generic[T]):
-    """Result class with items, total, limit and offset"""
-
-    total: int
-    items: List[T]
-    limit: int
-    offset: int
+    def to_raw_params(self) -> RawParams:
+        """Define limit and offset"""
+        return RawParams(limit=self.limit, offset=self.offset)
 
 
 class CustomPage(AbstractPage[T], Generic[T]):
-    """Custom page with success and message"""
+    """Custom Page"""
 
-    __params_type__ = LimitOffsetParams
+    success: bool
+    message: str
 
-    success: bool = True
-    message: str = "Success"
-    result: PageResult[T]
+    total: int
+    limit: int
+    offset: int
+    items: Sequence[T]
+
+    __params_type__ = CustomPageParams
 
     @classmethod
-    def create(cls, items: Sequence[T], total: int, params: AbstractParams):
+    def create(cls, items: Sequence[T], params: AbstractParams, *, total: Optional[int] = None, **kwargs: Any):
         """Create"""
 
-        if not isinstance(params, cls.__params_type__):
-            raise TypeError(f"Params must be {cls.__params_type__}")
-
-        # If total is zero, set message to "No se encontraron resultados"
-        if total == 0:
-            return cls(
-                success=False,
-                message="No se encontraron resultados",
-                result=PageResult(
-                    total=total,
-                    items=[],
-                    limit=params.limit,
-                    offset=params.offset,
-                ),
-            )
+        assert isinstance(params, CustomPageParams)
+        assert total is not None
 
         return cls(
-            result=PageResult(
-                total=total,
-                items=items,
-                limit=params.limit,
-                offset=params.offset,
-            )
+            success=True,
+            message="Success",
+            total=total,
+            limit=params.limit,
+            offset=params.offset,
+            items=items,
         )
 
 
 def custom_page_success_false(error: Exception) -> CustomPage:
     """Return a CustomPage with success=False and message=error"""
 
-    result = PageResult(total=0, items=[], limit=0, offset=0)
-    return CustomPage(success=False, message=str(error), result=result)
+    return CustomPage(
+        success=False,
+        message=str(error),
+        total=0,
+        limit=10,
+        offset=0,
+        items=[],
+    )
