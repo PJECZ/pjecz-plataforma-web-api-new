@@ -1,6 +1,7 @@
 """
 REDAM (Registro Estatal de Deudores Alimentarios Morosos), modelos
 """
+
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 

@@ -1,6 +1,7 @@
 """
 Abogados v3, CRUD (create, read, update, and delete)
 """
+
 from datetime import date, datetime
 from typing import Any
 
@@ -31,10 +32,10 @@ def get_abogados(
         else:
             raise MyNotValidParamError("Año fuera de rango.")
     if nombre is not None:
-        nombre = safe_string(nombre)
+        nombre = safe_string(nombre, save_enie=True)
         if nombre != "":
             consulta = consulta.filter(Abogado.nombre.contains(nombre))
-    return consulta.filter_by(estatus="A").order_by(Abogado.id.desc())
+    return consulta.filter_by(estatus="A").order_by(Abogado.nombre)
 
 
 def get_abogado(database: Session, abogado_id: int) -> Abogado:

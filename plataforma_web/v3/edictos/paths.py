@@ -1,6 +1,7 @@
 """
 Edictos v3, rutas (paths)
 """
+
 from datetime import date
 from typing import Annotated
 
@@ -12,7 +13,7 @@ from lib.authentications import Usuario, get_current_userdev, get_current_userna
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
-from lib.fastapi_pagination_datatable import DataTablePage, datatable_page_success_false
+from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
 
 from .crud import get_edicto, get_edictos
@@ -23,9 +24,9 @@ edictos = APIRouter(prefix="/v3/edictos", tags=["edictos"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-@edictos.get("/datatable", response_model=DataTablePage[EdictoOut])
+@edictos.get("/datatable", response_model=DataTable[EdictoOut])
 @limiter.limit("40/minute")
-async def listado_edictos_datatable(
+async def datatable_edictos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
@@ -39,10 +40,10 @@ async def listado_edictos_datatable(
     fecha_desde: date = None,
     fecha_hasta: date = None,
 ):
-    """Listado de edictos para DataTable"""
-    draw = request.query_params.get("draw")
-    if draw is None or not draw.isdigit() or int(draw) < 1:
-        return datatable_page_success_false("Invalid request")
+    """DataTable de edictos"""
+    # draw = request.query_params.get("draw")
+    # if draw is None or not draw.isdigit() or int(draw) < 1:
+    #     return DataTable(success=False, error="Solicitud inválida")
     try:
         resultados = get_edictos(
             database=database,
@@ -57,13 +58,13 @@ async def listado_edictos_datatable(
             fecha_hasta=fecha_hasta,
         )
     except MyAnyError as error:
-        return datatable_page_success_false(error)
+        return custom_datatable_sucess_false(error)
     return paginate(resultados)
 
 
 @edictos.get("/paginado", response_model=CustomPage[EdictoOut])
 @limiter.limit("40/minute")
-async def listado_edictos(
+async def paginado_edictos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
@@ -77,7 +78,7 @@ async def listado_edictos(
     fecha_desde: date = None,
     fecha_hasta: date = None,
 ):
-    """Listado de edictos"""
+    """Paginado de edictos"""
     try:
         resultados = get_edictos(
             database=database,
@@ -108,5 +109,5 @@ async def detalle_edicto(
     try:
         edicto = get_edicto(database=database, edicto_id=edicto_id)
     except MyAnyError as error:
-        return OneEdictoOut(success=False, error=error)
-    return OneEdictoOut.from_orm(edicto)
+        return OneEdictoOut(success=False, message=str(error))
+    return OneEdictoOut.model_validate(edicto)

@@ -1,6 +1,7 @@
 """
 PJECZ Plataforma Web API
 """
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
@@ -36,7 +37,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="PJECZ Plataforma Web API",
         description="API que brinda información pública solo al sitio web pjecz.gob.mx.",
-        docs_url=None,
+        docs_url="/docs",
         redoc_url=None,
     )
 
@@ -79,7 +80,7 @@ def create_app() -> FastAPI:
     @app.get("/")
     async def root():
         """Mensaje de Bienvenida"""
-        return {"message": "API que brinda información pública solo al sitio web pjecz.gob.mx."}
+        return {"message": "API que proporciona la información pública para el sitio web."}
 
     @app.get("/robots.txt", response_class=PlainTextResponse)
     async def robots():

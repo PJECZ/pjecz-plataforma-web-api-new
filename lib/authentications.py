@@ -1,6 +1,7 @@
 """
 Autentificaciones
 """
+
 import re
 from typing import Annotated
 

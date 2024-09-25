@@ -1,6 +1,7 @@
 """
-Unit tests for peritos category
+Unit tests for peritos
 """
+
 import unittest
 
 import requests
@@ -9,151 +10,213 @@ from tests.load_env import config
 
 
 class TestPeritos(unittest.TestCase):
-    """Tests for peritos category"""
+    """Tests for peritos"""
 
-    url = f"{config['host']}/v3/peritos/paginado"
-
-    def test_get_tipos_de_peritos(self):
-        """Test GET method for tipos de peritos"""
-        response = requests.get(
-            url=f"{config['host']}/v3/peritos_tipos",
-            headers={"X-Api-Key": config["api_key"]},
-            timeout=config["timeout"],
-        )
+    def test_get_peritos_datatable(self):
+        """Test GET method for peritos datatable"""
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/datatable",
+                headers={"X-Api-Key": config["api_key"]},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
+        contenido = response.json()
+        self.assertEqual("success" in contenido, True)
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("error" in contenido, True)
+        self.assertEqual("start" in contenido, True)
+        self.assertEqual("length" in contenido, True)
+        self.assertEqual("recordsTotal" in contenido, True)
+        self.assertEqual("recordsFiltered" in contenido, True)
+        self.assertEqual("data" in contenido, True)
 
     def test_get_peritos(self):
         """Test GET method for peritos"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
+        contenido = response.json()
+        self.assertEqual("success" in contenido, True)
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("message" in contenido, True)
+        self.assertEqual("total" in contenido, True)
+        self.assertEqual("limit" in contenido, True)
+        self.assertEqual("offset" in contenido, True)
+        self.assertEqual("items" in contenido, True)
 
-    def test_get_peritos_by_tipo_de_perito(self):
+    def test_get_peritos_by_perito_tipo_id(self):
         """Test GET method for peritos by tipo de perito 15 DACTILOSCOPIA"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"perito_tipo_id": 15},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"perito_tipo_id": 15},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["perito_tipo_id"], 15)
 
     def test_get_peritos_by_nombre(self):
         """Test GET method for peritos by nombre JUAN"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"nombre": "JUAN"},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"nombre": "JUAN"},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertIn("JUAN", item["nombre"])
 
     def test_get_peritos_by_distrito_id(self):
         """Test GET method for peritos by distrito_id 6"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"distrito_id": 6},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"distrito_id": 6},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["distrito_id"], 6)
 
-    def test_get_peritos_by_distrito_id_by_tipo_de_perito(self):
+    def test_get_peritos_by_distrito_id_by_perito_tipo_id(self):
         """Test GET method for peritos by distrito_id 6 by tipo de perito 15 DACTILOSCOPIA"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"distrito_id": 6, "perito_tipo_id": 15},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"distrito_id": 6, "perito_tipo_id": 15},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["distrito_id"], 6)
             self.assertEqual(item["perito_tipo_id"], 15)
 
     def test_get_peritos_by_distrito_id_by_nombre(self):
         """Test GET method for peritos by distrito_id 6 by nombre JUAN"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"distrito_id": 6, "nombre": "JUAN"},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"distrito_id": 6, "nombre": "JUAN"},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["distrito_id"], 6)
             self.assertIn("JUAN", item["nombre"])
 
     def test_get_peritos_by_distrito_clave(self):
         """Test GET method for peritos by distrito_clave DTRC"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"distrito_clave": "DTRC"},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"distrito_clave": "DTRC"},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["distrito_clave"], "DTRC")
 
-    def test_get_peritos_by_distrito_clave_by_tipo_de_perito(self):
+    def test_get_peritos_by_distrito_clave_by_perito_tipo_id(self):
         """Test GET method for peritos by distrito_clave DTRC by tipo de perito 15 DACTILOSCOPIA"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"distrito_clave": "DTRC", "perito_tipo_id": 15},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"distrito_clave": "DTRC", "perito_tipo_id": 15},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["distrito_clave"], "DTRC")
             self.assertEqual(item["perito_tipo_id"], 15)
 
     def test_get_peritos_by_distrito_clave_by_nombre(self):
         """Test GET method for peritos by distrito_clave DTRC by nombre JUAN"""
-        response = requests.get(
-            url=self.url,
-            headers={"X-Api-Key": config["api_key"]},
-            params={"distrito_clave": "DTRC", "nombre": "JUAN"},
-            timeout=config["timeout"],
-        )
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/paginado",
+                headers={"X-Api-Key": config["api_key"]},
+                params={"distrito_clave": "DTRC", "nombre": "JUAN"},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["success"], True)
-        result = data["result"]
-        for item in result["items"]:
+        contenido = response.json()
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("items" in contenido, True)
+        for item in contenido["items"]:
             self.assertEqual(item["distrito_clave"], "DTRC")
             self.assertIn("JUAN", item["nombre"])
+
+    def test_get_perito_by_id(self):
+        """Test GET method for peritos by id"""
+        try:
+            response = requests.get(
+                url=f"{config['host']}/v3/peritos/1",
+                headers={"X-Api-Key": config["api_key"]},
+                timeout=config["timeout"],
+            )
+        except requests.exceptions.ConnectionError as error:
+            self.fail(error)
+        self.assertEqual(response.status_code, 200)
+        contenido = response.json()
+        self.assertEqual("success" in contenido, True)
+        self.assertEqual(contenido["success"], True)
+        self.assertEqual("message" in contenido, True)
+        self.assertEqual(contenido["id"], 1)
 
 
 if __name__ == "__main__":

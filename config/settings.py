@@ -40,13 +40,14 @@ Y en el archivo app.yaml agregue las siguientes variables de entorno
 - PROJECT_ID: justicia-digital-gob-mx
 - SERVICE_PREFIX: pjecz_plataforma_web_api
 """
+
 import os
 from functools import lru_cache
 from typing import Annotated
 
 from fastapi import Depends
 from google.cloud import secretmanager
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 PROJECT_ID = os.getenv("PROJECT_ID", "")  # Por defecto esta vacio, esto significa estamos en modo local
 SERVICE_PREFIX = os.getenv("SERVICE_PREFIX", "pjecz_plataforma_web_api")

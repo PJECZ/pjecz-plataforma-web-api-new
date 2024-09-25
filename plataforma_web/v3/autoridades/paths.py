@@ -1,6 +1,7 @@
 """
 Autoridades v3, rutas (paths)
 """
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -61,4 +62,4 @@ async def detalle_autoridad(
         autoridad = get_autoridad_with_clave(database, autoridad_clave)
     except MyAnyError as error:
         return OneAutoridadOut(success=False, message=str(error))
-    return OneAutoridadOut.from_orm(autoridad)
+    return OneAutoridadOut.model_validate(autoridad)

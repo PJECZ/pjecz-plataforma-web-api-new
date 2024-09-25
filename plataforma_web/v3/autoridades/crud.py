@@ -1,6 +1,7 @@
 """
 Autoridades v3, CRUD (create, read, update, and delete)
 """
+
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -36,7 +37,9 @@ def get_autoridades(
     if es_cemasc is not None:
         consulta = consulta.filter_by(es_cemasc=es_cemasc)
     if es_creador_glosas is True:
-        consulta = consulta.filter(Autoridad.organo_jurisdiccional.in_(["PLENO O SALA DEL TSJ", "TRIBUNAL DE CONCILIACION Y ARBITRAJE"]))
+        consulta = consulta.filter(
+            Autoridad.organo_jurisdiccional.in_(["PLENO O SALA DEL TSJ", "TRIBUNAL DE CONCILIACION Y ARBITRAJE"])
+        )
     if es_defensoria is not None:
         consulta = consulta.filter_by(es_defensoria=es_defensoria)
     if es_jurisdiccional is not None:

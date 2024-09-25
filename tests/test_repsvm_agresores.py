@@ -1,5 +1,5 @@
 """
-Unit tests for audiencias
+Unit tests for repsvm
 """
 
 import unittest
@@ -9,14 +9,14 @@ import requests
 from tests.load_env import config
 
 
-class TestAudiencias(unittest.TestCase):
-    """Tests for audiencias"""
+class TestREPSVM(unittest.TestCase):
+    """Tests for repsvm"""
 
-    def test_get_audiencias_datatable(self):
-        """Test GET method for audiencias datatable"""
+    def test_get_repsvm_agresores_datatable(self):
+        """Test GET method for repsvm_agresores datatable"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/datatable",
+                url=f"{config['host']}/v3/repsvm_agresores/datatable",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -33,11 +33,11 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual("recordsFiltered" in contenido, True)
         self.assertEqual("data" in contenido, True)
 
-    def test_get_audiencias(self):
-        """Test GET method for audiencias"""
+    def test_get_repsvm_agresores(self):
+        """Test GET method for repsvm_agresores"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores/paginado",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -53,13 +53,13 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual("offset" in contenido, True)
         self.assertEqual("items" in contenido, True)
 
-    def test_get_audiencias_by_autoridad_id_35(self):
-        """Test GET method for audiencias by autoridad_id 35"""
+    def test_get_repsvm_agresores_by_distrito_id_6(self):
+        """Test GET method for repsvm_agresores by distrito_id 6"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_id": 35},
+                params={"distrito_id": 6},
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
@@ -69,15 +69,15 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual(contenido["success"], True)
         self.assertEqual("items" in contenido, True)
         for item in contenido["items"]:
-            self.assertEqual(item["autoridad_id"], 35)
+            self.assertEqual(item["distrito_id"], 6)
 
-    def test_get_audiencias_by_autoridad_id_35_by_fecha(self):
-        """Test GET method for audiencias by autoridad_id 35 and fecha 2023-05-11"""
+    def test_get_repsvm_agresores_by_distrito_id_6_by_nombre(self):
+        """Test GET method for repsvm_agresores by distrito_id 6 by nombre PEDRO"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_id": 35, "fecha": "2023-05-11"},
+                params={"distrito_id": 6, "nombre": "PEDRO"},
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
@@ -87,16 +87,16 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual(contenido["success"], True)
         self.assertEqual("items" in contenido, True)
         for item in contenido["items"]:
-            self.assertEqual(item["autoridad_id"], 35)
-            self.assertEqual(item["tiempo"].split("T")[0], "2023-05-11")
+            self.assertEqual(item["distrito_id"], 6)
+            self.assertIn("PEDRO", item["nombre"])
 
-    def test_get_audiencias_by_autoridad_clave_35(self):
-        """Test GET method for audiencias by autoridad_id 35"""
+    def test_get_repsvm_agresores_by_distrito_clave_dtrc(self):
+        """Test GET method for repsvm_agresores by distrito_clave DTRC"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_clave": "SLT-J1-FAM"},
+                params={"distrito_clave": "DTRC"},
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
@@ -106,15 +106,15 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual(contenido["success"], True)
         self.assertEqual("items" in contenido, True)
         for item in contenido["items"]:
-            self.assertEqual(item["autoridad_id"], 35)
+            self.assertEqual(item["distrito_clave"], "DTRC")
 
-    def test_get_audiencias_by_autoridad_clave_35_by_fecha(self):
-        """Test GET method for audiencias by autoridad_id 35 and fecha 2023-05-11"""
+    def test_get_repsvm_agresores_by_distrito_clave_dtrc_by_nombre(self):
+        """Test GET method for repsvm_agresores by distrito_clave DTRC by nombre PEDRO"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_clave": "SLT-J1-FAM", "fecha": "2023-05-11"},
+                params={"distrito_clave": "DTRC", "nombre": "PEDRO"},
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
@@ -124,14 +124,14 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual(contenido["success"], True)
         self.assertEqual("items" in contenido, True)
         for item in contenido["items"]:
-            self.assertEqual(item["autoridad_id"], 35)
-            self.assertEqual(item["tiempo"].split("T")[0], "2023-05-11")
+            self.assertEqual(item["distrito_clave"], "DTRC")
+            self.assertIn("PEDRO", item["nombre"])
 
-    def test_get_audiencia_by_id(self):
-        """Test GET method for audiencia by id"""
+    def test_get_repsvm_agresores_by_id(self):
+        """Test GET method for repsvm_agresores by id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/1",
+                url=f"{config['host']}/v3/repsvm_agresores/777",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -142,7 +142,7 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual("success" in contenido, True)
         self.assertEqual(contenido["success"], True)
         self.assertEqual("message" in contenido, True)
-        self.assertEqual(contenido["id"], 1)
+        self.assertEqual(contenido["id"], 777)
 
 
 if __name__ == "__main__":

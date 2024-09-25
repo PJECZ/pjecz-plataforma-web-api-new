@@ -1,6 +1,7 @@
 """
 REPSVM Agresores v3, CRUD (create, read, update, and delete)
 """
+
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -27,7 +28,7 @@ def get_repsvm_agresores(
         distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.filter_by(distrito_id=distrito.id)
     if nombre is not None:
-        nombre = safe_string(nombre)
+        nombre = safe_string(nombre, save_enie=True)
         if nombre != "":
             consulta = consulta.filter(RepsvmAgresor.nombre.contains(nombre))
     return consulta.filter_by(estatus="A").order_by(RepsvmAgresor.id)

@@ -1,6 +1,7 @@
 """
 Listas de Acuerdos, modelos
 """
+
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 

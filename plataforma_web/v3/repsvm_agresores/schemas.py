@@ -1,7 +1,8 @@
 """
 REPSVM Agresores v3, esquemas de pydantic
 """
-from pydantic import BaseModel
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from lib.schemas_base import OneBaseOut
 
@@ -9,26 +10,22 @@ from lib.schemas_base import OneBaseOut
 class RepsvmAgresorOut(BaseModel):
     """Esquema para entregar agresores"""
 
-    id: int | None
-    distrito_id: int | None
-    distrito_clave: str | None
-    distrito_nombre: str | None
-    distrito_nombre_corto: str | None
-    consecutivo: int | None
-    delito_generico: str | None
-    delito_especifico: str | None
-    nombre: str | None
-    numero_causa: str | None
-    pena_impuesta: str | None
-    observaciones: str | None
-    sentencia_url: str | None
-    tipo_juzgado: str | None
-    tipo_sentencia: str | None
-
-    class Config:
-        """SQLAlchemy config"""
-
-        orm_mode = True
+    id: int = Field(default=None)
+    distrito_id: int = Field(default=None)
+    distrito_clave: str = Field(default=None)
+    distrito_nombre: str = Field(default=None)
+    distrito_nombre_corto: str = Field(default=None)
+    consecutivo: int = Field(default=None)
+    delito_generico: str = Field(default=None)
+    delito_especifico: str = Field(default=None)
+    nombre: str = Field(default=None)
+    numero_causa: str = Field(default=None)
+    pena_impuesta: str = Field(default=None)
+    observaciones: str = Field(default=None)
+    sentencia_url: str = Field(default=None)
+    tipo_juzgado: str = Field(default=None)
+    tipo_sentencia: str = Field(default=None)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OneRepsvmAgresorOut(RepsvmAgresorOut, OneBaseOut):
