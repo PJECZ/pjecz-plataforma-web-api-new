@@ -4,6 +4,7 @@
 .gcloudignore
 .gitignore
 .DS_Store
+http-client.private.env.json
 
 *.code-workspace
 *.csv
@@ -23,6 +24,5 @@ __pycache__/
 /.venv
 /.vscode
 /poetry.lock
-/rest-client
 /tests
 /venv

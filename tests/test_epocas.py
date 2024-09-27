@@ -21,7 +21,9 @@ class TestEpocas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -38,7 +40,9 @@ class TestEpocas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -46,7 +50,7 @@ class TestEpocas(unittest.TestCase):
         self.assertEqual(contenido["id"], 1)
 
     def test_get_epoca_by_id_success_false(self):
-        """Test GET method for epoca by id"""
+        """Test GET method for epoca by id success false"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/epocas/999",
@@ -54,7 +58,9 @@ class TestEpocas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)

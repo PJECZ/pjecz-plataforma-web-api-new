@@ -21,7 +21,9 @@ class TestMateriasTiposJuicios(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -29,8 +31,8 @@ class TestMateriasTiposJuicios(unittest.TestCase):
         self.assertEqual("message" in contenido, True)
         self.assertEqual("items" in contenido, True)
 
-    def test_get_materias_tipos_juicios_by_materia_id_2(self):
-        """Test GET method for materias tipos juicios by materia_id=2"""
+    def test_get_materias_tipos_juicios_by_materia_id(self):
+        """Test GET method for materias tipos juicios by materia_id"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/materias_tipos_juicios",
@@ -39,7 +41,9 @@ class TestMateriasTiposJuicios(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -49,8 +53,8 @@ class TestMateriasTiposJuicios(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["materia_id"], 2)
 
-    def test_get_materias_tipos_juicios_by_materia_clave_fam(self):
-        """Test GET method for materias tipos juicios by materia_clave=FAM"""
+    def test_get_materias_tipos_juicios_by_materia_clave(self):
+        """Test GET method for materias tipos juicios by materia_clave"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/materias_tipos_juicios",
@@ -59,7 +63,9 @@ class TestMateriasTiposJuicios(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -78,7 +84,9 @@ class TestMateriasTiposJuicios(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)

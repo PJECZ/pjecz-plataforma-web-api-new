@@ -21,7 +21,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -42,7 +44,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -53,8 +57,8 @@ class TestAudiencias(unittest.TestCase):
         self.assertEqual("offset" in contenido, True)
         self.assertEqual("items" in contenido, True)
 
-    def test_get_audiencias_by_autoridad_id_35(self):
-        """Test GET method for audiencias by autoridad_id 35"""
+    def test_get_audiencias_by_autoridad_id(self):
+        """Test GET method for audiencias by autoridad_id"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/audiencias/paginado",
@@ -63,7 +67,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -71,8 +77,8 @@ class TestAudiencias(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["autoridad_id"], 35)
 
-    def test_get_audiencias_by_autoridad_id_35_by_fecha(self):
-        """Test GET method for audiencias by autoridad_id 35 and fecha 2023-05-11"""
+    def test_get_audiencias_by_autoridad_id_by_fecha(self):
+        """Test GET method for audiencias by autoridad_id by fecha"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/audiencias/paginado",
@@ -81,7 +87,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -90,8 +98,8 @@ class TestAudiencias(unittest.TestCase):
             self.assertEqual(item["autoridad_id"], 35)
             self.assertEqual(item["tiempo"].split("T")[0], "2023-05-11")
 
-    def test_get_audiencias_by_autoridad_clave_35(self):
-        """Test GET method for audiencias by autoridad_id 35"""
+    def test_get_audiencias_by_autoridad_clave(self):
+        """Test GET method for audiencias by autoridad_clave"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/audiencias/paginado",
@@ -100,7 +108,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -108,8 +118,8 @@ class TestAudiencias(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["autoridad_id"], 35)
 
-    def test_get_audiencias_by_autoridad_clave_35_by_fecha(self):
-        """Test GET method for audiencias by autoridad_id 35 and fecha 2023-05-11"""
+    def test_get_audiencias_by_autoridad_clave_by_fecha(self):
+        """Test GET method for audiencias by autoridad_clave by fecha"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/audiencias/paginado",
@@ -118,7 +128,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -136,7 +148,9 @@ class TestAudiencias(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)

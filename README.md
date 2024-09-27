@@ -1,6 +1,6 @@
 # pjecz-plataforma-web-api-new
 
-Nueva API que proporciona datos para el sitio web pjecz.gob.mx
+API que proporciona datos para las consultas del sitio web.
 
 ## Mejores practicas
 
@@ -10,22 +10,26 @@ Usa las recomendaciones de [I've been abusing HTTP Status Codes in my APIs for y
 
 Status code: **200**
 
-Body que entrega un listado
+Respuesta como _paginado_ de _items_
 
 ```json
 {
     "success": true,
     "message": "Success",
-    "result": {
-        "total": 2812,
-        "items": [ { "id": 1, ... } ],
-        "limit": 100,
-        "offset": 0
-    }
+    "total": 2812,
+    "items": [
+        {
+            "id": 123,
+            ...
+        },
+        ...
+    ],
+    "limit": 100,
+    "offset": 0
 }
 ```
 
-Body que entrega un item
+Respuesta de un _item_
 
 ```json
 {
@@ -44,8 +48,10 @@ Body
 
 ```json
 {
-  "success": false,
-  "message": "No employee found for ID 100"
+  "success": true,
+  "message": "No existe ese abogado", 
+  "id": null,
+  ...
 }
 ```
 
@@ -86,13 +92,14 @@ DB_PASS=XXXXXXXXXXXXXXXX
 FERNET_KEY="XXXXXXXXXXXXXXXX"
 
 # CORS origins
-ORIGINS=http://localhost:3000,http://localhost:5000,http://127.0.0.1:3000,http://127.0.0.1:5000
+ORIGINS=http://localhost:3000
 
-# Huso horario
-TZ=America/Mexico_City
+# Servidor Redis se usa por slowapi
+REDIS="redis://127.0.0.1/2"
 
-# Username es una dirección de correo electrónico para identificar al cliente
-USERNAME=anonymous@server.net
+# Usuarios de desarrollo y de producción
+USERDEV=anonymous@mailserver.com
+USERNAME=production@mailserver.com
 ```
 
 Cree un archivo `.bashrc` que se puede usar en el perfil de **Konsole**
@@ -113,18 +120,18 @@ echo
 
 if [ -f .env ]
 then
-    echo "-- Variables de entorno"
     export $(grep -v '^#' .env | xargs)
+    # source .env && export $(sed '/^#/d' .env | cut -d= -f1)
     echo "   DB_HOST: ${DB_HOST}"
     echo "   DB_PORT: ${DB_PORT}"
     echo "   DB_NAME: ${DB_NAME}"
     echo "   DB_USER: ${DB_USER}"
     echo "   DB_PASS: ${DB_PASS}"
-    echo "   ORIGINS: ${ORIGINS}"
     echo "   FERNET_KEY: ${FERNET_KEY}"
-    echo "   TZ: ${TZ}"
+    echo "   ORIGINS: ${ORIGINS}"
+    echo "   REDIS: ${REDIS}"
+    echo "   USERDEV: ${USERDEV}"
     echo "   USERNAME: ${USERNAME}"
-    echo
     echo
     export PGHOST=$DB_HOST
     export PGPORT=$DB_PORT
@@ -141,9 +148,21 @@ then
     export PYTHONPATH=$(pwd)
     echo "   PYTHONPATH: ${PYTHONPATH}"
     echo
-    alias arrancar="uvicorn --factory --host=127.0.0.1 --port 8001 --reload plataforma_web.app:create_app"
-    echo "-- Ejecutar FastAPI 127.0.0.1:8001"
+    echo "-- Poetry"
+    export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+    echo "   $(poetry --version)"
+    echo
+    echo "-- FastAPI 127.0.0.1:8000"
+    alias arrancar="uvicorn --factory --host=127.0.0.1 --port 8000 --reload plataforma_web.app:create_app"
     echo "   arrancar"
+    echo
+    echo "-- Comandos python3 para crear la clave simetrica de cifrado Fernet"
+    echo "   from cryptography.fernet import Fernet"
+    echo "   clave = Fernet.generate_key()"
+    echo "   f = Fernet('${FERNET_KEY}')"
+    echo "   token = f.encrypt(b'${USERDEV}')"
+    echo "   token"
+    echo "   f.decrypt(token)"
     echo
 fi
 
@@ -191,6 +210,7 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install wheel
+pip install poetry
 poetry install
 ```
 
@@ -212,10 +232,6 @@ python3 -m unittest discover tests
 
 ## Contenedores
 
-Esta incluido el archivo `Dockerfile` para construir la imagen
-
-Va a usar el puerto **8000** para la API
-
 Construir la imagen con el comando **podman**
 
 ```bash
@@ -227,30 +243,32 @@ Escribir el archivo `.env` con las variables de entorno
 ```ini
 DB_HOST=NNN.NNN.NNN.NNN
 DB_PORT=5432
-DB_NAME=pjecz_plataforma_web
-DB_USER=readerpjeczplataformaweb
+DB_NAME=XXXXXXXXXXXXXXXX
+DB_USER=XXXXXXXXXXXXXXXX
 DB_PASS=XXXXXXXXXXXXXXXX
 FERNET_KEY="XXXXXXXXXXXXXXXX"
 ORIGINS=*
 USERNAME=anonymous@server.net
 ```
 
-Arrancar el contenedor donde el puerto 8000 del contendor se dirige al puerto 7001 local
+Arrancar el contenedor donde el puerto 8000 del contendor se dirige al puerto **8001** local
 
 ```bash
 podman run --rm \
     --name pjecz_plataforma_web_api \
-    -p 7001:8000 \
+    -p 8001:8000 \
     --env-file .env \
     pjecz_plataforma_web_api
 ```
+
+Presionar CTRL-C para terminar la prueba anterior.
 
 Arrancar el contenedor y dejar corriendo en el fondo
 
 ```bash
 podman run -d \
     --name pjecz_plataforma_web_api \
-    -p 7001:8000 \
+    -p 8001:8000 \
     --env-file .env \
     pjecz_plataforma_web_api
 ```

@@ -21,7 +21,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -42,7 +44,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -53,8 +57,8 @@ class TestRedam(unittest.TestCase):
         self.assertEqual("offset" in contenido, True)
         self.assertEqual("items" in contenido, True)
 
-    def test_get_redam_by_distrito_id_6(self):
-        """Test GET method for redam by distrito_id 6"""
+    def test_get_redam_by_distrito_id(self):
+        """Test GET method for redam by distrito_id"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/redam/paginado",
@@ -63,7 +67,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -71,8 +77,8 @@ class TestRedam(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["distrito_id"], 6)
 
-    def test_get_redam_by_distrito_id_6_by_nombre(self):
-        """Test GET method for redam by distrito_id 6 by nombre LUIS"""
+    def test_get_redam_by_distrito_id_by_nombre(self):
+        """Test GET method for redam by distrito_id by nombre"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/redam/paginado",
@@ -81,7 +87,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -90,8 +98,8 @@ class TestRedam(unittest.TestCase):
             self.assertEqual(item["distrito_id"], 6)
             self.assertIn("LUIS", item["nombre"])
 
-    def test_get_redam_by_distrito_clave_dtrc(self):
-        """Test GET method for redam by distrito_clave DTRC"""
+    def test_get_redam_by_distrito_clave(self):
+        """Test GET method for redam by distrito_clave"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/redam/paginado",
@@ -100,7 +108,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -108,8 +118,8 @@ class TestRedam(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["distrito_clave"], "DTRC")
 
-    def test_get_redam_by_distrito_clave_dtrc_by_nombre(self):
-        """Test GET method for redam by distrito_clave DTRC by nombre LUIS"""
+    def test_get_redam_by_distrito_clave_by_nombre(self):
+        """Test GET method for redam by distrito_clave by nombre"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/redam/paginado",
@@ -118,7 +128,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -136,7 +148,9 @@ class TestRedam(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
