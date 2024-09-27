@@ -21,7 +21,9 @@ class TestGlosas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -42,7 +44,9 @@ class TestGlosas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -53,8 +57,8 @@ class TestGlosas(unittest.TestCase):
         self.assertEqual("offset" in contenido, True)
         self.assertEqual("items" in contenido, True)
 
-    def test_get_glosas_by_autoridad_id_53(self):
-        """Test GET method for glosas by autoridad_id 53"""
+    def test_get_glosas_by_autoridad_id(self):
+        """Test GET method for glosas by autoridad_id"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/glosas/paginado",
@@ -63,7 +67,9 @@ class TestGlosas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -71,17 +77,23 @@ class TestGlosas(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["autoridad_id"], 53)
 
-    def test_get_glosas_by_autoridad_id_53_by_fechas(self):
-        """Test GET method for glosas by autoridad_id 53 fecha_desde 2020-01-01 and fecha_hasta 2020-01-31"""
+    def test_get_glosas_by_autoridad_id_by_fechas(self):
+        """Test GET method for glosas by autoridad_id fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/glosas/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_id": 53, "fecha_desde": "2020-01-01", "fecha_hasta": "2020-01-31"},
+                params={
+                    "autoridad_id": 53,
+                    "fecha_desde": "2020-01-01",
+                    "fecha_hasta": "2020-01-31",
+                },
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -91,8 +103,8 @@ class TestGlosas(unittest.TestCase):
             self.assertGreaterEqual(item["fecha"], "2020-01-01")
             self.assertLessEqual(item["fecha"], "2020-01-31")
 
-    def test_get_glosas_by_autoridad_clave_trn_cya(self):
-        """Test GET method for glosas by autoridad_clave TRN-CYA"""
+    def test_get_glosas_by_autoridad_clave(self):
+        """Test GET method for glosas by autoridad_clave"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/glosas/paginado",
@@ -101,7 +113,9 @@ class TestGlosas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -109,17 +123,23 @@ class TestGlosas(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["autoridad_clave"], "TRN-CYA")
 
-    def test_get_glosas_by_autoridad_clave_trn_cya_by_fechas(self):
-        """Test GET method for glosas by autoridad_clave TRN-CYA fecha_desde 2020-01-01 and fecha_hasta 2020-01-31"""
+    def test_get_glosas_by_autoridad_clave_by_fechas(self):
+        """Test GET method for glosas by autoridad_clave fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/glosas/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_clave": "TRN-CYA", "fecha_desde": "2020-01-01", "fecha_hasta": "2020-01-31"},
+                params={
+                    "autoridad_clave": "TRN-CYA",
+                    "fecha_desde": "2020-01-01",
+                    "fecha_hasta": "2020-01-31",
+                },
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -138,7 +158,9 @@ class TestGlosas(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)

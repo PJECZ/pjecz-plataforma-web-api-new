@@ -3,6 +3,7 @@
 .env
 .DS_Store
 .~lock.*
+http-client.private.env.json
 
 *.code-workspace
 *.csv

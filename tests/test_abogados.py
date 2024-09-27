@@ -21,7 +21,9 @@ class TestAbogados(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -42,7 +44,9 @@ class TestAbogados(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -54,7 +58,7 @@ class TestAbogados(unittest.TestCase):
         self.assertEqual("items" in contenido, True)
 
     def test_get_abogados_by_nombre(self):
-        """Test GET method for abogados by nombre GARZA"""
+        """Test GET method for abogados by nombre"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/abogados/paginado",
@@ -63,7 +67,9 @@ class TestAbogados(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -72,7 +78,7 @@ class TestAbogados(unittest.TestCase):
             self.assertIn("GARZA", item["nombre"])
 
     def test_get_abogados_by_nombre_by_anio(self):
-        """Test GET method for abogados by nombre GARZA anio_desde 2020 anio_hasta 2021"""
+        """Test GET method for abogados by nombre by anio_desde by anio_hasta"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/abogados/paginado",
@@ -81,7 +87,9 @@ class TestAbogados(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -101,7 +109,9 @@ class TestAbogados(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)

@@ -1,0 +1,22 @@
+
+// Distritos
+GET http://127.0.0.1:8000/v3/distritos
+X-Api-Key: {{ api_key }}
+
+###
+
+// Distrito con clave DTRC
+GET http://127.0.0.1:8000/v3/distritos/dtrc
+X-Api-Key: {{ api_key }}
+
+###
+
+// Distritos con es_distrito en true
+GET http://127.0.0.1:8000/v3/distritos?es_distrito=true
+X-Api-Key: {{ api_key }}
+
+###
+
+// Distritos con es_jurisdiccional en true
+GET http://127.0.0.1:8000/v3/distritos?es_jurisdiccional=true
+X-Api-Key: {{ api_key }}

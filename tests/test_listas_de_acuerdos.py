@@ -21,7 +21,9 @@ class TestListasDeAcuerdos(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -42,7 +44,9 @@ class TestListasDeAcuerdos(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)
@@ -53,8 +57,8 @@ class TestListasDeAcuerdos(unittest.TestCase):
         self.assertEqual("offset" in contenido, True)
         self.assertEqual("items" in contenido, True)
 
-    def test_get_listas_de_acuerdos_by_autoridad_id_37(self):
-        """Test GET method for listas_de_acuerdos by autoridad_id 37"""
+    def test_get_listas_de_acuerdos_by_autoridad_id(self):
+        """Test GET method for listas_de_acuerdos by autoridad_id"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
@@ -63,7 +67,9 @@ class TestListasDeAcuerdos(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -71,17 +77,23 @@ class TestListasDeAcuerdos(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["autoridad_id"], 37)
 
-    def test_get_listas_de_acuerdos_by_autoridad_id_37_by_fechas(self):
-        """Test GET method for listas_de_acuerdos by autoridad_id 37 fecha_desde 2020-01-01 and fecha_hasta 2020-01-31"""
+    def test_get_listas_de_acuerdos_by_autoridad_id_by_fechas(self):
+        """Test GET method for listas_de_acuerdos by autoridad_id fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_id": 37, "fecha_desde": "2020-01-01", "fecha_hasta": "2020-01-31"},
+                params={
+                    "autoridad_id": 37,
+                    "fecha_desde": "2020-01-01",
+                    "fecha_hasta": "2020-01-31",
+                },
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -91,8 +103,8 @@ class TestListasDeAcuerdos(unittest.TestCase):
             self.assertGreaterEqual(item["fecha"], "2020-01-01")
             self.assertLessEqual(item["fecha"], "2020-01-31")
 
-    def test_get_listas_de_acuerdos_by_autoridad_clave_stl_j2_civ(self):
-        """Test GET method for listas_de_acuerdos by autoridad_clave SLT-J2-CIV"""
+    def test_get_listas_de_acuerdos_by_autoridad_clave(self):
+        """Test GET method for listas_de_acuerdos by autoridad_clave"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
@@ -101,7 +113,9 @@ class TestListasDeAcuerdos(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -109,17 +123,23 @@ class TestListasDeAcuerdos(unittest.TestCase):
         for item in contenido["items"]:
             self.assertEqual(item["autoridad_clave"], "SLT-J2-CIV")
 
-    def test_get_listas_de_acuerdos_by_autoridad_clave_stl_j2_civ_by_fechas(self):
-        """Test GET method for listas_de_acuerdos by autoridad_clave SLT-J2-CIV fecha_desde 2020-01-01 and fecha_hasta 2020-01-31"""
+    def test_get_listas_de_acuerdos_by_autoridad_clave_by_fechas(self):
+        """Test GET method for listas_de_acuerdos by autoridad_clave fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
                 url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
                 headers={"X-Api-Key": config["api_key"]},
-                params={"autoridad_clave": "SLT-J2-CIV", "fecha_desde": "2020-01-01", "fecha_hasta": "2020-01-31"},
+                params={
+                    "autoridad_clave": "SLT-J2-CIV",
+                    "fecha_desde": "2020-01-01",
+                    "fecha_hasta": "2020-01-31",
+                },
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual(contenido["success"], True)
@@ -138,7 +158,9 @@ class TestListasDeAcuerdos(unittest.TestCase):
                 timeout=config["timeout"],
             )
         except requests.exceptions.ConnectionError as error:
-            self.fail(error)
+            self.fail(f"Connection error: {error}")
+        except requests.exceptions.Timeout as error:
+            self.fail(f"Timeout error: {error}")
         self.assertEqual(response.status_code, 200)
         contenido = response.json()
         self.assertEqual("success" in contenido, True)

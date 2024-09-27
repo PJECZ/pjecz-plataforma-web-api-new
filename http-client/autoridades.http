@@ -1,0 +1,10 @@
+
+// Get autoridades
+GET http://127.0.0.1:8000/v3/autoridades
+X-Api-Key: {{ api_key }}
+
+###
+
+// Get autoridad with clave SLT-J2-FAM
+GET http://127.0.0.1:8000/v3/autoridades/slt-j2-fam
+X-Api-Key: {{ api_key }}
