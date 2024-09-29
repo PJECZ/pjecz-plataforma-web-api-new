@@ -18,6 +18,20 @@ from .schemas import AutoridadOut, OneAutoridadOut
 autoridades = APIRouter(prefix="/v3/autoridades", tags=["autoridades"])
 
 
+@autoridades.get("/{autoridad_clave}", response_model=OneAutoridadOut)
+async def detalle_autoridad(
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    autoridad_clave: str,
+):
+    """Detalle de una autoridad a partir de su clave"""
+    try:
+        autoridad = get_autoridad_with_clave(database, autoridad_clave)
+    except MyAnyError as error:
+        return OneAutoridadOut(success=False, message=str(error))
+    return OneAutoridadOut.model_validate(autoridad)
+
+
 @autoridades.get("", response_model=CustomList[AutoridadOut])
 async def listado_autoridades(
     database: Annotated[Session, Depends(get_db)],
@@ -49,17 +63,3 @@ async def listado_autoridades(
     except MyAnyError as error:
         return custom_list_success_false(error)
     return paginate(resultados)
-
-
-@autoridades.get("/{autoridad_clave}", response_model=OneAutoridadOut)
-async def detalle_autoridad(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    autoridad_clave: str,
-):
-    """Detalle de una autoridad a partir de su clave"""
-    try:
-        autoridad = get_autoridad_with_clave(database, autoridad_clave)
-    except MyAnyError as error:
-        return OneAutoridadOut(success=False, message=str(error))
-    return OneAutoridadOut.model_validate(autoridad)

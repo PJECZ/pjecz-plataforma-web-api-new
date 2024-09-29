@@ -57,7 +57,23 @@ async def datatable_listas_de_acuerdos(
     return paginate(resultados)
 
 
-@listas_de_acuerdos.get("/paginado", response_model=CustomPage[ListaDeAcuerdoOut])
+@listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
+@limiter.limit("40/minute")
+async def detalle_lista_de_acuerdos(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    lista_de_acuerdo_id: int,
+):
+    """Detalle de un lista_de_acuerdo a partir de su id"""
+    try:
+        lista_de_acuerdo = get_lista_de_acuerdo(database=database, lista_de_acuerdo_id=lista_de_acuerdo_id)
+    except MyAnyError as error:
+        return OneListaDeAcuerdoOut(success=False, message=str(error))
+    return OneListaDeAcuerdoOut.model_validate(lista_de_acuerdo)
+
+
+@listas_de_acuerdos.get("", response_model=CustomPage[ListaDeAcuerdoOut])
 @limiter.limit("40/minute")
 async def paginado_listas_de_acuerdos(
     request: Request,
@@ -88,19 +104,3 @@ async def paginado_listas_de_acuerdos(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@listas_de_acuerdos.get("/{lista_de_acuerdo_id}", response_model=OneListaDeAcuerdoOut)
-@limiter.limit("40/minute")
-async def detalle_lista_de_acuerdo(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    lista_de_acuerdo_id: int,
-):
-    """Detalle de un lista_de_acuerdo a partir de su id"""
-    try:
-        lista_de_acuerdo = get_lista_de_acuerdo(database=database, lista_de_acuerdo_id=lista_de_acuerdo_id)
-    except MyAnyError as error:
-        return OneListaDeAcuerdoOut(success=False, message=str(error))
-    return OneListaDeAcuerdoOut.model_validate(lista_de_acuerdo)

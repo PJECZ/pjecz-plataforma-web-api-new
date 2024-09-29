@@ -18,6 +18,20 @@ from .schemas import DistritoOut, OneDistritoOut
 distritos = APIRouter(prefix="/v3/distritos", tags=["distritos"])
 
 
+@distritos.get("/{distrito_clave}", response_model=OneDistritoOut)
+async def detalle_distrito(
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    distrito_clave: str,
+):
+    """Detalle de un distrito a partir de su clave"""
+    try:
+        distrito = get_distrito_with_clave(database, distrito_clave)
+    except MyAnyError as error:
+        return OneDistritoOut(success=False, message=str(error))
+    return OneDistritoOut.model_validate(distrito)
+
+
 @distritos.get("", response_model=CustomList[DistritoOut])
 async def listado_distritos(
     database: Annotated[Session, Depends(get_db)],
@@ -37,17 +51,3 @@ async def listado_distritos(
     except MyAnyError as error:
         return custom_list_success_false(error)
     return paginate(resultados)
-
-
-@distritos.get("/{distrito_clave}", response_model=OneDistritoOut)
-async def detalle_distrito(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    distrito_clave: str,
-):
-    """Detalle de un distrito a partir de su clave"""
-    try:
-        distrito = get_distrito_with_clave(database, distrito_clave)
-    except MyAnyError as error:
-        return OneDistritoOut(success=False, message=str(error))
-    return OneDistritoOut.model_validate(distrito)

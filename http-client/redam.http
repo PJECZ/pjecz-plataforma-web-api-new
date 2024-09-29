@@ -1,39 +1,33 @@
-@api_key = {{$dotenv API_KEY}}
-@root = {{$dotenv HOST}}
-@baseUrl = {{root}}/v3
-
-### Bienvenida
-GET {{root}}
 
 ### REDAM
 GET {{baseUrl}}/redam
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### REDAM con nombre Luis
 GET {{baseUrl}}/redam
     ?nombre=Luis
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### REDAM con un nombre que no existe
 GET {{baseUrl}}/redam
     ?nombre=EsteNombreNOExiste
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### REDAM con expediente 1195/2018
 GET {{baseUrl}}/redam
     ?expediente=1195/2018
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
-### REDAM del TRC-J2-FAM
+### REDAM del MNC-J3-FAM
 GET {{baseUrl}}/redam
-    ?autoridad_clave=TRC-J2-FAM
-X-Api-Key: {{api_key}}
+    ?autoridad_clave=MNC-J3-FAM
+X-Api-Key: {{apiKey}}
 
 ### REDAM del distrito DTRC
 GET {{baseUrl}}/redam
     ?distrito_clave=DTRC
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### REDAM con id 13
 GET {{baseUrl}}/redam/13
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}

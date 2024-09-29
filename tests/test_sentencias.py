@@ -39,7 +39,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias by autoridad_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias by autoridad_id 37 by expediente 197/2019"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37, "expediente": "197/2019"},
                 timeout=config["timeout"],
@@ -102,7 +102,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias by autoridad_id by sentencia"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37, "sentencia": "160/2021"},
                 timeout=config["timeout"],
@@ -123,7 +123,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias by autoridad_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV"},
                 timeout=config["timeout"],
@@ -143,7 +143,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias by autoridad_clave SLT-J2-CIV by expediente 197/2019"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV", "expediente": "197/2019"},
                 timeout=config["timeout"],
@@ -164,7 +164,7 @@ class TestSentencias(unittest.TestCase):
         """Test GET method for sentencias by autoridad_clave SLT-J2-CIV by sentencia 160/2021"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/sentencias/paginado",
+                url=f"{config['host']}/v3/sentencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV", "sentencia": "160/2021"},
                 timeout=config["timeout"],

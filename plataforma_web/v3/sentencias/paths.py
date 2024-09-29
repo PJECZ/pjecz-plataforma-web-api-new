@@ -63,7 +63,23 @@ async def listado_sentencias_datatable(
     return paginate(resultados)
 
 
-@sentencias.get("/paginado", response_model=CustomPage[SentenciaOut])
+@sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
+@limiter.limit("40/minute")
+async def detalle_sentencia(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    sentencia_id: int,
+):
+    """Detalle de un sentencia a partir de su id"""
+    try:
+        sentencia = get_sentencia(database=database, sentencia_id=sentencia_id)
+    except MyAnyError as error:
+        return OneSentenciaOut(success=False, message=str(error))
+    return OneSentenciaOut.model_validate(sentencia)
+
+
+@sentencias.get("", response_model=CustomPage[SentenciaOut])
 @limiter.limit("40/minute")
 async def paginado_sentencias(
     request: Request,
@@ -100,19 +116,3 @@ async def paginado_sentencias(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@sentencias.get("/{sentencia_id}", response_model=OneSentenciaOut)
-@limiter.limit("40/minute")
-async def detalle_sentencia(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    sentencia_id: int,
-):
-    """Detalle de un sentencia a partir de su id"""
-    try:
-        sentencia = get_sentencia(database=database, sentencia_id=sentencia_id)
-    except MyAnyError as error:
-        return OneSentenciaOut(success=False, message=str(error))
-    return OneSentenciaOut.model_validate(sentencia)

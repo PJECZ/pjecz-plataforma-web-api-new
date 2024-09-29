@@ -53,7 +53,23 @@ async def datatable_audiencias(
     return paginate(resultados)
 
 
-@audiencias.get("/paginado", response_model=CustomPage[AudienciaOut])
+@audiencias.get("/{audiencia_id}", response_model=OneAudienciaOut)
+@limiter.limit("40/minute")
+async def detalle_audiencia(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    audiencia_id: int,
+):
+    """Detalle de un audiencia a partir de su id"""
+    try:
+        audiencia = get_audiencia(database=database, audiencia_id=audiencia_id)
+    except MyAnyError as error:
+        return OneAudienciaOut(success=False, message=error)
+    return OneAudienciaOut.model_validate(audiencia)
+
+
+@audiencias.get("", response_model=CustomPage[AudienciaOut])
 @limiter.limit("40/minute")
 async def paginado_audiencias(
     request: Request,
@@ -80,19 +96,3 @@ async def paginado_audiencias(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@audiencias.get("/{audiencia_id}", response_model=OneAudienciaOut)
-@limiter.limit("40/minute")
-async def detalle_audiencia(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    audiencia_id: int,
-):
-    """Detalle de un audiencia a partir de su id"""
-    try:
-        audiencia = get_audiencia(database=database, audiencia_id=audiencia_id)
-    except MyAnyError as error:
-        return OneAudienciaOut(success=False, message=error)
-    return OneAudienciaOut.model_validate(audiencia)

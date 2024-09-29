@@ -39,7 +39,7 @@ class TestREPSVM(unittest.TestCase):
         """Test GET method for repsvm_agresores"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/repsvm_agresores/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestREPSVM(unittest.TestCase):
         """Test GET method for repsvm_agresores by distrito_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/repsvm_agresores/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_id": 6},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestREPSVM(unittest.TestCase):
         """Test GET method for repsvm_agresores by distrito_id by nombre"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/repsvm_agresores/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_id": 6, "nombre": "PEDRO"},
                 timeout=config["timeout"],
@@ -102,7 +102,7 @@ class TestREPSVM(unittest.TestCase):
         """Test GET method for repsvm_agresores by distrito_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/repsvm_agresores/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_clave": "DTRC"},
                 timeout=config["timeout"],
@@ -122,7 +122,7 @@ class TestREPSVM(unittest.TestCase):
         """Test GET method for repsvm_agresores by distrito_clave by nombre"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/repsvm_agresores/paginado",
+                url=f"{config['host']}/v3/repsvm_agresores",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_clave": "DTRC", "nombre": "PEDRO"},
                 timeout=config["timeout"],

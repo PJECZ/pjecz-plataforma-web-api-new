@@ -18,19 +18,6 @@ from .schemas import EpocaOut, OneEpocaOut
 epocas = APIRouter(prefix="/v3/epocas", tags=["tesis jurisprudencias"])
 
 
-@epocas.get("", response_model=CustomList[EpocaOut])
-async def listado_epocas(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-):
-    """Listado de epocas"""
-    try:
-        resultados = get_epocas(database)
-    except MyAnyError as error:
-        return custom_list_success_false(error)
-    return paginate(resultados)
-
-
 @epocas.get("/{epoca_id}", response_model=OneEpocaOut)
 async def detalle_epoca(
     database: Annotated[Session, Depends(get_db)],
@@ -43,3 +30,16 @@ async def detalle_epoca(
     except MyAnyError as error:
         return OneEpocaOut(success=False, message=str(error))
     return OneEpocaOut.model_validate(epoca)
+
+
+@epocas.get("", response_model=CustomList[EpocaOut])
+async def listado_epocas(
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+):
+    """Listado de epocas"""
+    try:
+        resultados = get_epocas(database)
+    except MyAnyError as error:
+        return custom_list_success_false(error)
+    return paginate(resultados)

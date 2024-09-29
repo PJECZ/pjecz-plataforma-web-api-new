@@ -46,7 +46,23 @@ async def datatable_abogados(
     return paginate(resultados)
 
 
-@abogados.get("/paginado", response_model=CustomPage[AbogadoOut])
+@abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
+@limiter.limit("40/minute")
+async def detalle_abogado(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    abogado_id: int,
+):
+    """Detalle de un abogado a partir de su id"""
+    try:
+        abogado = get_abogado(database=database, abogado_id=abogado_id)
+    except MyAnyError as error:
+        return OneAbogadoOut(success=False, message=str(error))
+    return OneAbogadoOut.model_validate(abogado)
+
+
+@abogados.get("", response_model=CustomPage[AbogadoOut])
 @limiter.limit("40/minute")
 async def paginado_abogados(
     request: Request,
@@ -67,19 +83,3 @@ async def paginado_abogados(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@abogados.get("/{abogado_id}", response_model=OneAbogadoOut)
-@limiter.limit("40/minute")
-async def detalle_abogado(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    abogado_id: int,
-):
-    """Detalle de un abogado a partir de su id"""
-    try:
-        abogado = get_abogado(database=database, abogado_id=abogado_id)
-    except MyAnyError as error:
-        return OneAbogadoOut(success=False, message=str(error))
-    return OneAbogadoOut.model_validate(abogado)

@@ -39,7 +39,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos by autoridad_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos by autoridad_id by fecha_desde by fecha_hasta"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={
                     "autoridad_id": 37,
@@ -107,7 +107,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos by autoridad_id by expediente"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 35, "expediente": "1774/2019"},
                 timeout=config["timeout"],
@@ -128,7 +128,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos by autoridad_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV"},
                 timeout=config["timeout"],
@@ -148,7 +148,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos by autoridad_clave fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={
                     "autoridad_clave": "SLT-J2-CIV",
@@ -174,7 +174,7 @@ class TestEdictos(unittest.TestCase):
         """Test GET method for edictos by autoridad_clave and expediente"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/edictos/paginado",
+                url=f"{config['host']}/v3/edictos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J1-FAM", "expediente": "1774/2019"},
                 timeout=config["timeout"],

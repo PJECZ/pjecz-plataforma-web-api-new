@@ -39,7 +39,7 @@ class TestUbicacionesExpedientes(unittest.TestCase):
         """Test GET method for ubicaciones_expedientes"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/ubicaciones_expedientes/paginado",
+                url=f"{config['host']}/v3/ubicaciones_expedientes",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestUbicacionesExpedientes(unittest.TestCase):
         """Test GET method for ubicaciones_expedientes by autoridad_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/ubicaciones_expedientes/paginado",
+                url=f"{config['host']}/v3/ubicaciones_expedientes",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestUbicacionesExpedientes(unittest.TestCase):
         """Test GET method for ubicaciones_expedientes by autoridad_id and expediente"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/ubicaciones_expedientes/paginado",
+                url=f"{config['host']}/v3/ubicaciones_expedientes",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37, "expediente": "140/2023"},
                 timeout=config["timeout"],
@@ -101,7 +101,7 @@ class TestUbicacionesExpedientes(unittest.TestCase):
         """Test GET method for ubicaciones_expedientes by autoridad_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/ubicaciones_expedientes/paginado",
+                url=f"{config['host']}/v3/ubicaciones_expedientes",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV"},
                 timeout=config["timeout"],
@@ -121,7 +121,7 @@ class TestUbicacionesExpedientes(unittest.TestCase):
         """Test GET method for ubicaciones_expedientes by autoridad_clave and expediente"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/ubicaciones_expedientes/paginado",
+                url=f"{config['host']}/v3/ubicaciones_expedientes",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV", "expediente": "140/2023"},
                 timeout=config["timeout"],

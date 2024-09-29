@@ -55,7 +55,23 @@ async def listado_glosas_datatable(
     return paginate(resultados)
 
 
-@glosas.get("/paginado", response_model=CustomPage[GlosaOut])
+@glosas.get("/{glosa_id}", response_model=OneGlosaOut)
+@limiter.limit("40/minute")
+async def detalle_glosa(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    glosa_id: int,
+):
+    """Detalle de una glosa a partir de su id"""
+    try:
+        glosa = get_glosa(database=database, glosa_id=glosa_id)
+    except MyAnyError as error:
+        return OneGlosaOut(success=False, message=str(error))
+    return OneGlosaOut.model_validate(glosa)
+
+
+@glosas.get("", response_model=CustomPage[GlosaOut])
 @limiter.limit("40/minute")
 async def paginado_glosas(
     request: Request,
@@ -88,19 +104,3 @@ async def paginado_glosas(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@glosas.get("/{glosa_id}", response_model=OneGlosaOut)
-@limiter.limit("40/minute")
-async def detalle_glosa(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    glosa_id: int,
-):
-    """Detalle de un glosa a partir de su id"""
-    try:
-        glosa = get_glosa(database=database, glosa_id=glosa_id)
-    except MyAnyError as error:
-        return OneGlosaOut(success=False, message=str(error))
-    return OneGlosaOut.model_validate(glosa)

@@ -18,19 +18,6 @@ from .schemas import MateriaOut, OneMateriaOut
 materias = APIRouter(prefix="/v3/materias", tags=["materias"])
 
 
-@materias.get("", response_model=CustomList[MateriaOut])
-async def listado_materias(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-):
-    """Listado de materias"""
-    try:
-        resultados = get_materias(database=database)
-    except MyAnyError as error:
-        return custom_list_success_false(error)
-    return paginate(resultados)
-
-
 @materias.get("/{materia_clave}", response_model=OneMateriaOut)
 async def detalle_materia(
     database: Annotated[Session, Depends(get_db)],
@@ -43,3 +30,16 @@ async def detalle_materia(
     except MyAnyError as error:
         return OneMateriaOut(success=False, message=str(error))
     return OneMateriaOut.model_validate(materia)
+
+
+@materias.get("", response_model=CustomList[MateriaOut])
+async def listado_materias(
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+):
+    """Listado de materias"""
+    try:
+        resultados = get_materias(database=database)
+    except MyAnyError as error:
+        return custom_list_success_false(error)
+    return paginate(resultados)

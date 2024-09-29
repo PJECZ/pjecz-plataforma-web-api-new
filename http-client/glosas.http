@@ -1,48 +1,35 @@
-@api_key = {{$dotenv API_KEY}}
-@root = {{$dotenv HOST}}
-@baseUrl = {{root}}/v3
-
-### Bienvenida
-GET {{root}}
 
 ### Glosas
 GET {{baseUrl}}/glosas
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### Glosas de la autoridad 106
 GET {{baseUrl}}/glosas
     ?autoridad_id=106
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### Glosas del Pleno del Tribunal Constitucional
 GET {{baseUrl}}/glosas
     ?autoridad_clave=PTC
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### Glosas del Pleno del Tribunal Constitucional del 2022
 GET {{baseUrl}}/glosas
     ?autoridad_clave=PTC
     &anio=2022
-X-Api-Key: {{api_key}}
-
-### Glosas del Pleno del Tribunal Constitucional del 2021-09-01 al 2021-10-31
-GET {{baseUrl}}/glosas
-    ?autoridad_clave=SLT-SC-PEN
-    &fecha_desde=2021-09-01
-    &fecha_hasta=2021-10-31
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### Glosas del 2022-07-14
 GET {{baseUrl}}/glosas
     ?fecha=2022-07-14
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
 ### Glosas del Pleno del Tribunal Constitucional expediente 5/2021-AIL
 GET {{baseUrl}}/glosas
     ?autoridad_clave=PTC
     &expediente=5/2021-AIL
-X-Api-Key: {{api_key}}
+X-Api-Key: {{apiKey}}
 
-### Glosa con id 1868
-GET {{baseUrl}}/glosas/1868
-X-Api-Key: {{api_key}}
+### Detalle de la glosa con id 1940
+GET {{baseUrl}}/glosas/1940
+X-Api-Key: {{apiKey}}

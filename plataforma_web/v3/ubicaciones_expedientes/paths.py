@@ -46,7 +46,23 @@ async def datatable_ubicaciones_expedientes(
     return paginate(resultados)
 
 
-@ubicaciones_expedientes.get("/paginado", response_model=CustomPage[UbicacionExpedienteOut])
+@ubicaciones_expedientes.get("/{ubicacion_expediente_id}", response_model=OneUbicacionExpedienteOut)
+@limiter.limit("40/minute")
+async def detalle_ubicacion_expediente(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    ubicacion_expediente_id: int,
+):
+    """Detalle de un ubicacion_expediente a partir de su id"""
+    try:
+        ubicacion_expediente = get_ubicacion_expediente(database=database, ubicacion_expediente_id=ubicacion_expediente_id)
+    except MyAnyError as error:
+        return OneUbicacionExpedienteOut(success=False, message=str(error))
+    return OneUbicacionExpedienteOut.model_validate(ubicacion_expediente)
+
+
+@ubicaciones_expedientes.get("", response_model=CustomPage[UbicacionExpedienteOut])
 @limiter.limit("40/minute")
 async def listado_ubicaciones_expedientes(
     request: Request,
@@ -67,19 +83,3 @@ async def listado_ubicaciones_expedientes(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@ubicaciones_expedientes.get("/{ubicacion_expediente_id}", response_model=OneUbicacionExpedienteOut)
-@limiter.limit("40/minute")
-async def detalle_ubicacion_expediente(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    ubicacion_expediente_id: int,
-):
-    """Detalle de un ubicacion_expediente a partir de su id"""
-    try:
-        ubicacion_expediente = get_ubicacion_expediente(database=database, ubicacion_expediente_id=ubicacion_expediente_id)
-    except MyAnyError as error:
-        return OneUbicacionExpedienteOut(success=False, message=str(error))
-    return OneUbicacionExpedienteOut.model_validate(ubicacion_expediente)
