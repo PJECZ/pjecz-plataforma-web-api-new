@@ -11,9 +11,8 @@ from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
-
-from .crud import get_distrito_with_clave, get_distritos
-from .schemas import DistritoOut, OneDistritoOut
+from plataforma_web.v3.distritos.crud import get_distrito_with_clave, get_distritos
+from plataforma_web.v3.distritos.schemas import ItemDistritoOut, OneDistritoOut
 
 distritos = APIRouter(prefix="/v3/distritos", tags=["distritos"])
 
@@ -32,7 +31,7 @@ async def detalle_distrito(
     return OneDistritoOut.model_validate(distrito)
 
 
-@distritos.get("", response_model=CustomList[DistritoOut])
+@distritos.get("", response_model=CustomList[ItemDistritoOut])
 async def listado_distritos(
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],

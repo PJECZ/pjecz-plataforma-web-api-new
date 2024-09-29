@@ -13,14 +13,13 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_repsvm_agresor, get_repsvm_agresores
-from .schemas import OneRepsvmAgresorOut, RepsvmAgresorOut
+from plataforma_web.v3.repsvm_agresores.crud import get_repsvm_agresor, get_repsvm_agresores
+from plataforma_web.v3.repsvm_agresores.schemas import ItemRepsvmAgresorOut, OneRepsvmAgresorOut
 
 repsvm_agresores = APIRouter(prefix="/v3/repsvm_agresores", tags=["repsvm agresores"])
 
 
-@repsvm_agresores.get("/datatable", response_model=DataTable[RepsvmAgresorOut])
+@repsvm_agresores.get("/datatable", response_model=DataTable[ItemRepsvmAgresorOut])
 @limiter.limit("40/minute")
 async def listado_repsvm_agresores_datatable(
     request: Request,
@@ -62,7 +61,7 @@ async def detalle_repsvm_agresor(
     return OneRepsvmAgresorOut.model_validate(repsvm_agresor)
 
 
-@repsvm_agresores.get("", response_model=CustomPage[RepsvmAgresorOut])
+@repsvm_agresores.get("", response_model=CustomPage[ItemRepsvmAgresorOut])
 @limiter.limit("40/minute")
 async def listado_repsvm_agresores(
     request: Request,

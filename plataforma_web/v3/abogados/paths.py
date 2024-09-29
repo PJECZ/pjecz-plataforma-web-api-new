@@ -13,14 +13,13 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_abogado, get_abogados
-from .schemas import AbogadoOut, OneAbogadoOut
+from plataforma_web.v3.abogados.crud import get_abogado, get_abogados
+from plataforma_web.v3.abogados.schemas import ItemAbogadoOut, OneAbogadoOut
 
 abogados = APIRouter(prefix="/v3/abogados", tags=["abogados"])
 
 
-@abogados.get("/datatable", response_model=DataTable[AbogadoOut])
+@abogados.get("/datatable", response_model=DataTable[ItemAbogadoOut])
 @limiter.limit("40/minute")
 async def datatable_abogados(
     request: Request,
@@ -62,7 +61,7 @@ async def detalle_abogado(
     return OneAbogadoOut.model_validate(abogado)
 
 
-@abogados.get("", response_model=CustomPage[AbogadoOut])
+@abogados.get("", response_model=CustomPage[ItemAbogadoOut])
 @limiter.limit("40/minute")
 async def paginado_abogados(
     request: Request,

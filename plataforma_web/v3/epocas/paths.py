@@ -11,9 +11,8 @@ from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
-
-from .crud import get_epoca, get_epocas
-from .schemas import EpocaOut, OneEpocaOut
+from plataforma_web.v3.epocas.crud import get_epoca, get_epocas
+from plataforma_web.v3.epocas.schemas import ItemEpocaOut, OneEpocaOut
 
 epocas = APIRouter(prefix="/v3/epocas", tags=["tesis jurisprudencias"])
 
@@ -32,7 +31,7 @@ async def detalle_epoca(
     return OneEpocaOut.model_validate(epoca)
 
 
-@epocas.get("", response_model=CustomList[EpocaOut])
+@epocas.get("", response_model=CustomList[ItemEpocaOut])
 async def listado_epocas(
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],

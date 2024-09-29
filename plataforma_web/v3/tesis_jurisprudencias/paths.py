@@ -13,14 +13,13 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_tesis_jurisprudencia, get_tesis_jurisprudencias
-from .schemas import OneTesisJurisprudenciaOut, TesisJurisprudenciaOut
+from plataforma_web.v3.tesis_jurisprudencias.crud import get_tesis_jurisprudencia, get_tesis_jurisprudencias
+from plataforma_web.v3.tesis_jurisprudencias.schemas import ItemTesisJurisprudenciaOut, OneTesisJurisprudenciaOut
 
 tesis_jurisprudencias = APIRouter(prefix="/v3/tesis_jurisprudencias", tags=["tesis jurisprudencias"])
 
 
-@tesis_jurisprudencias.get("/datatable", response_model=DataTable[TesisJurisprudenciaOut])
+@tesis_jurisprudencias.get("/datatable", response_model=DataTable[ItemTesisJurisprudenciaOut])
 @limiter.limit("40/minute")
 async def datatable_tesis_jurisprudencias(
     request: Request,
@@ -70,7 +69,7 @@ async def detalle_tesis_jurisprudencia(
     return OneTesisJurisprudenciaOut.model_validate(tesis_jurisprudencia)
 
 
-@tesis_jurisprudencias.get("", response_model=CustomPage[TesisJurisprudenciaOut])
+@tesis_jurisprudencias.get("", response_model=CustomPage[ItemTesisJurisprudenciaOut])
 @limiter.limit("40/minute")
 async def paginado_tesis_jurisprudencias(
     request: Request,

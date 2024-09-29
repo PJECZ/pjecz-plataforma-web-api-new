@@ -13,14 +13,13 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_redam, get_redams
-from .schemas import OneRedamOut, RedamOut
+from plataforma_web.v3.redam.crud import get_redam, get_redams
+from plataforma_web.v3.redam.schemas import ItemRedamOut, OneRedamOut
 
 redam = APIRouter(prefix="/v3/redam", tags=["redam"])
 
 
-@redam.get("/datatable", response_model=DataTable[RedamOut])
+@redam.get("/datatable", response_model=DataTable[ItemRedamOut])
 @limiter.limit("40/minute")
 async def listado_redam_datatable(
     request: Request,
@@ -68,7 +67,7 @@ async def detalle_redam(
     return OneRedamOut.model_validate(resultado)
 
 
-@redam.get("", response_model=CustomPage[RedamOut])
+@redam.get("", response_model=CustomPage[ItemRedamOut])
 @limiter.limit("40/minute")
 async def paginado_redam(
     request: Request,

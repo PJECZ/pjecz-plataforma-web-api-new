@@ -7,8 +7,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from lib.exceptions import MyIsDeletedError, MyNotExistsError
-
-from ...core.peritos_tipos.models import PeritoTipo
+from plataforma_web.core.peritos_tipos.models import PeritoTipo
 
 
 def get_peritos_tipos(database: Session) -> Any:

@@ -16,18 +16,17 @@ from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_
 from lib.limiter import limiter
 
 from .crud import get_lista_de_acuerdo, get_listas_de_acuerdos
-from .schemas import ListaDeAcuerdoOut, OneListaDeAcuerdoOut
+from .schemas import ItemListaDeAcuerdoOut, OneListaDeAcuerdoOut
 
 listas_de_acuerdos = APIRouter(prefix="/v3/listas_de_acuerdos", tags=["listas de acuerdos"])
 
 
-@listas_de_acuerdos.get("/datatable", response_model=DataTable[ListaDeAcuerdoOut])
+@listas_de_acuerdos.get("/datatable", response_model=DataTable[ItemListaDeAcuerdoOut])
 @limiter.limit("40/minute")
 async def datatable_listas_de_acuerdos(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
-    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -43,7 +42,6 @@ async def datatable_listas_de_acuerdos(
     try:
         resultados = get_listas_de_acuerdos(
             database=database,
-            anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
@@ -73,7 +71,7 @@ async def detalle_lista_de_acuerdos(
     return OneListaDeAcuerdoOut.model_validate(lista_de_acuerdo)
 
 
-@listas_de_acuerdos.get("", response_model=CustomPage[ListaDeAcuerdoOut])
+@listas_de_acuerdos.get("", response_model=CustomPage[ItemListaDeAcuerdoOut])
 @limiter.limit("40/minute")
 async def paginado_listas_de_acuerdos(
     request: Request,
@@ -83,7 +81,6 @@ async def paginado_listas_de_acuerdos(
     autoridad_clave: str = None,
     distrito_id: int = None,
     distrito_clave: str = None,
-    anio: int = None,
     fecha: date = None,
     fecha_desde: date = None,
     fecha_hasta: date = None,
@@ -96,7 +93,6 @@ async def paginado_listas_de_acuerdos(
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
-            anio=anio,
             fecha=fecha,
             fecha_desde=fecha_desde,
             fecha_hasta=fecha_hasta,

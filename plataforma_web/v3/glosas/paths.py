@@ -14,23 +14,24 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_glosa, get_glosas
-from .schemas import GlosaOut, OneGlosaOut
+from plataforma_web.v3.glosas.crud import get_glosa, get_glosas
+from plataforma_web.v3.glosas.schemas import ItemGlosaOut, OneGlosaOut
 
 glosas = APIRouter(prefix="/v3/glosas", tags=["glosas"])
 
 
-@glosas.get("/datatable", response_model=DataTable[GlosaOut])
+@glosas.get("/datatable", response_model=DataTable[ItemGlosaOut])
 @limiter.limit("40/minute")
 async def listado_glosas_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
+    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
     expediente: str = None,
-    anio: int = None,
     fecha: date = None,
     fecha_desde: date = None,
     fecha_hasta: date = None,
@@ -42,10 +43,12 @@ async def listado_glosas_datatable(
     try:
         resultados = get_glosas(
             database=database,
+            anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
             expediente=expediente,
-            anio=anio,
             fecha=fecha,
             fecha_desde=fecha_desde,
             fecha_hasta=fecha_hasta,
@@ -71,18 +74,18 @@ async def detalle_glosa(
     return OneGlosaOut.model_validate(glosa)
 
 
-@glosas.get("", response_model=CustomPage[GlosaOut])
+@glosas.get("", response_model=CustomPage[ItemGlosaOut])
 @limiter.limit("40/minute")
 async def paginado_glosas(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_userdev)],
+    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
     distrito_clave: str = None,
     expediente: str = None,
-    anio: int = None,
     fecha: date = None,
     fecha_desde: date = None,
     fecha_hasta: date = None,
@@ -91,12 +94,12 @@ async def paginado_glosas(
     try:
         resultados = get_glosas(
             database=database,
+            anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
             distrito_clave=distrito_clave,
             expediente=expediente,
-            anio=anio,
             fecha=fecha,
             fecha_desde=fecha_desde,
             fecha_hasta=fecha_hasta,

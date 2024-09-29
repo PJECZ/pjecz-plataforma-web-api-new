@@ -9,30 +9,31 @@ from pydantic import BaseModel, ConfigDict, Field
 from lib.schemas_base import OneBaseOut
 
 
-class SentenciaOut(BaseModel):
+class ItemSentenciaOut(BaseModel):
     """Esquema para entregar sentencias"""
 
-    id: int = Field(default=None)
-    distrito_id: int = Field(default=None)
-    distrito_clave: str = Field(default=None)
-    distrito_nombre: str = Field(default=None)
-    distrito_nombre_corto: str = Field(default=None)
-    autoridad_id: int = Field(default=None)
-    autoridad_clave: str = Field(default=None)
-    autoridad_descripcion: str = Field(default=None)
-    autoridad_descripcion_corta: str = Field(default=None)
-    materia_tipo_juicio_id: int = Field(default=None)
-    materia_tipo_juicio_descripcion: str = Field(default=None)
-    sentencia: str = Field(default=None)
-    sentencia_fecha: date = Field(default=None)
-    expediente: str = Field(default=None)
-    fecha: date = Field(default=None)
-    descripcion: str = Field(default=None)
-    es_perspectiva_genero: bool = Field(default=None)
-    archivo: str = Field(default=None)
-    url: str = Field(default=None)
+    id: int = Field(None)
+    autoridad_id: int = Field(None)
+    autoridad_clave: str = Field(None)
+    autoridad_descripcion_corta: str = Field(None)
+    materia_tipo_juicio_id: int = Field(None)
+    materia_tipo_juicio_descripcion: str = Field(None)
+    sentencia: str = Field(None)
+    sentencia_fecha: date = Field(None)
+    expediente: str = Field(None)
+    fecha: date = Field(None)
+    descripcion: str = Field(None)
+    es_perspectiva_genero: bool = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
-class OneSentenciaOut(SentenciaOut, OneBaseOut):
+class OneSentenciaOut(ItemSentenciaOut, OneBaseOut):
     """Esquema para entregar una sentencia"""
+
+    distrito_id: int = Field(None)
+    distrito_clave: str = Field(None)
+    distrito_nombre_corto: str = Field(None)
+    distrito_nombre: str = Field(None)
+    autoridad_descripcion: str = Field(None)
+    archivo: str = Field(None)
+    url: str = Field(None)

@@ -8,13 +8,18 @@ from sqlalchemy.orm import Session
 
 from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_clave
+from plataforma_web.core.materias.models import Materia
 
-from ...core.materias.models import Materia
 
-
-def get_materias(database: Session) -> Any:
-    """Consultar las materias activas"""
-    return database.query(Materia).filter_by(estatus="A").order_by(Materia.id)
+def get_materias(
+    database: Session,
+    en_sentencias: bool = None,
+) -> Any:
+    """Consultar las materias"""
+    consulta = database.query(Materia)
+    if en_sentencias is not None:
+        consulta = consulta.filter_by(en_sentencias=en_sentencias)
+    return consulta.filter_by(estatus="A").order_by(Materia.nombre)
 
 
 def get_materia(database: Session, materia_id: int) -> Materia:

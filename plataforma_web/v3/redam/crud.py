@@ -8,11 +8,10 @@ from sqlalchemy.orm import Session
 
 from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_expediente, safe_string
-
-from ...core.autoridades.models import Autoridad
-from ...core.redam.models import Redam
-from ..autoridades.crud import get_autoridad, get_autoridad_with_clave
-from ..distritos.crud import get_distrito, get_distrito_with_clave
+from plataforma_web.core.autoridades.models import Autoridad
+from plataforma_web.core.redam.models import Redam
+from plataforma_web.v3.autoridades.crud import get_autoridad, get_autoridad_with_clave
+from plataforma_web.v3.distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_redams(
