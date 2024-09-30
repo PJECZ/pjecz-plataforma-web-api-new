@@ -9,17 +9,15 @@ from sqlalchemy.orm import Session
 
 from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_expediente
-
-from ...core.autoridades.models import Autoridad
-from ...core.sentencias.models import Sentencia
-from ..autoridades.crud import get_autoridad, get_autoridad_with_clave
-from ..distritos.crud import get_distrito, get_distrito_with_clave
-from ..materias_tipos_juicios.crud import get_materia_tipo_juicio
+from plataforma_web.core.autoridades.models import Autoridad
+from plataforma_web.core.sentencias.models import Sentencia
+from plataforma_web.v3.autoridades.crud import get_autoridad, get_autoridad_with_clave
+from plataforma_web.v3.distritos.crud import get_distrito, get_distrito_with_clave
+from plataforma_web.v3.materias_tipos_juicios.crud import get_materia_tipo_juicio
 
 
 def get_sentencias(
     database: Session,
-    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -31,7 +29,7 @@ def get_sentencias(
     materia_tipo_juicio_id: int = None,
     sentencia: str = None,
 ) -> Any:
-    """Consultar los sentencias activas"""
+    """Consultar las sentencias"""
     consulta = database.query(Sentencia)
     if autoridad_id is not None:
         autoridad = get_autoridad(database, autoridad_id)
@@ -45,11 +43,7 @@ def get_sentencias(
     elif distrito_clave is not None and distrito_clave != "":
         distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
-    if anio is not None:
-        desde = date(year=anio, month=1, day=1)
-        hasta = date(year=anio, month=12, day=31)
-        consulta = consulta.filter(Sentencia.fecha >= desde).filter(Sentencia.fecha <= hasta)
-    elif fecha is not None:
+    if fecha is not None:
         consulta = consulta.filter(Sentencia.fecha == fecha)
     else:
         if fecha_desde is not None:

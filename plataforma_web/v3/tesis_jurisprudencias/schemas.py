@@ -9,39 +9,40 @@ from pydantic import BaseModel, ConfigDict, Field
 from lib.schemas_base import OneBaseOut
 
 
-class TesisJurisprudenciaOut(BaseModel):
+class ItemTesisJurisprudenciaOut(BaseModel):
     """Esquema para entregar tesis jurisprudencias"""
 
-    id: int = Field(default=None)
-    distrito_id: int = Field(default=None)
-    distrito_clave: str = Field(default=None)
-    distrito_nombre: str = Field(default=None)
-    distrito_nombre_corto: str = Field(default=None)
-    autoridad_id: int = Field(default=None)
-    autoridad_clave: str = Field(default=None)
-    autoridad_descripcion: str = Field(default=None)
-    autoridad_descripcion_corta: str = Field(default=None)
-    epoca_id: int = Field(default=None)
-    epoca_nombre: str = Field(default=None)
-    materia_id: int = Field(default=None)
-    materia_clave: str = Field(default=None)
-    materia_nombre: str = Field(default=None)
-    titulo: str = Field(default=None)
-    subtitulo: str = Field(default=None)
-    tipo: str = Field(default=None)
-    estado: str = Field(default=None)
-    clave_control: str = Field(default=None)
-    clase: str = Field(default=None)
-    rubro: str = Field(default=None)
-    texto: str = Field(default=None)
-    precedentes: str = Field(default=None)
-    votacion: str = Field(default=None)
-    votos_particulares: str = Field(default=None)
-    aprobacion_fecha: date = Field(default=None)
-    publicacion_tiempo: datetime = Field(default=None)
-    aplicacion_tiempo: datetime = Field(default=None)
+    id: int = Field(None)
+    distrito_clave: str = Field(None)
+    distrito_nombre_corto: str = Field(None)
+    autoridad_clave: str = Field(None)
+    autoridad_descripcion_corta: str = Field(None)
+    epoca_nombre: str = Field(None)
+    materia_clave: str = Field(None)
+    materia_nombre: str = Field(None)
+    titulo: str = Field(None)
+    subtitulo: str = Field(None)
+    tipo: str = Field(None)
+    estado: str = Field(None)
+    clave_control: str = Field(None)
+    clase: str = Field(None)
+    rubro: str = Field(None)
+    aprobacion_fecha: date = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
-class OneTesisJurisprudenciaOut(TesisJurisprudenciaOut, OneBaseOut):
-    """Esquema para entregar un tesis jurisprudencia"""
+class OneTesisJurisprudenciaOut(ItemTesisJurisprudenciaOut, OneBaseOut):
+    """Esquema para entregar una tesis jurisprudencia"""
+
+    distrito_id: int = Field(None)
+    distrito_nombre: str = Field(None)
+    autoridad_id: int = Field(None)
+    autoridad_descripcion: str = Field(None)
+    epoca_id: int = Field(None)
+    materia_id: int = Field(None)
+    texto: str = Field(None)
+    precedentes: str = Field(None)
+    votacion: str = Field(None)
+    votos_particulares: str = Field(None)
+    publicacion_tiempo: datetime = Field(None)
+    aplicacion_tiempo: datetime = Field(None)

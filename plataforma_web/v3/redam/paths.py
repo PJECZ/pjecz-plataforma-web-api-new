@@ -13,14 +13,13 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_redam, get_redams
-from .schemas import OneRedamOut, RedamOut
+from plataforma_web.v3.redam.crud import get_redam, get_redams
+from plataforma_web.v3.redam.schemas import ItemRedamOut, OneRedamOut
 
 redam = APIRouter(prefix="/v3/redam", tags=["redam"])
 
 
-@redam.get("/datatable", response_model=DataTable[RedamOut])
+@redam.get("/datatable", response_model=DataTable[ItemRedamOut])
 @limiter.limit("40/minute")
 async def listado_redam_datatable(
     request: Request,
@@ -52,7 +51,23 @@ async def listado_redam_datatable(
     return paginate(resultados)
 
 
-@redam.get("/paginado", response_model=CustomPage[RedamOut])
+@redam.get("/{redam_id}", response_model=OneRedamOut)
+@limiter.limit("40/minute")
+async def detalle_redam(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    redam_id: int,
+):
+    """Detalle de un redam a partir de su id"""
+    try:
+        resultado = get_redam(database=database, redam_id=redam_id)
+    except MyAnyError as error:
+        return OneRedamOut(success=False, message=str(error))
+    return OneRedamOut.model_validate(resultado)
+
+
+@redam.get("", response_model=CustomPage[ItemRedamOut])
 @limiter.limit("40/minute")
 async def paginado_redam(
     request: Request,
@@ -79,19 +94,3 @@ async def paginado_redam(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@redam.get("/{redam_id}", response_model=OneRedamOut)
-@limiter.limit("40/minute")
-async def detalle_redam(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    redam_id: int,
-):
-    """Detalle de un redam a partir de su id"""
-    try:
-        resultado = get_redam(database=database, redam_id=redam_id)
-    except MyAnyError as error:
-        return OneRedamOut(success=False, message=str(error))
-    return OneRedamOut.model_validate(resultado)

@@ -9,26 +9,27 @@ from pydantic import BaseModel, ConfigDict, Field
 from lib.schemas_base import OneBaseOut
 
 
-class GlosaOut(BaseModel):
+class ItemGlosaOut(BaseModel):
     """Esquema para entregar glosas"""
 
-    id: int = Field(default=None)
-    distrito_id: int = Field(default=None)
-    distrito_clave: str = Field(default=None)
-    distrito_nombre: str = Field(default=None)
-    distrito_nombre_corto: str = Field(default=None)
-    autoridad_id: int = Field(default=None)
-    autoridad_clave: str = Field(default=None)
-    autoridad_descripcion: str = Field(default=None)
-    autoridad_descripcion_corta: str = Field(default=None)
-    fecha: date = Field(default=None)
-    tipo_juicio: str = Field(default=None)
-    descripcion: str = Field(default=None)
-    expediente: str = Field(default=None)
-    archivo: str = Field(default=None)
-    url: str = Field(default=None)
+    id: int = Field(None)
+    autoridad_id: int = Field(None)
+    autoridad_clave: str = Field(None)
+    autoridad_descripcion_corta: str = Field(None)
+    fecha: date = Field(None)
+    tipo_juicio: str = Field(None)
+    descripcion: str = Field(None)
+    expediente: str = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
-class OneGlosaOut(GlosaOut, OneBaseOut):
+class OneGlosaOut(ItemGlosaOut, OneBaseOut):
     """Esquema para entregar una glosa"""
+
+    distrito_id: int = Field(None)
+    distrito_clave: str = Field(None)
+    distrito_nombre: str = Field(None)
+    distrito_nombre_corto: str = Field(None)
+    autoridad_descripcion: str = Field(None)
+    archivo: str = Field(None)
+    url: str = Field(None)

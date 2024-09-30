@@ -7,16 +7,16 @@ from pydantic import BaseModel, ConfigDict, Field
 from lib.schemas_base import OneBaseOut
 
 
-class MateriaTipoJuicioOut(BaseModel):
+class ItemMateriaTipoJuicioOut(BaseModel):
     """Esquema para entregar materias-tipos de juicios"""
 
-    id: int = Field(default=None)
-    materia_id: int = Field(default=None)
-    materia_clave: str = Field(default=None)
-    materia_nombre: str = Field(default=None)
-    descripcion: str = Field(default=None)
+    id: int = Field(None)
+    materia_id: int = Field(None)
+    materia_clave: str = Field(None)
+    materia_nombre: str = Field(None)
+    descripcion: str = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
-class OneMateriaTipoJuicioOut(MateriaTipoJuicioOut, OneBaseOut):
+class OneMateriaTipoJuicioOut(ItemMateriaTipoJuicioOut, OneBaseOut):
     """Esquema para entregar un materia-tipo de juicio"""

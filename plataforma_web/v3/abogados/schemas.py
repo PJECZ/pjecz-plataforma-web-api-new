@@ -9,16 +9,16 @@ from pydantic import BaseModel, ConfigDict, Field
 from lib.schemas_base import OneBaseOut
 
 
-class AbogadoOut(BaseModel):
+class ItemAbogadoOut(BaseModel):
     """Esquema para entregar abogados"""
 
-    id: int = Field(default=None)
-    fecha: date = Field(default=None)
-    numero: str = Field(default=None)
-    libro: str = Field(default=None)
-    nombre: str = Field(default=None)
+    id: int = Field(None)
+    fecha: date = Field(None)
+    numero: str = Field(None)
+    libro: str = Field(None)
+    nombre: str = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
-class OneAbogadoOut(AbogadoOut, OneBaseOut):
+class OneAbogadoOut(ItemAbogadoOut, OneBaseOut):
     """Esquema para entregar un abogado"""

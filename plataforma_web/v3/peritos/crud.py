@@ -6,12 +6,11 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from lib.exceptions import MyIsDeletedError, MyNotExistsError
+from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_string
-
-from ...core.peritos.models import Perito
-from ..distritos.crud import get_distrito, get_distrito_with_clave
-from ..peritos_tipos.crud import get_perito_tipo
+from plataforma_web.core.peritos.models import Perito
+from plataforma_web.v3.distritos.crud import get_distrito, get_distrito_with_clave
+from plataforma_web.v3.peritos_tipos.crud import get_perito_tipo
 
 
 def get_peritos(
@@ -31,8 +30,9 @@ def get_peritos(
         consulta = consulta.filter_by(distrito_id=distrito.id)
     if nombre is not None:
         nombre = safe_string(nombre, save_enie=True)
-        if nombre != "":
-            consulta = consulta.filter(Perito.nombre.contains(nombre))
+        if nombre == "":
+            raise MyNotValidParamError("El nombre no es válido")
+        consulta = consulta.filter(Perito.nombre.contains(nombre))
     if perito_tipo_id is not None:
         perito_tipo = get_perito_tipo(database, perito_tipo_id)
         consulta = consulta.filter_by(perito_tipo_id=perito_tipo.id)

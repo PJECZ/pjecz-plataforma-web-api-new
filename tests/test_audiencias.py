@@ -39,7 +39,7 @@ class TestAudiencias(unittest.TestCase):
         """Test GET method for audiencias"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/audiencias",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestAudiencias(unittest.TestCase):
         """Test GET method for audiencias by autoridad_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/audiencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 35},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestAudiencias(unittest.TestCase):
         """Test GET method for audiencias by autoridad_id by fecha"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/audiencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 35, "fecha": "2023-05-11"},
                 timeout=config["timeout"],
@@ -102,7 +102,7 @@ class TestAudiencias(unittest.TestCase):
         """Test GET method for audiencias by autoridad_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/audiencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J1-FAM"},
                 timeout=config["timeout"],
@@ -122,7 +122,7 @@ class TestAudiencias(unittest.TestCase):
         """Test GET method for audiencias by autoridad_clave by fecha"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/audiencias/paginado",
+                url=f"{config['host']}/v3/audiencias",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J1-FAM", "fecha": "2023-05-11"},
                 timeout=config["timeout"],

@@ -39,7 +39,7 @@ class TestGlosas(unittest.TestCase):
         """Test GET method for glosas"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/glosas/paginado",
+                url=f"{config['host']}/v3/glosas",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestGlosas(unittest.TestCase):
         """Test GET method for glosas by autoridad_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/glosas/paginado",
+                url=f"{config['host']}/v3/glosas",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 53},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestGlosas(unittest.TestCase):
         """Test GET method for glosas by autoridad_id fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/glosas/paginado",
+                url=f"{config['host']}/v3/glosas",
                 headers={"X-Api-Key": config["api_key"]},
                 params={
                     "autoridad_id": 53,
@@ -107,7 +107,7 @@ class TestGlosas(unittest.TestCase):
         """Test GET method for glosas by autoridad_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/glosas/paginado",
+                url=f"{config['host']}/v3/glosas",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "TRN-CYA"},
                 timeout=config["timeout"],
@@ -127,7 +127,7 @@ class TestGlosas(unittest.TestCase):
         """Test GET method for glosas by autoridad_clave fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/glosas/paginado",
+                url=f"{config['host']}/v3/glosas",
                 headers={"X-Api-Key": config["api_key"]},
                 params={
                     "autoridad_clave": "TRN-CYA",

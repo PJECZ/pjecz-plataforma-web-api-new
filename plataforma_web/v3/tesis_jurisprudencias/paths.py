@@ -13,14 +13,13 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_tesis_jurisprudencia, get_tesis_jurisprudencias
-from .schemas import OneTesisJurisprudenciaOut, TesisJurisprudenciaOut
+from plataforma_web.v3.tesis_jurisprudencias.crud import get_tesis_jurisprudencia, get_tesis_jurisprudencias
+from plataforma_web.v3.tesis_jurisprudencias.schemas import ItemTesisJurisprudenciaOut, OneTesisJurisprudenciaOut
 
 tesis_jurisprudencias = APIRouter(prefix="/v3/tesis_jurisprudencias", tags=["tesis jurisprudencias"])
 
 
-@tesis_jurisprudencias.get("/datatable", response_model=DataTable[TesisJurisprudenciaOut])
+@tesis_jurisprudencias.get("/datatable", response_model=DataTable[ItemTesisJurisprudenciaOut])
 @limiter.limit("40/minute")
 async def datatable_tesis_jurisprudencias(
     request: Request,
@@ -54,7 +53,23 @@ async def datatable_tesis_jurisprudencias(
     return paginate(resultados)
 
 
-@tesis_jurisprudencias.get("/paginado", response_model=CustomPage[TesisJurisprudenciaOut])
+@tesis_jurisprudencias.get("/{tesis_jurisprudencia_id}", response_model=OneTesisJurisprudenciaOut)
+@limiter.limit("40/minute")
+async def detalle_tesis_jurisprudencia(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    tesis_jurisprudencia_id: int,
+):
+    """Detalle de una tesis jurisprudencia a partir de su id"""
+    try:
+        tesis_jurisprudencia = get_tesis_jurisprudencia(database, tesis_jurisprudencia_id)
+    except MyAnyError as error:
+        return OneTesisJurisprudenciaOut(success=False, message=str(error))
+    return OneTesisJurisprudenciaOut.model_validate(tesis_jurisprudencia)
+
+
+@tesis_jurisprudencias.get("", response_model=CustomPage[ItemTesisJurisprudenciaOut])
 @limiter.limit("40/minute")
 async def paginado_tesis_jurisprudencias(
     request: Request,
@@ -83,19 +98,3 @@ async def paginado_tesis_jurisprudencias(
     except MyAnyError as error:
         return custom_page_success_false(error)
     return paginate(resultados)
-
-
-@tesis_jurisprudencias.get("/{tesis_jurisprudencia_id}", response_model=OneTesisJurisprudenciaOut)
-@limiter.limit("40/minute")
-async def detalle_tesis_jurisprudencia(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-    tesis_jurisprudencia_id: int,
-):
-    """Detalle de una tesis jurisprudencia a partir de su id"""
-    try:
-        tesis_jurisprudencia = get_tesis_jurisprudencia(database, tesis_jurisprudencia_id)
-    except MyAnyError as error:
-        return OneTesisJurisprudenciaOut(success=False, message=str(error))
-    return OneTesisJurisprudenciaOut.model_validate(tesis_jurisprudencia)

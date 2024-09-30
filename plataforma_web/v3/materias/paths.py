@@ -11,24 +11,10 @@ from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
-
-from .crud import get_materia_with_clave, get_materias
-from .schemas import MateriaOut, OneMateriaOut
+from plataforma_web.v3.materias.crud import get_materia_with_clave, get_materias
+from plataforma_web.v3.materias.schemas import ItemMateriaOut, OneMateriaOut
 
 materias = APIRouter(prefix="/v3/materias", tags=["materias"])
-
-
-@materias.get("", response_model=CustomList[MateriaOut])
-async def listado_materias(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-):
-    """Listado de materias"""
-    try:
-        resultados = get_materias(database=database)
-    except MyAnyError as error:
-        return custom_list_success_false(error)
-    return paginate(resultados)
 
 
 @materias.get("/{materia_clave}", response_model=OneMateriaOut)
@@ -43,3 +29,17 @@ async def detalle_materia(
     except MyAnyError as error:
         return OneMateriaOut(success=False, message=str(error))
     return OneMateriaOut.model_validate(materia)
+
+
+@materias.get("", response_model=CustomList[ItemMateriaOut])
+async def listado_materias(
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+    en_sentencias: bool = None,
+):
+    """Listado de materias"""
+    try:
+        resultados = get_materias(database, en_sentencias)
+    except MyAnyError as error:
+        return custom_list_success_false(error)
+    return paginate(resultados)

@@ -39,7 +39,7 @@ class TestTesisJurisprudencias(unittest.TestCase):
         """Test GET method for tesis_jurisprudencias"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/tesis_jurisprudencias/paginado",
+                url=f"{config['host']}/v3/tesis_jurisprudencias",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )

@@ -14,20 +14,18 @@ from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_page import CustomPage, custom_page_success_false
 from lib.fastapi_pagination_datatable import DataTable, custom_datatable_sucess_false
 from lib.limiter import limiter
-
-from .crud import get_sentencia, get_sentencias
-from .schemas import OneSentenciaOut, SentenciaOut
+from plataforma_web.v3.sentencias.crud import get_sentencia, get_sentencias
+from plataforma_web.v3.sentencias.schemas import ItemSentenciaOut, OneSentenciaOut
 
 sentencias = APIRouter(prefix="/v3/sentencias", tags=["sentencias"])
 
 
-@sentencias.get("/datatable", response_model=DataTable[SentenciaOut])
+@sentencias.get("/datatable", response_model=DataTable[ItemSentenciaOut])
 @limiter.limit("40/minute")
 async def listado_sentencias_datatable(
     request: Request,
     database: Annotated[Session, Depends(get_db)],
     current_user: Annotated[Usuario, Depends(get_current_username)],
-    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -46,7 +44,6 @@ async def listado_sentencias_datatable(
     try:
         resultados = get_sentencias(
             database=database,
-            anio=anio,
             autoridad_id=autoridad_id,
             autoridad_clave=autoridad_clave,
             distrito_id=distrito_id,
@@ -60,45 +57,6 @@ async def listado_sentencias_datatable(
         )
     except MyAnyError as error:
         return custom_datatable_sucess_false(error)
-    return paginate(resultados)
-
-
-@sentencias.get("/paginado", response_model=CustomPage[SentenciaOut])
-@limiter.limit("40/minute")
-async def paginado_sentencias(
-    request: Request,
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_userdev)],
-    anio: int = None,
-    autoridad_id: int = None,
-    autoridad_clave: str = None,
-    distrito_id: int = None,
-    distrito_clave: str = None,
-    expediente: str = None,
-    fecha: date = None,
-    fecha_desde: date = None,
-    fecha_hasta: date = None,
-    materia_tipo_juicio_id: int = None,
-    sentencia: str = None,
-):
-    """Paginado de sentencias"""
-    try:
-        resultados = get_sentencias(
-            database=database,
-            anio=anio,
-            autoridad_id=autoridad_id,
-            autoridad_clave=autoridad_clave,
-            distrito_id=distrito_id,
-            distrito_clave=distrito_clave,
-            expediente=expediente,
-            fecha=fecha,
-            fecha_desde=fecha_desde,
-            fecha_hasta=fecha_hasta,
-            materia_tipo_juicio_id=materia_tipo_juicio_id,
-            sentencia=sentencia,
-        )
-    except MyAnyError as error:
-        return custom_page_success_false(error)
     return paginate(resultados)
 
 
@@ -116,3 +74,40 @@ async def detalle_sentencia(
     except MyAnyError as error:
         return OneSentenciaOut(success=False, message=str(error))
     return OneSentenciaOut.model_validate(sentencia)
+
+
+@sentencias.get("", response_model=CustomPage[ItemSentenciaOut])
+@limiter.limit("40/minute")
+async def paginado_sentencias(
+    request: Request,
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_userdev)],
+    autoridad_id: int = None,
+    autoridad_clave: str = None,
+    distrito_id: int = None,
+    distrito_clave: str = None,
+    expediente: str = None,
+    fecha: date = None,
+    fecha_desde: date = None,
+    fecha_hasta: date = None,
+    materia_tipo_juicio_id: int = None,
+    sentencia: str = None,
+):
+    """Paginado de sentencias"""
+    try:
+        resultados = get_sentencias(
+            database=database,
+            autoridad_id=autoridad_id,
+            autoridad_clave=autoridad_clave,
+            distrito_id=distrito_id,
+            distrito_clave=distrito_clave,
+            expediente=expediente,
+            fecha=fecha,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+            materia_tipo_juicio_id=materia_tipo_juicio_id,
+            sentencia=sentencia,
+        )
+    except MyAnyError as error:
+        return custom_page_success_false(error)
+    return paginate(resultados)

@@ -39,7 +39,7 @@ class TestListasDeAcuerdos(unittest.TestCase):
         """Test GET method for listas de acuerdos"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
+                url=f"{config['host']}/v3/listas_de_acuerdos",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestListasDeAcuerdos(unittest.TestCase):
         """Test GET method for listas_de_acuerdos by autoridad_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
+                url=f"{config['host']}/v3/listas_de_acuerdos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_id": 37},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestListasDeAcuerdos(unittest.TestCase):
         """Test GET method for listas_de_acuerdos by autoridad_id fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
+                url=f"{config['host']}/v3/listas_de_acuerdos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={
                     "autoridad_id": 37,
@@ -107,7 +107,7 @@ class TestListasDeAcuerdos(unittest.TestCase):
         """Test GET method for listas_de_acuerdos by autoridad_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
+                url=f"{config['host']}/v3/listas_de_acuerdos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"autoridad_clave": "SLT-J2-CIV"},
                 timeout=config["timeout"],
@@ -127,7 +127,7 @@ class TestListasDeAcuerdos(unittest.TestCase):
         """Test GET method for listas_de_acuerdos by autoridad_clave fecha_desde and fecha_hasta"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/listas_de_acuerdos/paginado",
+                url=f"{config['host']}/v3/listas_de_acuerdos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={
                     "autoridad_clave": "SLT-J2-CIV",

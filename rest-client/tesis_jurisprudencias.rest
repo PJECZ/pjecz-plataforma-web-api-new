@@ -14,7 +14,7 @@ GET {{baseUrl}}/epocas/1
 X-Api-Key: {{api_key}}
 
 ### Tesis Jurisprudencias
-GET {{baseUrl}}/tesis_jurisprudencias/paginado
+GET {{baseUrl}}/tesis_jurisprudencias
 X-Api-Key: {{api_key}}
 
 ### Tesis Jurisprudencia con id 1
@@ -22,16 +22,16 @@ GET {{baseUrl}}/tesis_jurisprudencias/1
 X-Api-Key: {{api_key}}
 
 ### Tesis Jurisprudencias de la autoridad con clave TRC-SR
-GET {{baseUrl}}/tesis_jurisprudencias/paginado
+GET {{baseUrl}}/tesis_jurisprudencias
     ?autoridad_clave=TRC-SR
 X-Api-Key: {{api_key}}
 
 ### Tesis Jurisprudencias de la epoca con id 1
-GET {{baseUrl}}/tesis_jurisprudencias/paginado
+GET {{baseUrl}}/tesis_jurisprudencias
     ?epoca_id=1
 X-Api-Key: {{api_key}}
 
 ### Tesis Jurisprudencias de la materia con id 2
-GET {{baseUrl}}/tesis_jurisprudencias/paginado
+GET {{baseUrl}}/tesis_jurisprudencias
     ?materia_id=2
 X-Api-Key: {{api_key}}

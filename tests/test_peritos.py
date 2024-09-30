@@ -39,7 +39,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 timeout=config["timeout"],
             )
@@ -61,7 +61,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by tipo de perito"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"perito_tipo_id": 15},
                 timeout=config["timeout"],
@@ -81,7 +81,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by nombre"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"nombre": "JUAN"},
                 timeout=config["timeout"],
@@ -101,7 +101,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by distrito_id"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_id": 6},
                 timeout=config["timeout"],
@@ -121,7 +121,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by distrito_id by tipo de perito"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_id": 6, "perito_tipo_id": 15},
                 timeout=config["timeout"],
@@ -142,7 +142,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by distrito_id by nombre"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_id": 6, "nombre": "JUAN"},
                 timeout=config["timeout"],
@@ -163,7 +163,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by distrito_clave"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_clave": "DTRC"},
                 timeout=config["timeout"],
@@ -183,7 +183,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by distrito_clave by tipo de perito"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_clave": "DTRC", "perito_tipo_id": 15},
                 timeout=config["timeout"],
@@ -204,7 +204,7 @@ class TestPeritos(unittest.TestCase):
         """Test GET method for peritos by distrito_clave by nombre"""
         try:
             response = requests.get(
-                url=f"{config['host']}/v3/peritos/paginado",
+                url=f"{config['host']}/v3/peritos",
                 headers={"X-Api-Key": config["api_key"]},
                 params={"distrito_clave": "DTRC", "nombre": "JUAN"},
                 timeout=config["timeout"],

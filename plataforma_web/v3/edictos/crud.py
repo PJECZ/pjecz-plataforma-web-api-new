@@ -9,16 +9,14 @@ from sqlalchemy.orm import Session
 
 from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_expediente
-
-from ...core.autoridades.models import Autoridad
-from ...core.edictos.models import Edicto
-from ..autoridades.crud import get_autoridad, get_autoridad_with_clave
-from ..distritos.crud import get_distrito, get_distrito_with_clave
+from plataforma_web.core.autoridades.models import Autoridad
+from plataforma_web.core.edictos.models import Edicto
+from plataforma_web.v3.autoridades.crud import get_autoridad, get_autoridad_with_clave
+from plataforma_web.v3.distritos.crud import get_distrito, get_distrito_with_clave
 
 
 def get_edictos(
     database: Session,
-    anio: int = None,
     autoridad_id: int = None,
     autoridad_clave: str = None,
     distrito_id: int = None,
@@ -28,7 +26,7 @@ def get_edictos(
     fecha_desde: date = None,
     fecha_hasta: date = None,
 ) -> Any:
-    """Consultar los edictos activos"""
+    """Consultar los edictos"""
     consulta = database.query(Edicto)
     if autoridad_id is not None:
         autoridad = get_autoridad(database, autoridad_id)
@@ -42,11 +40,7 @@ def get_edictos(
     elif distrito_clave is not None and distrito_clave != "":
         distrito = get_distrito_with_clave(database, distrito_clave)
         consulta = consulta.join(Autoridad).filter(Autoridad.distrito_id == distrito.id)
-    if anio is not None:
-        desde = date(year=anio, month=1, day=1)
-        hasta = date(year=anio, month=12, day=31)
-        consulta = consulta.filter(Edicto.fecha >= desde).filter(Edicto.fecha <= hasta)
-    elif fecha is not None:
+    if fecha is not None:
         consulta = consulta.filter(Edicto.fecha == fecha)
     else:
         if fecha_desde is not None:

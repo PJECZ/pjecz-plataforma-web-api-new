@@ -11,24 +11,10 @@ from lib.authentications import Usuario, get_current_username
 from lib.database import Session, get_db
 from lib.exceptions import MyAnyError
 from lib.fastapi_pagination_custom_list import CustomList, custom_list_success_false
-
-from .crud import get_perito_tipo, get_peritos_tipos
-from .schemas import OnePeritoTipoOut, PeritoTipoOut
+from plataforma_web.v3.peritos_tipos.crud import get_perito_tipo, get_peritos_tipos
+from plataforma_web.v3.peritos_tipos.schemas import ItemPeritoTipoOut, OnePeritoTipoOut
 
 peritos_tipos = APIRouter(prefix="/v3/peritos_tipos", tags=["peritos"])
-
-
-@peritos_tipos.get("", response_model=CustomList[PeritoTipoOut])
-async def listado_peritos_tipos(
-    database: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[Usuario, Depends(get_current_username)],
-):
-    """Listado de tipos de peritos"""
-    try:
-        resultados = get_peritos_tipos(database=database)
-    except MyAnyError as error:
-        return custom_list_success_false(error)
-    return paginate(resultados)
 
 
 @peritos_tipos.get("/{perito_tipo_id}", response_model=OnePeritoTipoOut)
@@ -43,3 +29,16 @@ async def detalle_perito_tipo(
     except MyAnyError as error:
         return OnePeritoTipoOut(success=False, message=str(error))
     return OnePeritoTipoOut.model_validate(perito_tipo)
+
+
+@peritos_tipos.get("", response_model=CustomList[ItemPeritoTipoOut])
+async def listado_peritos_tipos(
+    database: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[Usuario, Depends(get_current_username)],
+):
+    """Listado de tipos de peritos"""
+    try:
+        resultados = get_peritos_tipos(database=database)
+    except MyAnyError as error:
+        return custom_list_success_false(error)
+    return paginate(resultados)

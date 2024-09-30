@@ -9,8 +9,7 @@ from sqlalchemy.orm import Session
 
 from lib.exceptions import MyIsDeletedError, MyNotExistsError, MyNotValidParamError
 from lib.safe_string import safe_string
-
-from ...core.abogados.models import Abogado
+from plataforma_web.core.abogados.models import Abogado
 
 
 def get_abogados(
@@ -19,7 +18,7 @@ def get_abogados(
     anio_desde: int = None,
     anio_hasta: int = None,
 ) -> Any:
-    """Consultar los abogados activos"""
+    """Consultar los abogados"""
     consulta = database.query(Abogado)
     if anio_desde is not None:
         if 1925 <= anio_desde <= datetime.now().year:

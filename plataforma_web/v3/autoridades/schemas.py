@@ -7,29 +7,31 @@ from pydantic import BaseModel, ConfigDict, Field
 from lib.schemas_base import OneBaseOut
 
 
-class AutoridadOut(BaseModel):
+class ItemAutoridadOut(BaseModel):
     """Esquema para entregar autoridades"""
 
-    id: int = Field(default=None)
-    distrito_id: int = Field(default=None)
-    distrito_clave: str = Field(default=None)
-    distrito_nombre: str = Field(default=None)
-    distrito_nombre_corto: str = Field(default=None)
-    materia_id: int = Field(default=None)
-    materia_clave: str = Field(default=None)
-    materia_nombre: str = Field(default=None)
-    clave: str = Field(default=None)
-    descripcion: str = Field(default=None)
-    descripcion_corta: str = Field(default=None)
-    es_cemasc: bool = Field(default=None)
-    es_creador_glosas: bool = Field(default=None)
-    es_defensoria: bool = Field(default=None)
-    es_jurisdiccional: bool = Field(default=None)
-    es_notaria: bool = Field(default=None)
-    organo_jurisdiccional: str = Field(default=None)
-    audiencia_categoria: str = Field(default=None)
+    id: int = Field(None)
+    clave: str = Field(None)
+    descripcion: str = Field(None)
+    descripcion_corta: str = Field(None)
+    es_cemasc: bool = Field(None)
+    es_creador_glosas: bool = Field(None)
+    es_defensoria: bool = Field(None)
+    es_jurisdiccional: bool = Field(None)
+    es_notaria: bool = Field(None)
+    es_organo_especializado: bool = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
-class OneAutoridadOut(AutoridadOut, OneBaseOut):
+class OneAutoridadOut(ItemAutoridadOut, OneBaseOut):
     """Esquema para entregar una autoridad"""
+
+    distrito_id: int = Field(None)
+    distrito_clave: str = Field(None)
+    distrito_nombre_corto: str = Field(None)
+    distrito_nombre: str = Field(None)
+    materia_id: int = Field(None)
+    materia_clave: str = Field(None)
+    materia_nombre: str = Field(None)
+    organo_jurisdiccional: str = Field(None)
+    audiencia_categoria: str = Field(None)
