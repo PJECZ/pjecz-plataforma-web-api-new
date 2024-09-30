@@ -27,6 +27,7 @@ class ItemTesisJurisprudenciaOut(BaseModel):
     clave_control: str = Field(None)
     clase: str = Field(None)
     rubro: str = Field(None)
+    aprobacion_fecha: date = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -43,6 +44,5 @@ class OneTesisJurisprudenciaOut(ItemTesisJurisprudenciaOut, OneBaseOut):
     precedentes: str = Field(None)
     votacion: str = Field(None)
     votos_particulares: str = Field(None)
-    aprobacion_fecha: date = Field(None)
     publicacion_tiempo: datetime = Field(None)
     aplicacion_tiempo: datetime = Field(None)
