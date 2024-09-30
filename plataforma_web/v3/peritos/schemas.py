@@ -17,6 +17,11 @@ class ItemPeritoOut(BaseModel):
     perito_tipo_id: int = Field(None)
     perito_tipo_nombre: str = Field(None)
     nombre: str = Field(None)
+    domicilio: str = Field(None)
+    telefono_fijo: str = Field(None)
+    telefono_celular: str = Field(None)
+    email: str = Field(None)
+    notas: str = Field(None)
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -24,8 +29,3 @@ class OnePeritoOut(ItemPeritoOut, OneBaseOut):
     """Esquema para entregar un perito"""
 
     distrito_nombre: str = Field(None)
-    domicilio: str = Field(None)
-    telefono_fijo: str = Field(None)
-    telefono_celular: str = Field(None)
-    email: str = Field(None)
-    notas: str = Field(None)
