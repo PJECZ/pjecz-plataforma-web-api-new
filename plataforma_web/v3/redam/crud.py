@@ -47,7 +47,7 @@ def get_redams(
         except (IndexError, ValueError) as error:
             raise MyNotValidParamError("El expediente no es válido") from error
         consulta = consulta.filter_by(expediente=expediente)
-    return consulta.filter(Redam.estatus == "A").order_by(Redam.id)
+    return consulta.filter(Redam.estatus == "A").order_by(Redam.nombre)
 
 
 def get_redam(database: Session, redam_id: int) -> Redam:
